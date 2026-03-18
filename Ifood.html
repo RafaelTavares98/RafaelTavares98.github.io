@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<!--
+	Dopetrope by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>IFood Delivery Data</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	<body class="right-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<section id="header">
+
+					<!-- Logo -->
+						<h1><a href="index.html">IFood Delivery Data</a></h1>
+
+					<!-- Nav -->
+						<nav id="nav">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li>
+									<a href="#">Github Projects</a>
+									<ul>
+										<li><a href="https://github.com/SandbergPD/PortfolioProjects/blob/main/Ifood_dataset.sql">Ifood Income and Spending Data</a></li>											
+										<li><a href="https://github.com/SandbergPD/PortfolioProjects/blob/main/AlcoholRelatedHealth.sql">Alcohol Related Health</a></li>
+										<li><a href="https://github.com/SandbergPD/PortfolioProjects/blob/main/COVIDPortfolio1.sql">Covid 19 Dataset</a></li>
+										<li><a href="https://github.com/SandbergPD/PortfolioProjects/blob/main/NashvilleHousingPorfolio.sql">Nashville Housing Data</a></li>
+									</ul>
+								<li class="current">
+									<a href="#">Tableau Projects</a>
+									<ul>
+										<li><a href="Ifood.html">Ifood Income and Spending Data</a></li>
+										<li><a href="MassSchool.html">Massachusetts School Analysis</a></li>
+										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/PaperCompanyPerformanceIndicators/ProductLinePreformance">Paper Company Dashboard</a></li>
+										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/AmazonElectronicsTop100/Dashboard1">Top Amazon Products</a></li>
+										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/WorldVolcanoData/WorldVolcanoData">World Volcano Data</a></li>
+																					
+									</ul>
+								<li><a href="Aboutme.html">About Me</a></li>
+							</ul>
+						</nav>
+
+				</section>
+
+			<!-- Main -->
+				<section id="main">
+					<div class="container">
+						<div class="row">
+							<div class="col-8 col-12-medium">
+
+								<!-- Content -->
+									<article class="box post">
+										<a href="#" class="image featured"><img src="images/Ifood/Data Driven Story Board Pic.png" alt="" /></a>
+										<header>
+											<h2>Delivery Decoded:</h2>
+											<p>Analyzing the Flavorful Data of Delivery Trends</p>
+										</header>
+										<p>
+											Just think, you're watching your favorite show or your favorite sports game, and you realize the food 
+											you just got at the supermarket just isn't as appealing as it was when you got it. And why not get food 
+											delivered? I can't be the only one that thinks like that! So I wanted to get an eye on some data and 
+											see how many others might be like me. 
+										</p>
+										<p>
+											Queue Ifood and the dataset that is present on GitHub. 
+										</p>
+										<p>
+											<a href="https://github.com/nailson/ifood-data-business-analyst-test/blob/master/iFood%20Data%20Analyst%20Case.pdf">Ifood Dataset</a>
+										</p>
+										<p>
+											Ifood is a company like Doordash that provides meal delivery services in Brazil. Gaining valuable insights 
+											from data and understanding the spending habits and customer base. 
+										</p>
+										<p>
+											<li>67% of the spending variance can be explained by income</li>
+											<li>There are over 10,000 purchases made by the 60k-80k salary range category being the most prominent</li>
+											<li>Spending on premium or gold-valued products is more common the lower a customers income</li>
+										</p>
+										<p>
+											*Note this project is actually modified from an iFood job interview case study given by the Brazilian equivalent 
+											of DoorDash, iFood. The data is 98% real, but slightly modified for educational purposes.
+										</p>
+										<p>
+										<section>
+											<header>
+												<h3>Data-Driven Insights</h3>
+											</header>
+										<p>
+											Primarily using Microsoft Excel for most of the data analysis I started by looking at who joined and when. There is
+											 a pretty even spread over the year of new customers joining the platform with an average of 186 new sign-ups monthly,
+											  but peaking in January. That's a strange time for there to be new sign ups. I wish there was additional information
+											   that we could look at to identify a deeper trend. Maybe some people saying "New Year, New Me" and trying to eat 
+											   healthy and not knowing where to start. So an easy way to eat healthy is to buy healthy. Or possibly people got gift
+											    cards during the holidays and they are finally using them. We'll never know!
+										</p>
+										</section>
+										<section>
+										<p>
+											<a href="#" class="image featured"><img src="images/Ifood/MonthJoinedBarChart1.png" alt="" /></a>
+										</p>
+										<p>
+											Having looked at when people signed up, I decided I needed to look at the spending habits. Which lead me into seeing if
+											 there was a correlation between income level and total amount spend through the service. And there was! A 67% relationship
+											  between a person's salary and the amount that is spent with the service. 
+										</p>
+										</section>
+										<p>
+										</p>
+										<p>
+										<section>
+											<p>
+												<a href="#" class="image featured"><img src="images/Ifood/TotalSpentIncomeScatter.png" alt="" /></a>
+											</p>
+											<p>
+												The more people make, the more they spend on the service, but to a point. I wanted to dive a little bit deeper and see
+												 if there was something that was missing. Using SQL I was able to look at the data easier and make different income 
+												 brackets for the customers.
+											</p>
+										</section>
+											<p>
+											</p>
+											
+										<section>
+											<p>
+												<a href="#" class="image featured"><img src="images/Ifood/Income Brackets.png" alt="" /></a>
+											</p>
+											<p>
+												One added benefit of separating the customers into income brackets, I was able to clearly show the sheer number of 
+												purchases from the 60k-80k bracket.
+											</p>
+										</section>
+											<p>
+											</p>
+											
+										<section>
+											<p>
+												<a href="#" class="image featured"><img src="images/Ifood/Avg Purchase Amount Income.png" alt="" /></a>
+											</p>
+											<p>
+												Using Tableau you can clearly see that the more people make, the more they spend but until over 100K a year. Peaking 
+												at 10,595 purchases in store for the 60K-80K bracket and bottoming out at 138 for the 100K-120K bracket. But there were
+												 fewer people in the higher salary bracket and I wanted to see how that affected the average purchase price. That being
+												  said, there is an average purchase of $74.00 for the 60k-80k bracket then drops to $35.54. A 52% drop in purchasing amount. 
+											<p>	
+												  But what could this mean? People that hit a level of income that they no longer use Ifood as regularly as before? That 
+												they are able to spend the time and the money going out to eat and indulging? 
+											</p>
+											<p>	
+												Lastly, I was intrigued by the spending habits of the customers. What customers wanted to elevate their purchase by buying an
+												 extravagant brand or item? How did their income affect this spending, I was very surprised by the result!
+											</p>	 
+											</p>
+										</section>	
+										<p>
+											</p>
+											
+										<section>
+											<p>
+												<a href="#" class="image featured"><img src="images/Ifood/Gold Percentage Income.png" alt="" /></a>
+											</p>
+											<p>
+												The data shows us that the lower the annual income of an individual, the higher the percentage of their money goes to the purchase of 
+												gold-labeled products. There is only a 29% relation between income and the percentage of that income being spent on top-tier products. 
+												This chart does not look into the average amount spent or the number of purchases that the people make. 
+											</p>	 
+											</p>
+										</section>
+										<p>
+											</p>
+											
+										<section>
+											<p>
+												<a href="#" class="image featured"><img src="images/Ifood/Income Brackets.png" alt="" /></a>
+											</p>
+											<p>
+												By making a pivot chart back in Excel we can see that the highest number of purchases by an income bracket was that of the 60k-80K group
+												 but the highest average number of gold purchases was seen in the 100k-120k group. We see that actually the more you make the less you 
+												 spend on gold-labeled products relative to your income. Inversely we see that the higher income individuals buy more gold-labeled products,
+												  it just isn't a higher percentage of their income. 
+											</p>	 
+											</p>
+										</section>	
+										<p>
+
+										</p>
+										<section>
+											<header>
+												<h3>Takeout Takeaways</h3>
+											</header>
+											<p>
+												Overall Ifood is doing something right having over $1.24 million in sales, and attracting over 2000 customers to use its services. This data 
+												has really shown the importance a business model like this can have on an income bracket. I would have never thought that the lower someone's
+												 income the more that they would spend on high-tiered products, I initially thought the opposite. This was an informative project and one I enjoyed.
+												  Being able to use Excel, SQL, and Tableau on a project, changes how you can see the data as a whole. 
+											</p>
+											<p>
+												I am working on improving my data skills. If you have any suggestions or feedback, please feel free to message me. Additionally, I am seeking 
+												opportunities to utilize my data analytics skills in my career, so if you know of any opportunities, I would be open to exploring them.
+											</p>
+											<p>
+												Feel free to contact or connect with me on LinkedIn and be on the lookout for more data-driven projects!
+											</p>
+											
+										</section>
+										
+									</article>
+
+							</div>
+							<div class="col-4 col-12-medium">
+
+								<!-- Sidebar -->
+								
+									<section class="box">
+										<a href="#" class="image featured"><img src="images/Tableau-Logo.png" alt="" /></a>
+										<header>
+											<h3>Ifood Data Insights</h3>
+										</header>
+										<p>View all the charts that are associated with this analysis</p>
+										<footer>
+											<a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/IfoodCustomerBase/SpendingHabitsEducation" class="button alt">Tableau Dashboard</a>
+										</footer>
+									</section>
+									<section class="box">
+										<a href="#" class="image featured"><img src="images/GitHub_Logo.png" alt="" /></a>
+										<header>
+											<h3>Check Out my Github!</h3>
+										</header>
+										<p>View the code that went into this analysis</p>
+										<!-- <ul class="divided">
+											<li><a href="#">Sed et blandit consequat sed</a></li>
+											<li><a href="#">Hendrerit tortor vitae sapien dolore</a></li>
+											<li><a href="#">Sapien id suscipit magna sed felis</a></li>
+											<li><a href="#">Aptent taciti sociosqu ad litora</a></li>
+										</ul> -->
+										<footer>
+											<a href="https://github.com/SandbergPD/PortfolioProjects/blob/main/Ifood_dataset.sql" class="button alt">Github Repository</a>
+										</footer>
+									</section>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+			<!-- Footer -->
+			<section id="footer">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-4 col-12-medium">
+							<section>
+								<header>
+									<h2>Like What You See!</h2>
+								</header>
+								<a href="#" class="image featured"><img src="images/linechart.gif" alt="" /></a>
+								<p>
+									This is <strong>Dopetrope</strong> a free, fully responsive HTML5 site template by
+									<a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a> It's released for free under
+									the <a href="http://html5up.net/license/">Creative Commons Attribution</a> license so feel free to use it for any personal or commercial project &ndash; just don't forget to credit us!
+								</p>
+								<footer>
+							</section>
+						</div>
+						
+						<div class="col-4 col-12-medium">
+							<section>
+								<header>
+									<h2>Socials</h2>
+								</header>
+								<ul class="social">
+									<li><a class="icon brands fa-github" href="#https://github.com/SandbergPD"><span class="label">Github</span></a></li>
+									<li><a class="icon brands fa-linkedin-in" href="#https://www.linkedin.com/in/dillon-sandberg/"><span class="label">LinkedIn</span></a></li>
+								</ul>
+								<ul class="contact">
+									<li>
+										<h3>Address</h3>
+										<p>
+											Dillon Sandberg<br />
+											6023 Ellerston Way<br />
+											Ave Maria, FL 34142
+										</p>
+									</li>
+									<li>
+										<h3>Mail</h3>
+										<p><a href="#">SandbergPD@Gmail.com</a></p>
+									</li>
+									<li>
+										<h3>Phone</h3>
+										<p>(847) 641-0864</p>
+									</li>
+								</ul>
+							</section>
+						</div>
+						<div class="col-12">
+
+								<!-- Copyright -->
+									<div id="copyright">
+										<ul class="links">
+											<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+										</ul>
+									</div>
+
+							</div>
+						</div>
+					</div>
+				</section>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
