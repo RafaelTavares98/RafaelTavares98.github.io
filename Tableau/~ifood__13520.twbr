@@ -1,0 +1,1218 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<!-- build 20261.26.0226.1626                               -->
+<workbook original-version='18.1' source-build='2026.1.0 (20261.26.0226.1626)' source-platform='win' version='18.1' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <document-format-change-manifest>
+    <AnimationOnByDefault />
+    <MarkAnimation />
+    <ObjectModelEncapsulateLegacy />
+    <ObjectModelExtractV2 />
+    <ObjectModelTableType />
+    <SchemaViewerObjectModel />
+    <SheetIdentifierTracking />
+    <SortTagCleanup />
+    <_.fcp.VConnDownstreamExtractsWithWarnings.true...VConnDownstreamExtractsWithWarnings />
+    <WindowsPersistSimpleIdentifiers />
+  </document-format-change-manifest>
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='ml_project1_data' inline='true' name='federated.0ov4wfp1xkhkks1g4uzfa0srbhnb' version='18.1'>
+      <connection class='federated'>
+        <named-connections>
+          <named-connection caption='ml_project1_data' name='textscan.1ynu0et12rl1ws1abakxr01qeqng'>
+            <connection class='textscan' directory='C:/Users/tavar/Downloads' filename='ml_project1_data.csv' password='' server='' />
+          </named-connection>
+        </named-connections>
+        <relation connection='textscan.1ynu0et12rl1ws1abakxr01qeqng' name='ml_project1_data.csv' table='[ml_project1_data#csv]' type='table'>
+          <columns character-set='UTF-8' header='yes' locale='pt_BR'>
+            <column datatype='integer' name='ID' ordinal='0' />
+            <column datatype='integer' name='Year_Birth' ordinal='1' />
+            <column datatype='string' name='Education' ordinal='2' />
+            <column datatype='string' name='Marital_Status' ordinal='3' />
+            <column datatype='integer' name='Income' ordinal='4' />
+            <column datatype='integer' name='Kidhome' ordinal='5' />
+            <column datatype='integer' name='Teenhome' ordinal='6' />
+            <column datatype='date' name='Dt_Customer' ordinal='7' />
+            <column datatype='integer' name='Recency' ordinal='8' />
+            <column datatype='integer' name='MntWines' ordinal='9' />
+            <column datatype='integer' name='MntFruits' ordinal='10' />
+            <column datatype='integer' name='MntMeatProducts' ordinal='11' />
+            <column datatype='integer' name='MntFishProducts' ordinal='12' />
+            <column datatype='integer' name='MntSweetProducts' ordinal='13' />
+            <column datatype='integer' name='MntGoldProds' ordinal='14' />
+            <column datatype='integer' name='NumDealsPurchases' ordinal='15' />
+            <column datatype='integer' name='NumWebPurchases' ordinal='16' />
+            <column datatype='integer' name='NumCatalogPurchases' ordinal='17' />
+            <column datatype='integer' name='NumStorePurchases' ordinal='18' />
+            <column datatype='integer' name='NumWebVisitsMonth' ordinal='19' />
+            <column datatype='integer' name='AcceptedCmp3' ordinal='20' />
+            <column datatype='integer' name='AcceptedCmp4' ordinal='21' />
+            <column datatype='integer' name='AcceptedCmp5' ordinal='22' />
+            <column datatype='integer' name='AcceptedCmp1' ordinal='23' />
+            <column datatype='integer' name='AcceptedCmp2' ordinal='24' />
+            <column datatype='integer' name='Complain' ordinal='25' />
+            <column datatype='integer' name='Z_CostContact' ordinal='26' />
+            <column datatype='integer' name='Z_Revenue' ordinal='27' />
+            <column datatype='integer' name='Response' ordinal='28' />
+          </columns>
+        </relation>
+        <metadata-records>
+          <metadata-record class='capability'>
+            <remote-name />
+            <remote-type>0</remote-type>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias />
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;pt_BR&quot;</attribute>
+              <attribute datatype='string' name='currency'>&quot;R$&quot;</attribute>
+              <attribute datatype='string' name='decimal-char'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;pt_BR&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+              <attribute datatype='string' name='thousands-char'>&quot;.&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>ID</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[ID]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>ID</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Year_Birth</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Year_Birth]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Year_Birth</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Education</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Education]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Education</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LPT_RBR' />
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Marital_Status</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Marital_Status]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Marital_Status</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LPT_RBR' />
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Income</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Income]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Income</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Kidhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Kidhome]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Kidhome</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Teenhome</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Teenhome]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Teenhome</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Dt_Customer</remote-name>
+            <remote-type>133</remote-type>
+            <local-name>[Dt_Customer]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Dt_Customer</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>date</local-type>
+            <aggregation>Year</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Recency</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Recency]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Recency</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntWines</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntWines]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntWines</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntFruits</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntFruits]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntFruits</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntMeatProducts</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntMeatProducts]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntMeatProducts</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntFishProducts</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntFishProducts]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntFishProducts</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntSweetProducts</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntSweetProducts]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntSweetProducts</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>MntGoldProds</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[MntGoldProds]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>MntGoldProds</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumDealsPurchases</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumDealsPurchases]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>NumDealsPurchases</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumWebPurchases</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWebPurchases]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>NumWebPurchases</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumCatalogPurchases</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumCatalogPurchases]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>NumCatalogPurchases</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumStorePurchases</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumStorePurchases]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>NumStorePurchases</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>NumWebVisitsMonth</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[NumWebVisitsMonth]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>NumWebVisitsMonth</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AcceptedCmp3</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AcceptedCmp3]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>AcceptedCmp3</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AcceptedCmp4</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AcceptedCmp4]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>AcceptedCmp4</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AcceptedCmp5</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AcceptedCmp5]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>AcceptedCmp5</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AcceptedCmp1</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AcceptedCmp1]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>AcceptedCmp1</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>AcceptedCmp2</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[AcceptedCmp2]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>AcceptedCmp2</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Complain</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Complain]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Complain</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Z_CostContact</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Z_CostContact]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Z_CostContact</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Z_Revenue</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Z_Revenue]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Z_Revenue</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Response</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Response]</local-name>
+            <parent-name>[ml_project1_data.csv]</parent-name>
+            <remote-alias>Response</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column caption='age' datatype='integer' name='[Calculation_0929138241540098]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='// latest update&#13;&#10;{MAX(YEAR([Dt_Customer]))} - [Year_Birth]' />
+      </column>
+      <column caption='Income Bracket' datatype='string' name='[Calculation_0929138244476931]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [Income] &lt; 20000 THEN &apos;Under 20k&apos;&#13;&#10;ELSEIF [Income] &lt;= 40000 THEN &apos;20k-40k&apos;&#13;&#10;ELSEIF [Income] &lt;= 60000 THEN &apos;40k-60k&apos;&#13;&#10;ELSEIF [Income] &lt;= 80000 THEN &apos;60k-80k&apos;&#13;&#10;ELSEIF [Income] &lt;= 100000 THEN &apos;80k-100k&apos;&#13;&#10;ELSEIF [Income] &lt;= 120000 THEN &apos;100k-120k&apos;&#13;&#10;ELSE &apos;120+&apos;&#13;&#10;END' />
+      </column>
+      <column caption='Absolute Frequency' datatype='integer' name='[Calculation_0929138248355844]' role='measure' type='quantitative'>
+        <calculation class='tableau' formula='[NumCatalogPurchases] + [NumDealsPurchases] + [NumStorePurchases] + [NumWebPurchases]' />
+      </column>
+      <column caption='Dt Customer' datatype='date' name='[Dt_Customer]' role='dimension' type='ordinal' />
+      <column datatype='integer' name='[ID]' role='dimension' type='ordinal' />
+      <column caption='Age Bracket' datatype='string' name='[Income Bracket (cópia)_0929138302951429]' role='dimension' type='nominal'>
+        <calculation class='tableau' formula='IF [Calculation_0929138241540098] &lt; 20 THEN &apos;Under 20&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 30 THEN &apos;20-30&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 40 THEN &apos;30-40&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 50 THEN &apos;40-50&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 60 THEN &apos;50-60&apos;&#13;&#10;ELSE &apos;60+&apos;&#13;&#10;END' />
+      </column>
+      <column caption='Marital Status' datatype='string' name='[Marital_Status]' role='dimension' type='nominal' />
+      <column caption='Mnt Fish Products' datatype='integer' name='[MntFishProducts]' role='measure' type='quantitative' />
+      <column caption='Mnt Fruits' datatype='integer' name='[MntFruits]' role='measure' type='quantitative' />
+      <column caption='Mnt Gold Prods' datatype='integer' name='[MntGoldProds]' role='measure' type='quantitative' />
+      <column caption='Mnt Meat Products' datatype='integer' name='[MntMeatProducts]' role='measure' type='quantitative' />
+      <column caption='Mnt Sweet Products' datatype='integer' name='[MntSweetProducts]' role='measure' type='quantitative' />
+      <column caption='Mnt Wines' datatype='integer' name='[MntWines]' role='measure' type='quantitative' />
+      <column caption='Num Catalog Purchases' datatype='integer' name='[NumCatalogPurchases]' role='measure' type='quantitative' />
+      <column caption='Num Deals Purchases' datatype='integer' name='[NumDealsPurchases]' role='measure' type='quantitative' />
+      <column caption='Num Store Purchases' datatype='integer' name='[NumStorePurchases]' role='measure' type='quantitative' />
+      <column caption='Num Web Purchases' datatype='integer' name='[NumWebPurchases]' role='measure' type='quantitative' />
+      <column caption='Num Web Visits Month' datatype='integer' name='[NumWebVisitsMonth]' role='dimension' type='quantitative' />
+      <column caption='Year Birth' datatype='integer' name='[Year_Birth]' role='dimension' type='quantitative' />
+      <column caption='Z CostContact' datatype='integer' name='[Z_CostContact]' role='measure' type='quantitative' />
+      <column caption='Revenue' datatype='integer' name='[Z_Revenue]' role='measure' type='quantitative' />
+      <column caption='ml_project1_data.csv' datatype='table' name='[__tableau_internal_object_id__].[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]' role='measure' type='quantitative' />
+      <column-instance column='[Income Bracket (cópia)_0929138302951429]' derivation='None' name='[none:Income Bracket (cópia)_0929138302951429:nk]' pivot='key' type='nominal' />
+      <extract _.fcp.VConnDownstreamExtractsWithWarnings.true...user-specific='false' count='-1' enabled='true' object-id='' units='records'>
+        <connection access_mode='readonly' author-locale='pt_BR' class='hyper' dbname='C:/Users/tavar/AppData/Local/Temp/TableauTemp/#TableauTemp_0166ujl0vjbw1q10auxf30jigjmj.hyper' default-settings='hyper' schema='Extract' sslmode='' tablename='Extract' update-time='03/20/2026 09:01:30 PM' username='tableau_internal_user'>
+          <relation name='Extract' table='[Extract].[Extract]' type='table' />
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>ID</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[ID]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>ID</remote-alias>
+              <ordinal>0</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2240</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Year_Birth</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Year_Birth]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Year_Birth</remote-alias>
+              <ordinal>1</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>58</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Education</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Education]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Education</remote-alias>
+              <ordinal>2</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>5</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LPT_RBR' />
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Marital_Status</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Marital_Status]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Marital_Status</remote-alias>
+              <ordinal>3</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>6</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LPT_RBR' />
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Income</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Income]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Income</remote-alias>
+              <ordinal>4</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1518</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Kidhome</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Kidhome]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Kidhome</remote-alias>
+              <ordinal>5</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Teenhome</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Teenhome]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Teenhome</remote-alias>
+              <ordinal>6</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Dt_Customer</remote-name>
+              <remote-type>133</remote-type>
+              <local-name>[Dt_Customer]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Dt_Customer</remote-alias>
+              <ordinal>7</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>date</local-type>
+              <aggregation>Year</aggregation>
+              <approx-count>658</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Recency</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Recency]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Recency</remote-alias>
+              <ordinal>8</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>100</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntWines</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntWines]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntWines</remote-alias>
+              <ordinal>9</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>656</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntFruits</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntFruits]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntFruits</remote-alias>
+              <ordinal>10</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>151</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntMeatProducts</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntMeatProducts]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntMeatProducts</remote-alias>
+              <ordinal>11</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>452</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntFishProducts</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntFishProducts]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntFishProducts</remote-alias>
+              <ordinal>12</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>178</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntSweetProducts</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntSweetProducts]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntSweetProducts</remote-alias>
+              <ordinal>13</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>166</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>MntGoldProds</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[MntGoldProds]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>MntGoldProds</remote-alias>
+              <ordinal>14</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>209</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>NumDealsPurchases</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[NumDealsPurchases]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>NumDealsPurchases</remote-alias>
+              <ordinal>15</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>15</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>NumWebPurchases</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[NumWebPurchases]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>NumWebPurchases</remote-alias>
+              <ordinal>16</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>14</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>NumCatalogPurchases</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[NumCatalogPurchases]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>NumCatalogPurchases</remote-alias>
+              <ordinal>17</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>12</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>NumStorePurchases</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[NumStorePurchases]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>NumStorePurchases</remote-alias>
+              <ordinal>18</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>14</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>NumWebVisitsMonth</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[NumWebVisitsMonth]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>NumWebVisitsMonth</remote-alias>
+              <ordinal>19</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>15</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>AcceptedCmp3</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[AcceptedCmp3]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>AcceptedCmp3</remote-alias>
+              <ordinal>20</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>AcceptedCmp4</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[AcceptedCmp4]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>AcceptedCmp4</remote-alias>
+              <ordinal>21</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>AcceptedCmp5</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[AcceptedCmp5]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>AcceptedCmp5</remote-alias>
+              <ordinal>22</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>AcceptedCmp1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[AcceptedCmp1]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>AcceptedCmp1</remote-alias>
+              <ordinal>23</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>AcceptedCmp2</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[AcceptedCmp2]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>AcceptedCmp2</remote-alias>
+              <ordinal>24</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Complain</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Complain]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Complain</remote-alias>
+              <ordinal>25</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Z_CostContact</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Z_CostContact]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Z_CostContact</remote-alias>
+              <ordinal>26</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Z_Revenue</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Z_Revenue]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Z_Revenue</remote-alias>
+              <ordinal>27</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>1</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Response</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Response]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Response</remote-alias>
+              <ordinal>28</ordinal>
+              <family>ml_project1_data.csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6]</object-id>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+      </extract>
+      <layout common-percentage='1' dim-ordering='alphabetic' measure-ordering='alphabetic' show-structure='true' user-set-layout-v2='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[none:Income Bracket (cópia)_0929138302951429:nk]' palette='blue_10_0' type='palette'>
+            <map to='#2a5783'>
+              <bucket>&quot;60+&quot;</bucket>
+            </map>
+            <map to='#42709e'>
+              <bucket>&quot;50-60&quot;</bucket>
+            </map>
+            <map to='#598ab6'>
+              <bucket>&quot;40-50&quot;</bucket>
+            </map>
+            <map to='#75a6cc'>
+              <bucket>&quot;30-40&quot;</bucket>
+            </map>
+            <map to='#94c2e1'>
+              <bucket>&quot;20-30&quot;</bucket>
+            </map>
+            <map to='#b9ddf1'>
+              <bucket>&quot;Under 20&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;Brasil&quot;' />
+      </semantic-values>
+      <field-sort-info field-sort-order-type='custom-order'>
+        <field-sort-custom-order field='ID' />
+        <field-sort-custom-order field='Year_Birth' />
+        <field-sort-custom-order field='Education' />
+        <field-sort-custom-order field='Calculation_0929138244476931' />
+        <field-sort-custom-order field='Income Bracket (cópia)_0929138302951429' />
+        <field-sort-custom-order field='Marital_Status' />
+        <field-sort-custom-order field='Income' />
+        <field-sort-custom-order field='Kidhome' />
+        <field-sort-custom-order field='Teenhome' />
+        <field-sort-custom-order field='Dt_Customer' />
+        <field-sort-custom-order field='Recency' />
+        <field-sort-custom-order field='MntWines' />
+        <field-sort-custom-order field='MntFruits' />
+        <field-sort-custom-order field='MntMeatProducts' />
+        <field-sort-custom-order field='MntFishProducts' />
+        <field-sort-custom-order field='MntSweetProducts' />
+        <field-sort-custom-order field='MntGoldProds' />
+        <field-sort-custom-order field='NumDealsPurchases' />
+        <field-sort-custom-order field='NumWebPurchases' />
+        <field-sort-custom-order field='NumCatalogPurchases' />
+        <field-sort-custom-order field='NumStorePurchases' />
+        <field-sort-custom-order field='NumWebVisitsMonth' />
+        <field-sort-custom-order field='AcceptedCmp3' />
+        <field-sort-custom-order field='AcceptedCmp4' />
+        <field-sort-custom-order field='Calculation_0929138241540098' />
+        <field-sort-custom-order field='AcceptedCmp5' />
+        <field-sort-custom-order field='Calculation_0929138248355844' />
+        <field-sort-custom-order field='AcceptedCmp1' />
+        <field-sort-custom-order field='AcceptedCmp2' />
+        <field-sort-custom-order field='Complain' />
+        <field-sort-custom-order field='Z_CostContact' />
+        <field-sort-custom-order field='Z_Revenue' />
+        <field-sort-custom-order field='Response' />
+        <field-sort-custom-order field='Geometry (generated)' />
+        <field-sort-custom-order field='Latitude (generated)' />
+        <field-sort-custom-order field='Longitude (generated)' />
+        <field-sort-custom-order field=':Measure Names' />
+        <field-sort-custom-order field='Multiple Values' />
+      </field-sort-info>
+      <object-graph>
+        <objects>
+          <object caption='ml_project1_data.csv' id='ml_project1_data.csv_4A2DD186542B49A1A6BC27034B52ADF6'>
+            <properties context=''>
+              <relation connection='textscan.1ynu0et12rl1ws1abakxr01qeqng' name='ml_project1_data.csv' table='[ml_project1_data#csv]' type='table'>
+                <columns character-set='UTF-8' header='yes' locale='pt_BR'>
+                  <column datatype='integer' name='ID' ordinal='0' />
+                  <column datatype='integer' name='Year_Birth' ordinal='1' />
+                  <column datatype='string' name='Education' ordinal='2' />
+                  <column datatype='string' name='Marital_Status' ordinal='3' />
+                  <column datatype='integer' name='Income' ordinal='4' />
+                  <column datatype='integer' name='Kidhome' ordinal='5' />
+                  <column datatype='integer' name='Teenhome' ordinal='6' />
+                  <column datatype='date' name='Dt_Customer' ordinal='7' />
+                  <column datatype='integer' name='Recency' ordinal='8' />
+                  <column datatype='integer' name='MntWines' ordinal='9' />
+                  <column datatype='integer' name='MntFruits' ordinal='10' />
+                  <column datatype='integer' name='MntMeatProducts' ordinal='11' />
+                  <column datatype='integer' name='MntFishProducts' ordinal='12' />
+                  <column datatype='integer' name='MntSweetProducts' ordinal='13' />
+                  <column datatype='integer' name='MntGoldProds' ordinal='14' />
+                  <column datatype='integer' name='NumDealsPurchases' ordinal='15' />
+                  <column datatype='integer' name='NumWebPurchases' ordinal='16' />
+                  <column datatype='integer' name='NumCatalogPurchases' ordinal='17' />
+                  <column datatype='integer' name='NumStorePurchases' ordinal='18' />
+                  <column datatype='integer' name='NumWebVisitsMonth' ordinal='19' />
+                  <column datatype='integer' name='AcceptedCmp3' ordinal='20' />
+                  <column datatype='integer' name='AcceptedCmp4' ordinal='21' />
+                  <column datatype='integer' name='AcceptedCmp5' ordinal='22' />
+                  <column datatype='integer' name='AcceptedCmp1' ordinal='23' />
+                  <column datatype='integer' name='AcceptedCmp2' ordinal='24' />
+                  <column datatype='integer' name='Complain' ordinal='25' />
+                  <column datatype='integer' name='Z_CostContact' ordinal='26' />
+                  <column datatype='integer' name='Z_Revenue' ordinal='27' />
+                  <column datatype='integer' name='Response' ordinal='28' />
+                </columns>
+              </relation>
+            </properties>
+            <properties context='extract'>
+              <relation name='Extract' table='[Extract].[Extract]' type='table' />
+            </properties>
+          </object>
+        </objects>
+      </object-graph>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Revenue by Education and Marital Status'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='ml_project1_data' name='federated.0ov4wfp1xkhkks1g4uzfa0srbhnb' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0ov4wfp1xkhkks1g4uzfa0srbhnb'>
+            <column caption='age' datatype='integer' name='[Calculation_0929138241540098]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='// latest update&#13;&#10;{MAX(YEAR([Dt_Customer]))} - [Year_Birth]' />
+            </column>
+            <column caption='Dt Customer' datatype='date' name='[Dt_Customer]' role='dimension' type='ordinal' />
+            <column datatype='string' name='[Education]' role='dimension' type='nominal' />
+            <column caption='Age Bracket' datatype='string' name='[Income Bracket (cópia)_0929138302951429]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [Calculation_0929138241540098] &lt; 20 THEN &apos;Under 20&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 30 THEN &apos;20-30&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 40 THEN &apos;30-40&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 50 THEN &apos;40-50&apos;&#13;&#10;ELSEIF [Calculation_0929138241540098] &lt;= 60 THEN &apos;50-60&apos;&#13;&#10;ELSE &apos;60+&apos;&#13;&#10;END' />
+            </column>
+            <column caption='Marital Status' datatype='string' name='[Marital_Status]' role='dimension' type='nominal' />
+            <column caption='Year Birth' datatype='integer' name='[Year_Birth]' role='dimension' type='quantitative' />
+            <column caption='Revenue' datatype='integer' name='[Z_Revenue]' role='measure' type='quantitative' />
+            <column-instance column='[Education]' derivation='None' name='[none:Education:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Income Bracket (cópia)_0929138302951429]' derivation='None' name='[none:Income Bracket (cópia)_0929138302951429:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Marital_Status]' derivation='None' name='[none:Marital_Status:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Z_Revenue]' derivation='Sum' name='[sum:Z_Revenue:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <manual-sort column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Education:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;Basic&quot;</bucket>
+              <bucket>&quot;Graduation&quot;</bucket>
+              <bucket>&quot;2n Cycle&quot;</bucket>
+              <bucket>&quot;Master&quot;</bucket>
+              <bucket>&quot;PhD&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <manual-sort column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Income Bracket (cópia)_0929138302951429:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;Under 20&quot;</bucket>
+              <bucket>&quot;20-30&quot;</bucket>
+              <bucket>&quot;30-40&quot;</bucket>
+              <bucket>&quot;40-50&quot;</bucket>
+              <bucket>&quot;50-60&quot;</bucket>
+              <bucket>&quot;60+&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <filter class='categorical' column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Marital_Status:nk]'>
+            <groupfilter function='union' user:ui-domain='database' user:ui-enumeration='inclusive' user:ui-marker='enumerate'>
+              <groupfilter function='member' level='[none:Marital_Status:nk]' member='&quot;Divorced&quot;' />
+              <groupfilter function='member' level='[none:Marital_Status:nk]' member='&quot;Married&quot;' />
+              <groupfilter function='member' level='[none:Marital_Status:nk]' member='&quot;Single&quot;' />
+              <groupfilter function='member' level='[none:Marital_Status:nk]' member='&quot;Together&quot;' />
+              <groupfilter function='member' level='[none:Marital_Status:nk]' member='&quot;Widow&quot;' />
+            </groupfilter>
+          </filter>
+          <manual-sort column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Marital_Status:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;Married&quot;</bucket>
+              <bucket>&quot;Together&quot;</bucket>
+              <bucket>&quot;Single&quot;</bucket>
+              <bucket>&quot;Divorced&quot;</bucket>
+              <bucket>&quot;Widow&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <slices>
+            <column>[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Marital_Status:nk]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='header'>
+            <format attr='background-color' field='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Z_Revenue:qk]' value='#ffffff' />
+          </style-rule>
+          <style-rule element='label'>
+            <format attr='font-weight' field='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Z_Revenue:qk]' value='bold' />
+            <format attr='color' field='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Z_Revenue:qk]' value='#000000' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane id='2' selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Bar' />
+            <encodings>
+              <color column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Income Bracket (cópia)_0929138302951429:nk]' />
+            </encodings>
+            <style>
+              <style-rule element='datalabel'>
+                <format attr='color-mode' value='match' />
+                <format attr='font-weight' value='bold' />
+                <format attr='color' value='#000000' />
+              </style-rule>
+              <style-rule element='mark'>
+                <format attr='mark-labels-cull' value='false' />
+                <format attr='mark-labels-mode' value='highlight' />
+                <format attr='mark-labels-show' value='false' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Z_Revenue:qk]</rows>
+        <cols>([federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Education:nk] / [federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Marital_Status:nk])</cols>
+      </table>
+      <simple-id uuid='{11853B1D-0141-4576-BDDC-DAB9262B8D29}' />
+    </worksheet>
+    <worksheet name='Revenue by Income Bracket'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='ml_project1_data' name='federated.0ov4wfp1xkhkks1g4uzfa0srbhnb' />
+          </datasources>
+          <datasource-dependencies datasource='federated.0ov4wfp1xkhkks1g4uzfa0srbhnb'>
+            <column caption='Income Bracket' datatype='string' name='[Calculation_0929138244476931]' role='dimension' type='nominal'>
+              <calculation class='tableau' formula='IF [Income] &lt; 20000 THEN &apos;Under 20k&apos;&#13;&#10;ELSEIF [Income] &lt;= 40000 THEN &apos;20k-40k&apos;&#13;&#10;ELSEIF [Income] &lt;= 60000 THEN &apos;40k-60k&apos;&#13;&#10;ELSEIF [Income] &lt;= 80000 THEN &apos;60k-80k&apos;&#13;&#10;ELSEIF [Income] &lt;= 100000 THEN &apos;80k-100k&apos;&#13;&#10;ELSEIF [Income] &lt;= 120000 THEN &apos;100k-120k&apos;&#13;&#10;ELSE &apos;120+&apos;&#13;&#10;END' />
+            </column>
+            <column caption='Absolute Frequency' datatype='integer' name='[Calculation_0929138248355844]' role='measure' type='quantitative'>
+              <calculation class='tableau' formula='[NumCatalogPurchases] + [NumDealsPurchases] + [NumStorePurchases] + [NumWebPurchases]' />
+            </column>
+            <column datatype='integer' name='[Income]' role='measure' type='quantitative' />
+            <column caption='Num Catalog Purchases' datatype='integer' name='[NumCatalogPurchases]' role='measure' type='quantitative' />
+            <column caption='Num Deals Purchases' datatype='integer' name='[NumDealsPurchases]' role='measure' type='quantitative' />
+            <column caption='Num Store Purchases' datatype='integer' name='[NumStorePurchases]' role='measure' type='quantitative' />
+            <column caption='Num Web Purchases' datatype='integer' name='[NumWebPurchases]' role='measure' type='quantitative' />
+            <column caption='Revenue' datatype='integer' name='[Z_Revenue]' role='measure' type='quantitative' />
+            <column-instance column='[Calculation_0929138244476931]' derivation='None' name='[none:Calculation_0929138244476931:nk]' pivot='key' type='nominal' />
+            <column-instance column='[Calculation_0929138248355844]' derivation='Sum' name='[sum:Calculation_0929138248355844:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Z_Revenue]' derivation='Sum' name='[sum:Z_Revenue:qk]' pivot='key' type='quantitative' />
+          </datasource-dependencies>
+          <manual-sort column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Calculation_0929138244476931:nk]' direction='ASC'>
+            <dictionary>
+              <bucket>&quot;Under 20k&quot;</bucket>
+              <bucket>&quot;20k-40k&quot;</bucket>
+              <bucket>&quot;40k-60k&quot;</bucket>
+              <bucket>&quot;60k-80k&quot;</bucket>
+              <bucket>&quot;80k-100k&quot;</bucket>
+              <bucket>&quot;100k-120k&quot;</bucket>
+              <bucket>&quot;120+&quot;</bucket>
+            </dictionary>
+          </manual-sort>
+          <aggregation value='true' />
+        </view>
+        <style />
+        <panes>
+          <pane selection-relaxation-option='selection-relaxation-allow'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Calculation_0929138248355844:qk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Z_Revenue:qk]</rows>
+        <cols>[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Calculation_0929138244476931:nk]</cols>
+      </table>
+      <simple-id uuid='{A720E033-BA92-44B0-A10F-B54F6C369B3F}' />
+    </worksheet>
+  </worksheets>
+  <windows source-height='30'>
+    <window class='worksheet' maximized='true' name='Revenue by Education and Marital Status'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='bottom'>
+          <strip size='96'>
+            <card type='caption' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card pane-specification-id='2' param='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[none:Income Bracket (cópia)_0929138302951429:nk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{C1C7D801-AE32-4D4E-AA72-F5A21F2774B2}' />
+    </window>
+    <window class='worksheet' name='Revenue by Income Bracket'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+          <strip size='31'>
+            <card type='title' />
+          </strip>
+        </edge>
+        <edge name='right'>
+          <strip size='170'>
+            <card pane-specification-id='0' param='[federated.0ov4wfp1xkhkks1g4uzfa0srbhnb].[sum:Calculation_0929138248355844:qk]' type='color' />
+          </strip>
+        </edge>
+      </cards>
+      <simple-id uuid='{15D2622C-2550-43B8-B397-93247C06028D}' />
+    </window>
+  </windows>
+</workbook>
