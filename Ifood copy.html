@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>About Me</title>
+		<title>IFood Delivery Data</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -18,7 +18,7 @@
 				<section id="header">
 
 					<!-- Logo -->
-						<h1><a href="index.html">About Me</a></h1>
+						<h1><a href="index.html">IFood Delivery Data</a></h1>
 
 					<!-- Nav -->
 						<nav id="nav">
@@ -27,14 +27,12 @@
 								<li>
 									<a href="#">Github Projects</a>
 									<ul>
-										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/Ifood_dataset.sql">Ifood Income and Spending Data</a></li>
-										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/CompanyXOrders_Query.sql">Merchandise Company Orders</a></li>
+										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/Ifood_dataset.sql">Ifood Income and Spending Data</a></li>											
 										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/AlcoholRelatedHealth.sql">Alcohol Related Health</a></li>
 										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/COVIDPortfolio1.sql">Covid 19 Dataset</a></li>
 										<li><a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/blob/main/PortfolioProjects/NashvilleHousingPorfolio.sql">Nashville Housing Data</a></li>
-																					
 									</ul>
-								<li >
+								<li class="current">
 									<a href="#">Tableau Projects</a>
 									<ul>
 										<li><a href="Ifood.html">Ifood Income and Spending Data</a></li>
@@ -42,11 +40,9 @@
 										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/PaperCompanyPerformanceIndicators/ProductLinePreformance">Paper Company Dashboard</a></li>
 										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/AmazonElectronicsTop100/Dashboard1">Top Amazon Products</a></li>
 										<li><a href="https://public.tableau.com/app/profile/dillon.sandberg/viz/WorldVolcanoData/WorldVolcanoData">World Volcano Data</a></li>
-										
-											
+																					
 									</ul>
-								<li>
-									<li class="current"><a href="Aboutme.html">About Me</a></li>
+								<li><a href="Aboutme.html">About Me</a></li>
 							</ul>
 						</nav>
 
@@ -59,53 +55,64 @@
 							<div class="col-8 col-12-medium">
 
 								<!-- Content -->
-									
-								<article class="box post">
+									<article class="box post">
+										<a href="#" class="image featured"><img src="images/bike_delivery.png" alt="" /></a>
 										<header>
-											<h2>Rafael Tavares</h2>
-											<p>Data Analyst</p>
-										</header>
+											<h2>Delivery App Analysis Case:</h2>
 										<p>
-										I am a Data Analyst who combines a practical background in business operations with strong technical 
-									skills in Excel, SQL, Power BI, and Python. I focus on transforming raw datasets into clear metrics, 
-									automating redundant workflows, and building analytical models to solve operational bottlenecks.
+											the original dataset and case description can be found here: 
+											<a href="https://github.com/nailson/ifood-data-business-analyst-test/blob/master/iFood%20Data%20Analyst%20Case.pdf">Ifood Dataset</a>
+										</p>
+
+
+										<section>
+											<header>
+												<h3>Case description</h3>
+											</header>
+										<p>
+											A food company wants to produce the highest profit for the next direct marketing campaign, scheduled for the next month.
 										</p>
 										<p>
-											During my time at Coty, I collaborated directly with the North Carolina operations team. To address
-									their manual reporting bottlenecks, I conducted operational benchmarks and built automated data solutions 
-									using Python, Excel and VBA. This allowed the regional team to bypass manual data entry, evaluate performance metrics 
-									faster, and directly improve their daily workflow efficiency. 
-										</p>			
-										<p>
-											To expand my technical capabilities into machine learning and system deployment, I actively participated 
-									in an MLOps study group at the Federal University of Goiás (UFG), where we developed end-to-end projects and applied
-									core model deployment principles. Additionally, as a researcher within UFG's AKCIT group, I studied Reinforcement Learning 
-									and implemented advanced algorithms—including DQN, PPO, and DIDEC—to solve complex optimization environments.
+											A pilot campaign involving <b>2.240 customers</b> was carried out, <b>resulting in an 15% success rate</b> (15% or 336 people said
+											"Yes" and bought the offer while the other 85% or 1904 didn't)
 										</p>
 										<p>
-											I am now applying this mix of practical business analytics and advanced academic research to Data Analyst roles. 
-									My primary focus is to build efficient data architectures, automate repetitive tasks, and deliver accurate insights that directly 
-									support daily business operations.
-								</p>
-								
-									</article>
+											The campaign had a <b>total cost of 6.720 MU</b> and gave in <b>profit -3.406 MU</b>. Resulting in 
+											<ul>
+												<li>Cost per Contact (CPC) of 3,0 MU</li>
+												<li>Cost per Acquisition (CPA) of 20,0 MU</li>
+												<li>Revenue per Sale (Average) of 10,9 MU</li>
+											</ul>
+											</p>
+											<p>
+											<b>The Problem:</b> On average, it costs the company 20 MU to "convince" someone to buy. But that person only spends 10,93 MU on average, 
+												therefore, the company is <b>losing 9,07</b> per sale.
+										</p>
+										<p>
+											In order to improve this scenario, we'll analyse customer data and develop a Tableau dashboard to better describe the customer behavior.
+										</p>
+										<p>
+											To do that, we must cover <b>3 main objectives:</b>
+												<ul>
+													<li>Which customers are the most profitable to target?</li>
+													<li>Which products are the most profitable to target?</li>
+													<li>How does the investiment relates to profitability?</li>
+												</ul>
+										</p>
+									</section>
+
 
 							</div>
 							<div class="col-4 col-12-medium">
 
 								<!-- Sidebar -->
-								<section class="box">
-									<a href=https://www.linkedin.com/in/rafaeltavares1998/ class="image featured"><img src="images/Profile_Pic.jpeg" alt="" /></a>
-									<footer>
-										<a href=https://www.linkedin.com/in/rafaeltavares1998/ class="button alt">LinkedIn Profile</a>
-									</footer>
-								</section>
+								
 									<section class="box">
 										<a href="#" class="image featured"><img src="images/Tableau-Logo.png" alt="" /></a>
 										<header>
-											<h3>Check Out my Tableau!</h3>
+											<h3>Ifood Data Insights</h3>
 										</header>
-										<p>View all my visualizations!</p>
+										<p>View all the charts that are associated with this analysis</p>
 										<footer>
 											<a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/ifooddeliverydata/IfoodDeliveryData" class="button alt">Tableau Dashboard</a>
 										</footer>
@@ -115,7 +122,7 @@
 										<header>
 											<h3>Check Out my Github!</h3>
 										</header>
-										<p>View the code that I use for my projects</p>
+										<p>View the code that went into this analysis</p>
 										<!-- <ul class="divided">
 											<li><a href="#">Sed et blandit consequat sed</a></li>
 											<li><a href="#">Hendrerit tortor vitae sapien dolore</a></li>
@@ -165,9 +172,9 @@
 									<li>
 										<h3>Address</h3>
 										<p>
-											Rafael Tavares<br />
-											Goiânia, State of Goiás, Brazily<br />
-											Av. C198 N101°
+											Dillon Sandberg<br />
+											6023 Ellerston Way<br />
+											Ave Maria, FL 34142
 										</p>
 									</li>
 									<li>
