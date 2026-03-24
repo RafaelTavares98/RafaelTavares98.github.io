@@ -58,13 +58,13 @@
       <connection class='federated'>
         <named-connections>
           <named-connection caption='delivery analysis' name='textscan.1doez0m0ipl5cu1fx2srm06u4rmj'>
-            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='delivery analysis.csv' password='' server='' />
+            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='delivery analysis.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='delivery analysis - Copia' name='textscan.1f2t6we0bz4i2d13ncy560yjoqzl'>
-            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='delivery analysis - Copia.csv' password='' server='' />
+            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='delivery analysis - Copia.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
           <named-connection caption='product_melt' name='textscan.11dkxb00d4d9fn188tlza157bwbb'>
-            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='product_melt.csv' password='' server='' />
+            <connection class='textscan' directory='C:/Users/tavar/Desktop/Data Analyst Portifolio/RafaelTavares98.github.io/Tableau/delivery analysis' filename='product_melt.csv' password='' server='' workgroup-auth-mode='as-is' />
           </named-connection>
         </named-connections>
         <relation type='collection'>
@@ -1752,9 +1752,9 @@
         <devicelayout auto-generated='true' name='Phone'>
           <size maxheight='900' minheight='900' sizing-mode='vscroll' />
           <zones>
-            <zone h='100000' id='17' type-v2='layout-basic' w='100000' x='0' y='0'>
-              <zone h='98196' id='16' param='vert' type-v2='layout-flow' w='98404' x='798' y='902'>
-                <zone fixed-size='280' h='75535' id='7' is-fixed='true' name='Customer Behavior Heatmap' w='53085' x='798' y='902'>
+            <zone h='100000' id='19' type-v2='layout-basic' w='100000' x='0' y='0'>
+              <zone h='98196' id='18' param='vert' type-v2='layout-flow' w='98640' x='680' y='902'>
+                <zone fixed-size='280' h='75535' id='7' is-fixed='true' name='Customer Behavior Heatmap' w='46899' x='680' y='902'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1763,7 +1763,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone h='98196' id='10' name='Customer Behavior Heatmap' pane-specification-id='1' param='[federated.149p5ng0x5cm6d112yj441pck80k].[sum:Calculation_0320834484453378:qk]' type-v2='color' w='7976' x='91226' y='902'>
+                <zone h='98196' id='10' name='Customer Behavior Heatmap' pane-specification-id='1' param='[federated.149p5ng0x5cm6d112yj441pck80k].[sum:Calculation_0320834484453378:qk]' type-v2='color' w='7996' x='91324' y='902'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1772,7 +1772,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='280' h='75535' id='11' is-fixed='true' name='Product Profitablity Comparison' w='37343' x='53883' y='902'>
+                <zone fixed-size='280' h='75535' id='11' is-fixed='true' name='Product Profitablity Comparison' w='43745' x='47579' y='902'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1781,7 +1781,7 @@
                     <format attr='padding' value='0' />
                   </zone-style>
                 </zone>
-                <zone fixed-size='236' h='22661' id='12' is-fixed='true' name='Cost to Contact x Analysis' w='90428' x='798' y='76437'>
+                <zone fixed-size='236' h='22661' id='12' is-fixed='true' name='Cost to Contact x Analysis' w='90644' x='680' y='76437'>
                   <zone-style>
                     <format attr='border-color' value='#000000' />
                     <format attr='border-style' value='none' />
@@ -1805,7 +1805,7 @@
     </dashboard>
   </dashboards>
   <windows source-height='30'>
-    <window class='worksheet' maximized='true' name='Customer Behavior Heatmap'>
+    <window class='worksheet' name='Customer Behavior Heatmap'>
       <cards>
         <edge name='left'>
           <strip size='225'>
@@ -1861,7 +1861,7 @@
       </cards>
       <simple-id uuid='{41DB6EDC-1E46-4F8E-91EA-14873E4F4243}' />
     </window>
-    <window class='worksheet' name='Cost to Contact x Analysis'>
+    <window class='worksheet' maximized='true' name='Cost to Contact x Analysis'>
       <cards>
         <edge name='left'>
           <strip size='160'>
