@@ -1240,7 +1240,7 @@
     </worksheet>
   </worksheets>
   <dashboards>
-    <dashboard enable-sort-zone-taborder='true' name='Ifood Delivery Data'>
+    <dashboard enable-sort-zone-taborder='true' name='Food Delivery Analysis'>
       <style />
       <size maxheight='1080' maxwidth='1920' minheight='560' minwidth='420' sizing-mode='range' />
       <zones>
@@ -1467,7 +1467,7 @@
       </viewpoint>
       <simple-id uuid='{766732C3-F475-4D3C-ADDA-55CE2F6C3F07}' />
     </window>
-    <window class='dashboard' maximized='true' name='Ifood Delivery Data'>
+    <window class='dashboard' maximized='true' name='Food Delivery Analysis'>
       <viewpoints>
         <viewpoint name='Gold Category by Income'>
           <zoom type='entire-view' />
@@ -1725,7 +1725,7 @@
       XO4GLWMCubjcDVwBuGxpXAG4bGlcAbhsaVwBuGxpXAG4bGn+f2QKMqx3zQwxAAAAAElFTkSu
       QmCC
     </thumbnail>
-    <thumbnail height='192' name='Ifood Delivery Data' width='192'>
+    <thumbnail height='192' name='Food Delivery Analysis' width='192'>
       iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAA7DAAAOwwHHb6hk
       AAAgAElEQVR4nO2dWYwkyX2fv8ysyrqruru6+j6m596dnd3l3rv0LrlakYRBWSJgSYBh2bKl
       Bx+ACRgwZMPQi/3iNwu2bD/YMCCDBmFQsESZJkBBIrm7JrnD3bm7e2b6vu+uuyqrKk8/1Ezv
