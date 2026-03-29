@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Food Delivery Analysis</title>
+        <title>Rideshare Analysis</title>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <link rel="stylesheet" href="assets/css/main.css" />
@@ -11,16 +11,14 @@
 
             <section id="header">
 
-                    <h1><a href="index.html">Food Delivery Analysis</a></h1>
+                    <h1><a href="index.html">Rideshare Analysis</a></h1>
 
-					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li class="current"><a href="index.html">Projects</a></li>
-
-								<li><a href="Aboutme.html">About Me</a></li>
-							</ul>
-						</nav>
+                    <nav id="nav">
+                        <ul>
+                            <li class="current"><a href="index.html">Projects</a></li>
+                            <li><a href="Aboutme.html">About Me</a></li>
+                        </ul>
+                    </nav>
 
             <section id="main">
                     <div class="container">
@@ -28,48 +26,31 @@
                             <div class="col-8 col-12-medium">
 
                                 <article class="box post">
-                                        <a href="#" class="image featured"><img src="images/bike_delivery.png" alt="" /></a>
+                                        <a href="#" class="image featured"><img src="images/rideshare.png" alt="" /></a>
                                         <header>
-                                            <h2>Delivery App Analysis Case:</h2>
+                                            <h2>Rideshare Operations Analysis Case:</h2>
                                         </header>
                                         <p>
-                                            The original dataset and case description can be found 
-                                            <a href="https://github.com/nailson/ifood-data-business-analyst-test/tree/master"> here</a>
+                                            A SQL-driven exploration of a rideshare platform's operations, covering users, drivers, riders, trips, payments, and cancellations.
                                         </p>
 
                                         <section>
                                             <header>
-                                                <h3>Case description</h3>
+                                                <h3>Case Description</h3>
                                             </header>
                                             <p>
-                                                A food company wants to produce the highest profit for the next direct marketing campaign, scheduled for the next month.
+                                                A rideshare company wants to understand the operational dynamics of its platform in order to improve driver profitability, reduce cancellations, and optimize trip efficiency.
                                             </p>
                                             <p>
-                                                A pilot campaign involving <b>2.240 customers</b> was carried out, <b>resulting in a 15% success rate</b> (15% or 336 people said
-                                                "Yes" and bought the offer while the other 85% or 1904 didn't).
+                                                The dataset covers <b>2,000 users</b>, <b>400 drivers</b>, and <b>1,600 riders</b> across <b>4 cities</b>, spanning approximately <b>6 years of activity</b>.
                                             </p>
                                             <p>
-                                                The campaign had a <b>total cost of 6.720 MU</b> and resulted in a <b>profit of -3.406 MU</b>. Resulting in:
+                                                To uncover actionable insights, the analysis was structured around <b>3 main objectives:</b>
                                             </p>
                                             <ul>
-                                                <li>Cost per Contact (CPC) of 3.0 MU</li>
-                                                <li>Cost per Acquisition (CPA) of 20.0 MU</li>
-                                                <li>Revenue per Sale (Average) of 10.9 MU</li>
-                                            </ul>
-                                            <p>
-                                                <b>The Problem:</b> On average, it costs the company 20 MU to "convince" someone to buy. But that person only spends 10.93 MU on average, 
-                                                therefore, the company is <b>losing 9.07 per sale</b>.
-                                            </p>
-                                            <p>
-                                                In order to improve this scenario, customer data was analyzed to develop a Tableau dashboard to better describe customer behavior.
-                                            </p>
-                                            <p>
-                                                To do that, we must cover <b>3 main objectives:</b>
-                                            </p>
-                                            <ul>
-                                                <li>Which customers are the most profitable to target?</li>
-                                                <li>Which products are the most profitable to target?</li>
-                                                <li>How does the investment relate to profitability?</li>
+                                                <li>What does the platform's user and driver base look like?</li>
+                                                <li>Which trips are the most profitable and why?</li>
+                                                <li>What drives cancellations and how can they be reduced?</li>
                                             </ul>
                                         </section>
 
@@ -77,27 +58,54 @@
                                             <header>
                                                 <h3>Data Insights</h3>
                                             </header>
+
+                                            <h4>1. Platform Overview — Users, Drivers & Riders</h4>
                                             <p>
-                                                The visual analysis of the campaign data provides direct answers to the core objectives, outlining a clear path to profitability:
+                                                The platform's user base is spread across 4 cities, with most users not being drivers themselves. Drivers have been on the platform for an average of <b>1.81 years</b>, with a maximum tenure of 4 years, suggesting a relatively young driver workforce. The average driver rating sits at <b>4.15</b>, with the lowest recorded at 2.59, indicating most drivers deliver a solid experience.
                                             </p>
-                                            
-                                            <h4>1. Which customers are the most profitable to target?</h4>
-                                            <span class="image featured"><img src="images/food delivery/heatmap.png" alt="Customer Behavior Heatmap" /></span>
                                             <p>
-                                                The optimal target audience earns between <b>60k and 99k annually</b> and holds a higher education degree (Graduation, Master, or PhD). Customers earning below 60k consistently result in a negative ROI and should be excluded from future campaigns.
+                                                On the rider side, the average user has completed <b>10.52 trips</b> with a mean rating of <b>3.99</b>, pointing to a moderately engaged and reasonably well-behaved rider pool.
                                             </p>
-                                            
-                                            <h4>2. Which products are the most profitable to target?</h4>
-                                            <span class="image featured"><img src="images/food delivery/customer profitability.png" alt="Product Profitability Comparison" /></span>
+
+                                            <!-- INSERT IMAGE: summary stats table for users, drivers, riders -->
+                                            <span class="image featured"><img src="images/rideshare/users_drivers_summary.png" alt="Users and Drivers Summary Table" /></span>
+
+                                            <h4>2. Trip Profitability — Distance, Duration & Time of Day</h4>
                                             <p>
-                                                <b>Wines</b> and <b>Meat Products</b> are the primary profit drivers, aligning perfectly with the 60k-99k income bracket. Low-margin categories (Fruits, Sweets, Fish) generate negligible revenue and operate at a net loss.
+                                                Not all trips are created equal. The analysis bucketed completed trips by distance, duration, and time of day to identify where real profit is generated.
                                             </p>
-                                            
-                                            <h4>3. How does the investment relate to profitability?</h4>
-                                            <span class="image featured"><img src="images/food delivery/cost_vs_revenue.png" alt="Cost to Contact Analysis" /></span>
                                             <p>
-                                                Maximum profitability is achieved at a single point of contact (<b>3 MU</b>). Repeatedly contacting the same customer yields strictly diminishing returns. Investments surpassing 15 MU per customer result in a total collapse of ROI.
+                                                <b>Short trips under 5 km</b> carry a lower platform cut (20%) compared to long trips over 20 km (45%), making them disproportionately profitable per hour of driving. Similarly, <b>trips under 20 minutes</b> maximize the number of rides a driver can complete in a shift, directly boosting hourly earnings.
                                             </p>
+                                            <p>
+                                                Time of day matters too: <b>early morning (05:00–08:59)</b> and <b>evening to night (18:00–04:59)</b> windows show the strongest profitability, likely driven by commuter demand and surge pricing.
+                                            </p>
+
+                                            <!-- INSERT IMAGE: trip distribution query results table -->
+                                            <span class="image featured"><img src="images/rideshare/trip_distribution.png" alt="Trip Distribution Query Results" /></span>
+
+                                            <h4>3. Cancellations — Who Cancels and Why</h4>
+                                            <p>
+                                                Cancellations are predominantly rider-driven. <b>Personal emergencies</b> are the leading stated reason, followed closely by <b>long wait times</b> — a direct operational signal that driver availability and dispatch efficiency need improvement.
+                                            </p>
+                                            <p>
+                                                Drivers cancel far less frequently, suggesting the core reliability issue lies on the demand side rather than supply. Reducing wait times through better driver positioning in high-demand zones could meaningfully cut cancellation rates.
+                                            </p>
+
+                                            <!-- INSERT IMAGE: cancellations breakdown table -->
+                                            <span class="image featured"><img src="images/rideshare/cancellations.png" alt="Cancellations Breakdown" /></span>
+
+                                            <h4>4. Top Performing Drivers</h4>
+                                            <p>
+                                                The most profitable drivers share a clear profile: they operate in high-demand zones, complete <b>short to medium distance trips</b>, maintain a high trips-per-hour rate, and tend to peak on specific days of the week. The analysis ranks all active drivers by <b>profit per hour</b> — a metric that normalizes for trip length and reflects true earning efficiency.
+                                            </p>
+                                            <p>
+                                                Average speed, fare per km, and surge multiplier exposure round out the picture of what separates top earners from the rest of the fleet.
+                                            </p>
+
+                                            <!-- INSERT IMAGE: most profitable drivers query results table -->
+                                            <span class="image featured"><img src="images/rideshare/top_drivers.png" alt="Most Profitable Drivers Table" /></span>
+
                                         </section>
 
                                     </article>
@@ -106,16 +114,15 @@
                             <div class="col-4 col-12-medium">
 
                                 <section class="box">
-                                        <a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/deliveryanalysis_17743955947550/AnalysisOverview" class="image featured"><img src="images/Tableau-Logo.png" alt="Tableau Logo" /></a>
+                                        <a href="#" class="image featured"><img src="images/sql_logo.png" alt="SQL Logo" /></a>
                                         <header>
-                                            <h3>Tableau Dashboard</h3>
+                                            <h3>SQL Analysis</h3>
                                         </header>
-                                        <p>View all the charts that are associated with this analysis.</p>
+                                        <p>View the full SQL script behind this analysis.</p>
                                         <footer>
-                                            <a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/deliveryanalysis_17743955947550/AnalysisOverview" class="button alt">View Dashboard</a>
+                                            <a href="#" class="button alt">View on GitHub</a>
                                         </footer>
                                     </section>
-
 
                             </div>
                         </div>
@@ -146,17 +153,17 @@
                                     <h2>Socials</h2>
                                 </header>
                                 <ul class="social">
-                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github%20portifolio><span class="label">Github</span></a></li>
-                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998//"><span class="label">LinkedIn</span></a></li>
+                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github%20portifolio"><span class="label">Github</span></a></li>
+                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998/"><span class="label">LinkedIn</span></a></li>
                                 </ul>
                                 <ul class="contact">
                                     <li>
                                         <h3>Address</h3>
                                         <p>
-											Rafael Tavares<br />
-											Brazil, city of Goiânia, State of Goiás<br />
-											C198 N° 111
-										</p>
+                                            Rafael Tavares<br />
+                                            Brazil, city of Goiânia, State of Goiás<br />
+                                            C198 N° 111
+                                        </p>
                                     </li>
                                     <li>
                                         <h3>Mail</h3>
@@ -185,11 +192,11 @@
         </div>
 
         <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/js/jquery.dropotron.min.js"></script>
-            <script src="assets/js/browser.min.js"></script>
-            <script src="assets/js/breakpoints.min.js"></script>
-            <script src="assets/js/util.js"></script>
-            <script src="assets/js/main.js"></script>
+        <script src="assets/js/jquery.dropotron.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
 
     </body>
 </html>
