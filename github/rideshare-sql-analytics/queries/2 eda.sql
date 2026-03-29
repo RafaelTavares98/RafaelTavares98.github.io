@@ -1,18 +1,9 @@
--- to do
-
--- find what are the riders that
--- have the biggest fare count and smaller km and time
--- understand the profile of high profitability trips
--- test the correlation between profitable trips and profitable drivers
-
-
-
 -- eda and summary statistics
 
 -- users
 SELECT * FROM users;
 
--- summary
+-- users summary
 WITH base_users AS (
     SELECT 
         user_id,
@@ -195,7 +186,7 @@ FROM quartiles;
 -- riders
 SELECT * FROM riders;
 
--- summary
+-- riders summary
 WITH base_riders AS (
     SELECT 
         rider_id,
@@ -380,12 +371,145 @@ ORDER BY
     column_name, 
     count DESC;
 
+
+-- trips
+SELECT * FROM trips;
+
+-- trip distribution overview
+SELECT * FROM trips;
+
+-- trip distribution overview
+-- maps the volume of completed trips across distance, duration, and time of day, including average metrics
+
+WITH trip_distributions AS (
+    SELECT
+        distance_km,
+        duration_mins,
+        CAST(strftime('%H', requested_at) AS INTEGER) AS hour_of_day,
+        total_fare,
+        surge_multiplier,
+        -- base profit calculation (fare minus $2 fixed fee minus variable uber cut)
+        (total_fare - 2.00) - ((total_fare - 2.00) * CASE 
+            WHEN distance_km < 5 THEN 0.20
+            WHEN distance_km >= 5 AND distance_km < 20 THEN 0.30
+            ELSE 0.45
+        END) AS real_profit
+    FROM trips
+    WHERE status = 'completed' AND total_fare > 2.00
+),
+distance_buckets AS (
+    SELECT
+        'distance' AS distribution_type,
+        CASE
+            WHEN distance_km < 2 THEN '1. under 2 km'
+            WHEN distance_km >= 2 AND distance_km < 5 THEN '2. 2-5 km'
+            WHEN distance_km >= 5 AND distance_km < 10 THEN '3. 5-10 km'
+            WHEN distance_km >= 10 AND distance_km < 20 THEN '4. 10-20 km'
+            ELSE '5. 20+ km'
+        END AS category,
+        COUNT(*) AS trip_count,
+        ROUND(AVG(total_fare), 2) AS avg_fare,
+        ROUND(AVG(duration_mins), 2) AS avg_duration_mins,
+        ROUND(AVG(surge_multiplier), 2) AS avg_multiplier,
+        ROUND(AVG(distance_km), 2) AS avg_distance_km,
+        ROUND(AVG(total_fare / NULLIF(distance_km, 0)), 2) AS avg_fare_per_km,
+        -- new column inserted
+        ROUND(AVG(real_profit / NULLIF(duration_mins / 60.0, 0)), 2) AS real_profit_per_hour
+    FROM trip_distributions
+    GROUP BY category
+),
+duration_buckets AS (
+    SELECT
+        'duration' AS distribution_type,
+        CASE
+            WHEN duration_mins < 10 THEN '1. under 10 mins'
+            WHEN duration_mins >= 10 AND duration_mins < 20 THEN '2. 10-20 mins'
+            WHEN duration_mins >= 20 AND duration_mins < 30 THEN '3. 20-30 mins'
+            WHEN duration_mins >= 30 AND duration_mins < 45 THEN '4. 30-45 mins'
+            ELSE '5. 45+ mins'
+        END AS category,
+        COUNT(*) AS trip_count,
+        ROUND(AVG(total_fare), 2) AS avg_fare,
+        ROUND(AVG(duration_mins), 2) AS avg_duration_mins,
+        ROUND(AVG(surge_multiplier), 2) AS avg_multiplier,
+        ROUND(AVG(distance_km), 2) AS avg_distance_km,
+        ROUND(AVG(total_fare / NULLIF(distance_km, 0)), 2) AS avg_fare_per_km,
+        -- new column inserted
+        ROUND(AVG(real_profit / NULLIF(duration_mins / 60.0, 0)), 2) AS real_profit_per_hour
+    FROM trip_distributions
+    GROUP BY category
+),
+time_of_day_buckets AS (
+    SELECT
+        'time_of_day' AS distribution_type,
+        CASE
+            WHEN hour_of_day >= 5 AND hour_of_day < 9 THEN '1. early morning (05:00-08:59)'
+            WHEN hour_of_day >= 9 AND hour_of_day < 12 THEN '2. morning (09:00-11:59)'
+            WHEN hour_of_day >= 12 AND hour_of_day < 15 THEN '3. mid day (12:00-14:59)'
+            WHEN hour_of_day >= 15 AND hour_of_day < 18 THEN '4. afternoon (15:00-17:59)'
+            WHEN hour_of_day >= 18 AND hour_of_day < 22 THEN '5. evening (18:00-21:59)'
+            ELSE '6. late evening/night (22:00-04:59)'
+        END AS category,
+        COUNT(*) AS trip_count,
+        ROUND(AVG(total_fare), 2) AS avg_fare,
+        ROUND(AVG(duration_mins), 2) AS avg_duration_mins,
+        ROUND(AVG(surge_multiplier), 2) AS avg_multiplier,
+        ROUND(AVG(distance_km), 2) AS avg_distance_km,
+        ROUND(AVG(total_fare / NULLIF(distance_km, 0)), 2) AS avg_fare_per_km,
+        -- new column inserted
+        ROUND(AVG(real_profit / NULLIF(duration_mins / 60.0, 0)), 2) AS real_profit_per_hour
+    FROM trip_distributions
+    GROUP BY category
+)
+
+SELECT 
+    distribution_type,
+    category,
+    trip_count,
+    ROUND(trip_count * 100.0 / SUM(trip_count) OVER (PARTITION BY distribution_type), 2) || '%' AS percentage,
+    avg_fare,
+    avg_duration_mins,
+    avg_multiplier,
+    avg_distance_km,
+    avg_fare_per_km,
+    real_profit_per_hour
+FROM distance_buckets
+
+UNION ALL
+
+SELECT 
+    distribution_type,
+    category,
+    trip_count,
+    ROUND(trip_count * 100.0 / SUM(trip_count) OVER (PARTITION BY distribution_type), 2) || '%' AS percentage,
+    avg_fare,
+    avg_duration_mins,
+    avg_multiplier,
+    avg_distance_km,
+    avg_fare_per_km,
+    real_profit_per_hour
+FROM duration_buckets
+
+UNION ALL
+
+SELECT 
+    distribution_type,
+    category,
+    trip_count,
+    ROUND(trip_count * 100.0 / SUM(trip_count) OVER (PARTITION BY distribution_type), 2) || '%' AS percentage,
+    avg_fare,
+    avg_duration_mins,
+    avg_multiplier,
+    avg_distance_km,
+    avg_fare_per_km,
+    real_profit_per_hour
+FROM time_of_day_buckets;
+
+
 -- trips overview
--- ~70% of trips are cancelled by the rider
--- residential and commercial zones represent ~73% of locations
--- payment methods are mostly evenly distributed
--- over 97% of payments are successful
--- cities volumes are mostly evenly distributed
+-- short and quick trips are the most profitable
+-- early morning and afternoon to night are the most profitable hours
+-- 
 
 -- reviews
 SELECT * FROM reviews;
@@ -469,237 +593,57 @@ ORDER BY
 
 
 -- most profitable drivers
-WITH dataset_end AS (
-    SELECT MAX(requested_at) AS current_timestamp FROM trips
-),
-driver_stats AS (
-    SELECT 
+WITH driver_base_stats AS (
+    SELECT
         t.driver_id,
-        
-        -- 1 DAY METRICS
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-1 days') THEN COALESCE(p.amount, 0) ELSE 0 END) AS money_1d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-1 days') THEN COALESCE(t.distance_km, 0) ELSE 0 END) AS range_1d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-1 days') THEN COALESCE(t.duration_mins, 0) ELSE 0 END) AS time_1d,
-        COUNT(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-1 days') AND t.status = 'completed' THEN 1 END) AS trips_1d,
-        
-        -- 7 DAY METRICS
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-7 days') THEN COALESCE(p.amount, 0) ELSE 0 END) AS money_7d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-7 days') THEN COALESCE(t.distance_km, 0) ELSE 0 END) AS range_7d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-7 days') THEN COALESCE(t.duration_mins, 0) ELSE 0 END) AS time_7d,
-        COUNT(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-7 days') AND t.status = 'completed' THEN 1 END) AS trips_7d,
-        
-        -- 30 DAY METRICS
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-30 days') THEN COALESCE(p.amount, 0) ELSE 0 END) AS money_30d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-30 days') THEN COALESCE(t.distance_km, 0) ELSE 0 END) AS range_30d,
-        SUM(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-30 days') THEN COALESCE(t.duration_mins, 0) ELSE 0 END) AS time_30d,
-        COUNT(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-30 days') AND t.status = 'completed' THEN 1 END) AS trips_30d,
-        
-        -- TOTALS
-        COUNT(CASE WHEN t.requested_at >= datetime(de.current_timestamp, '-30 days') AND c.cancel_id IS NOT NULL THEN 1 END) AS total_cancellations,
-        MAX(l.city) AS primary_city
-        
-    FROM dataset_end de
-    JOIN trips t ON t.requested_at >= datetime(de.current_timestamp, '-30 days')
+        MAX(l.city) AS primary_city,
+        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(p.amount, 0) ELSE 0 END) AS total_fare,
+        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(t.distance_km, 0) ELSE 0 END) AS total_distance,
+        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(t.duration_mins, 0) ELSE 0 END) AS total_duration,
+        COUNT(CASE WHEN t.status = 'completed' THEN 1 END) AS total_trips,
+        AVG(CASE WHEN t.status = 'completed' THEN t.surge_multiplier END) AS avg_multiplier
+    FROM trips t
     LEFT JOIN payments p ON t.trip_id = p.trip_id AND p.status = 'success'
-    LEFT JOIN cancellations c ON t.trip_id = c.trip_id
     LEFT JOIN locations l ON t.pickup_location_id = l.location_id
     WHERE t.driver_id IS NOT NULL
     GROUP BY t.driver_id
-)
-SELECT 
-    ds.driver_id,
-    d.vehicle_make || ' ' || d.vehicle_model || ' (' || d.vehicle_year || ')' AS vehicle,
-    d.rating AS driver_rating,
-    ds.primary_city,
-    
-    -- MONEY
-    ROUND(ds.money_1d, 2) AS money_1d,
-    ROUND(ds.money_7d, 2) AS money_7d,
-    ROUND(ds.money_30d, 2) AS money_30d,
-    
-    -- TRIPS
-    ds.trips_1d,
-    ds.trips_7d,
-    ds.trips_30d,
-    
-    -- RANGE
-    ROUND(ds.range_1d, 2) AS range_1d,
-    ROUND(ds.range_7d, 2) AS range_7d,
-    ROUND(ds.range_30d, 2) AS range_30d,
-
-    -- TIME
-    ds.time_1d AS mins_1d,
-    ds.time_7d AS mins_7d,
-    ds.time_30d AS mins_30d,
-    
-    -- PERFORMANCE INDICATORS (30-DAY BASIS)
-    ds.total_cancellations,
-    ROUND((ds.range_30d * 1.0 / NULLIF(ds.time_30d, 0)) * 60, 2) AS avg_speed_kmh,
-    ROUND(ds.money_30d / NULLIF(ds.range_30d, 0), 2) AS profit_per_km,
-    ROUND(ds.money_30d / NULLIF(ds.time_30d / 60.0, 0), 2) AS profit_per_hr
-    
-FROM driver_stats ds
-JOIN drivers d ON ds.driver_id = d.driver_id
-ORDER BY 
-    ds.money_30d DESC, 
-    ds.range_30d ASC;
-
--- most profitable drivers:
--- high volume + high efficency
--- steady, moderate traffic balacing time and distance
--- top drivers usually dont take anything under $2/km
--- 30-45 km/h for average speed (avoid highways and heavy traffic)
--- trips under 25 minutes
-
--- ==============================================================================
--- RIDER PROFITABILITY PROFILE: THE "WHALE" HUNT (30-DAY WINDOW)
--- Identifies the most lucrative customers based on their time/distance efficiency
--- ==============================================================================
-
-WITH dataset_end AS (
-    SELECT MAX(requested_at) AS current_timestamp FROM trips
 ),
-rider_stats AS (
-    SELECT 
-        t.rider_id,
-        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(p.amount, 0) ELSE 0 END) AS money_spent_30d,
-        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(t.distance_km, 0) ELSE 0 END) AS range_30d,
-        SUM(CASE WHEN t.status = 'completed' THEN COALESCE(t.duration_mins, 0) ELSE 0 END) AS time_30d,
-        COUNT(CASE WHEN t.status = 'completed' THEN 1 END) AS trips_30d,
-        COUNT(CASE WHEN c.cancelled_by = 'rider' THEN 1 END) AS rider_cancellations
-    FROM dataset_end de
-    JOIN trips t ON t.requested_at >= datetime(de.current_timestamp, '-30 days')
-    LEFT JOIN payments p ON t.trip_id = p.trip_id AND p.status = 'success'
-    LEFT JOIN cancellations c ON t.trip_id = c.trip_id
-    GROUP BY t.rider_id
-)
-SELECT 
-    rs.rider_id,
-    u.city AS primary_city,
-    r.rating AS rider_rating,
-    CAST((julianday((SELECT current_timestamp FROM dataset_end)) - julianday(r.created_at)) / 365.25 AS INTEGER) AS account_age_yrs,
-    r.total_trips AS lifetime_trips,
-    rs.trips_30d,
-    ROUND(rs.money_spent_30d, 2) AS total_spent_30d,
-    ROUND(rs.range_30d, 2) AS total_range_30d,
-    rs.time_30d AS total_mins_30d,
-    rs.rider_cancellations,
-    -- EFFICIENCY METRICS
-    ROUND((rs.range_30d * 1.0 / NULLIF(rs.time_30d, 0)) * 60, 2) AS avg_speed_kmh,
-    ROUND(rs.money_spent_30d / NULLIF(rs.range_30d, 0), 2) AS yield_per_km,
-    ROUND(rs.money_spent_30d / NULLIF(rs.time_30d / 60.0, 0), 2) AS yield_per_hr
-FROM rider_stats rs
-JOIN riders r ON rs.rider_id = r.rider_id
-JOIN users u ON r.user_id = u.user_id
-WHERE rs.trips_30d > 0
-ORDER BY 
-    yield_per_hr DESC, 
-    rs.money_spent_30d DESC;
-
-    -- ==============================================================================
--- TL;DR RIDER STRATEGY
--- ==============================================================================
-
--- * BAD RATINGS PAY WELL
---   Stop ignoring low ratings. Rider 1018 (3.12 rating) yielded $130/hr. 
-
--- * SHORT & EXPENSIVE WINS
---   High turnover beats long trips. Rider 1565 hit $350/hr on a single quick trip.
-
--- * $2/KM IS THE BARE MINIMUM
---   Page 1 whales pay $3.00 to $7.00+ per km. Page 3 drops to $1.50/km. Reject the cheap ones.
-
--- * VETERANS AREN'T BETTER
---   Rider 1427 (14 lifetime trips) yielded $202/hr. Account age doesn't equal more money.
-
-
-
--- ==============================================================================
--- META STRATEGY: THE "ALPHA" SCHEDULE PER DRIVER
--- Eliminates noise by isolating specific drivers who dominate certain hours.
--- ==============================================================================
-
-WITH trip_metrics AS (
-    SELECT 
+daily_revenue AS (
+    SELECT
         t.driver_id,
-        CASE CAST(strftime('%w', t.requested_at) AS INTEGER)
-            WHEN 0 THEN 'Sunday' WHEN 1 THEN 'Monday' WHEN 2 THEN 'Tuesday' 
-            WHEN 3 THEN 'Wednesday' WHEN 4 THEN 'Thursday' WHEN 5 THEN 'Friday' 
-            WHEN 6 THEN 'Saturday' 
-        END AS day_of_week,
-        CAST(strftime('%H', t.requested_at) AS INTEGER) AS hour_of_day,
-        p.amount,
-        t.distance_km,
-        t.duration_mins
+        CAST(strftime('%w', t.requested_at) AS INTEGER) AS dow_num,
+        SUM(COALESCE(p.amount, 0)) AS revenue
     FROM trips t
-    JOIN payments p ON t.trip_id = p.trip_id AND p.status = 'success'
-    WHERE t.status = 'completed'
+    LEFT JOIN payments p ON t.trip_id = p.trip_id AND p.status = 'success'
+    WHERE t.driver_id IS NOT NULL AND t.status = 'completed'
+    GROUP BY t.driver_id, dow_num
+),
+ranked_days AS (
+    SELECT
+        driver_id,
+        CASE dow_num
+            WHEN 0 THEN 'Sunday' WHEN 1 THEN 'Monday' WHEN 2 THEN 'Tuesday'
+            WHEN 3 THEN 'Wednesday' WHEN 4 THEN 'Thursday' WHEN 5 THEN 'Friday'
+            WHEN 6 THEN 'Saturday'
+        END AS best_day_of_week,
+        ROW_NUMBER() OVER(PARTITION BY driver_id ORDER BY revenue DESC) AS rnk
+    FROM daily_revenue
 )
-SELECT 
-    driver_id,
-    day_of_week,
-    hour_of_day,
-    COUNT(*) AS total_trips,
-    ROUND(SUM(amount), 2) AS total_fare,
-    ROUND(SUM(distance_km), 2) AS total_distance,
-    SUM(duration_mins) AS total_time_mins,
-    ROUND(SUM(amount) / NULLIF(SUM(distance_km), 0), 2) AS yield_per_km,
-    ROUND(SUM(amount) / NULLIF(SUM(duration_mins) / 60.0, 0), 2) AS yield_per_hr
-FROM trip_metrics
-GROUP BY driver_id, day_of_week, hour_of_day
-HAVING total_trips > 1  -- Filters out lucky "one-off" high-fare pings
-ORDER BY yield_per_hr DESC
-LIMIT 30;
+SELECT
+    bs.driver_id,
+    bs.primary_city,
+    ROUND(bs.total_distance / NULLIF(bs.total_trips, 0), 2) AS avg_distance_per_trip,
+    ROUND(bs.total_duration * 1.0 / NULLIF(bs.total_trips, 0), 2) AS avg_time_per_trip,
+    ROUND((bs.total_distance * 1.0 / NULLIF(bs.total_duration, 0)) * 60, 2) AS avg_speed_kmh,
+    ROUND(bs.total_fare / NULLIF(bs.total_distance, 0), 2) AS profit_per_km,
+    ROUND(bs.total_fare / NULLIF(bs.total_duration / 60.0, 0), 2) AS profit_per_hour,
+    ROUND(bs.total_trips / NULLIF(bs.total_duration / 60.0, 0), 2) AS trips_per_hour,
+    ROUND(bs.total_fare / NULLIF(bs.total_trips, 0), 2) AS avg_fare_per_trip,
+    ROUND(bs.avg_multiplier, 2) AS avg_multiplier,
+    rd.best_day_of_week AS most_profitable_day
+FROM driver_base_stats bs
+LEFT JOIN ranked_days rd ON bs.driver_id = rd.driver_id AND rd.rnk = 1
+WHERE bs.total_trips > 0
+ORDER BY profit_per_hour DESC;
 
--- ==============================================================================
--- TL;DR META-OBSERVATIONS (DRIVER-SPECIFIC PATTERNS)
--- ==============================================================================
 
--- * THE COMMUTE SNIPER
---   Top drivers aren't working 12 hours. They own Wed/Thu/Fri 07:00-09:00.
---   They hit $130+/hr by catching premium airport/office runs and quitting before 10 AM.
-
--- * THE MID-WEEK DINNER PEAK
---   Wednesday 18:00-19:00 is a hidden goldmine. 
---   High total_fare ($72+) and consistent $3.70/km. These are likely 
---   middle-distance corporate dinners, not short bar hops.
-
--- * FRIDAY NIGHT SPECIALIZATION
---   Friday 17:00-22:00 shows the highest density of high-yield drivers.
---   This is "Surge Season." Drivers on Page 1 are likely ignoring all pings
---   that don't have a multiplier, maintaining that $3.50+/km floor.
-
--- * THE WEEKEND WARRIOR (Sat 23:00 - Sun 01:00)
---   High total_distance but extreme total_fare. 
---   Yield/Hr stays high because traffic vanishes, allowing for 
---   very fast trip turnover even if the distance is longer.
-
--- ==============================================================================
--- THE "SNIPER" META STRATEGY
--- Analyzing the top-performing individual sessions to define the ideal shift.
--- ==============================================================================
-
--- * THE "DOUBLE-RUN" 8 AM SPECIAL (Monday/Tuesday/Friday)
---   Top drivers like 142, 208, and 162 aren't doing 10 trips; they are doing 2.
---   Data: Driver 142 made $235.43 in just 8 minutes across 2 trips.
---   Strategy: High-value, short-duration "Whale" trips (Airport/Corporate) at 8 AM.
---   If you don't catch a $100+ trip by 8:15 AM, the window for $200+/hr is closed.
-
--- * THE MONDAY 5 PM SYNDICATE (Monday 17:00 - 19:00)
---   Consistency across multiple drivers (348, 31, 344) proves this isn't luck.
---   Data: Yields stay locked at $190-$210/hr with a $3.70 - $4.20/km floor.
---   Strategy: Use Monday evening as your primary "Revenue Anchor." Traffic is 
---   predictable, and surge demand is structural, not accidental.
-
--- * THE SATURDAY NIGHT SURGE (Saturday 23:00)
---   The "Late-Night Whale" exists.
---   Data: Driver 178 hit $199/hr while covering 67km. 
---   Strategy: This is for high-speed, long-distance trips. Unlike the 8 AM 
---   Snipers who want short/fast, the Saturday night meta is about clearing 
---   huge distances quickly while the roads are empty and the multiplier is on.
-
--- * THE "ONE AND DONE" EFFICIENCY
---   Drivers on this list have very low "total_time_mins" (many under 40 mins).
---   Strategy: These drivers likely "cherry-pick" from home or a staging area. 
---   They wait for the perfect signal (High Fare + Low Time) and go offline 
---   immediately after the high-value window closes to protect their average.
