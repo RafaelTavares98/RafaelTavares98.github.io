@@ -3,78 +3,35 @@
 -- users
 SELECT * FROM users;
 
--- users summary
-WITH base_users AS (
+-- city metrics summary
+WITH city_users AS (
     SELECT 
-        user_id,
         city,
-        is_driver,
-        CAST((julianday((SELECT MAX(date_joined) FROM users)) - julianday(date_joined)) / 365.25 AS INTEGER) AS user_since_years
+        COUNT(user_id) AS total_users,
+        SUM(is_driver) AS total_drivers
     FROM users
+    GROUP BY city
 ),
-quartiles AS (
+city_trips AS (
     SELECT 
-        user_id,
-        is_driver,
-        user_since_years,
-        NTILE(4) OVER (ORDER BY user_id) AS q_id,
-        NTILE(4) OVER (ORDER BY is_driver) AS q_driver,
-        NTILE(4) OVER (ORDER BY user_since_years) AS q_since
-    FROM base_users
+        users.city,
+        COUNT(trips.trip_id) AS total_trips,
+        SUM(trips.distance_km) AS total_distance_km
+    FROM users
+    INNER JOIN trips ON users.user_id = trips.driver_id
+    WHERE trips.status = 'completed'
+    GROUP BY users.city
 )
-SELECT 
-    'user_id' AS column_name,
-    COUNT(user_id) AS count,
-    COUNT(DISTINCT user_id) AS distinct_count,
-    ROUND(AVG(user_id), 2) AS mean,
-    ROUND(MIN(user_id), 2) AS min,
-    ROUND(MAX(CASE WHEN q_id = 1 THEN user_id END), 2) AS "25%",
-    ROUND(MAX(CASE WHEN q_id = 2 THEN user_id END), 2) AS "50%",
-    ROUND(MAX(CASE WHEN q_id = 3 THEN user_id END), 2) AS "75%",
-    ROUND(MAX(user_id), 2) AS max
-FROM quartiles
-
-UNION ALL
 
 SELECT 
-    'user_since_years' AS column_name,
-    COUNT(user_since_years), 
-    COUNT(DISTINCT user_since_years),
-    ROUND(AVG(user_since_years), 2), 
-    ROUND(MIN(user_since_years), 2),
-    ROUND(MAX(CASE WHEN q_since = 1 THEN user_since_years END), 2),
-    ROUND(MAX(CASE WHEN q_since = 2 THEN user_since_years END), 2),
-    ROUND(MAX(CASE WHEN q_since = 3 THEN user_since_years END), 2),
-    ROUND(MAX(user_since_years), 2)
-FROM quartiles
-
-UNION ALL
-
-SELECT 
-    'is_driver' AS column_name,
-    COUNT(is_driver), 
-    COUNT(DISTINCT is_driver),
-    ROUND(AVG(is_driver), 2), 
-    ROUND(MIN(is_driver), 2),
-    ROUND(MAX(CASE WHEN q_driver = 1 THEN is_driver END), 2),
-    ROUND(MAX(CASE WHEN q_driver = 2 THEN is_driver END), 2),
-    ROUND(MAX(CASE WHEN q_driver = 3 THEN is_driver END), 2),
-    ROUND(MAX(is_driver), 2)
-FROM quartiles
-
-UNION ALL
-
-SELECT 
-    'city' AS column_name,
-    COUNT(city), 
-    COUNT(DISTINCT city),
-    NULL, 
-    NULL, 
-    NULL, 
-    NULL, 
-    NULL, 
-    NULL
-FROM base_users;
+    city_users.city,
+    city_users.total_users,
+    city_users.total_drivers,
+    COALESCE(city_trips.total_trips, 0) AS total_trips,
+    COALESCE(ROUND(city_trips.total_distance_km, 2), 0) AS total_distance_km
+FROM city_users
+LEFT JOIN city_trips ON city_users.city = city_trips.city
+ORDER BY total_distance_km DESC;
 
 -- users overview:
 -- 2000 unique users
@@ -271,6 +228,7 @@ FROM quartiles;
 SELECT * FROM locations;
 
 -- summary
+-- summary
 WITH categorical_summary AS (
     -- 1. USERS: City Distribution
     SELECT 
@@ -283,18 +241,7 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 2. DRIVERS: Vehicle Make Distribution
-    SELECT 
-        'drivers',
-        'vehicle_make',
-        vehicle_make,
-        COUNT(*)
-    FROM drivers
-    GROUP BY vehicle_make
-
-    UNION ALL
-
-    -- 3. TRIPS: Status Distribution
+    -- 2. TRIPS: Status Distribution
     SELECT 
         'trips',
         'status',
@@ -305,8 +252,8 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 4. TRIPS: Payment Method Distribution
-    SELECT 
+    -- 3. TRIPS: Payment Method Distribution
+    SELEx'CT 
         'trips',
         'payment_method',
         payment_method,
@@ -316,7 +263,7 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 5. PAYMENTS: Method Distribution
+    -- 4. PAYMENTS: Method Distribution
     SELECT 
         'payments',
         'method',
@@ -327,7 +274,7 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 6. PAYMENTS: Status Distribution
+    -- 5. PAYMENTS: Status Distribution
     SELECT 
         'payments',
         'status',
@@ -338,7 +285,7 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 7. CANCELLATIONS: Cancelled By Distribution
+    -- 6. CANCELLATIONS: Cancelled By Distribution
     SELECT 
         'cancellations',
         'cancelled_by',
@@ -349,7 +296,7 @@ WITH categorical_summary AS (
 
     UNION ALL
 
-    -- 8. LOCATIONS: Zone Type Distribution
+    -- 7. LOCATIONS: Zone Type Distribution
     SELECT 
         'locations',
         'zone_type',
