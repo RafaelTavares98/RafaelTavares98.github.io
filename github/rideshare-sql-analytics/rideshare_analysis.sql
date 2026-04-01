@@ -1,3 +1,4 @@
+-- Establishing the platform baseline. This query provides a high-level overview of the ecosystem, evaluating city coverage, driver experience levels, and overall satisfaction ratings across the user base.
 WITH platform_metrics AS (
     SELECT 
         COUNT(DISTINCT city) AS total_cities
@@ -29,6 +30,7 @@ FROM platform_metrics, driver_metrics, rider_metrics;
 
 
 
+-- Uncovering trip profitability. By segmenting completed rides based on distance, duration, and time of day, this analysis pinpoints exactly which operational conditions yield the highest real profit per hour.
 WITH trip_data AS (
     SELECT 
         distance_km,
@@ -85,6 +87,7 @@ GROUP BY category_name;
 
 
 
+-- Identifying friction points in the user experience. This section breaks down cancellation volumes by the initiating party and the stated reason, highlighting operational bottlenecks like excessive wait times.
 SELECT 
     cancelled_by,
     reason,
@@ -97,6 +100,8 @@ ORDER BY
     cancellation_count DESC;
 
 
+
+-- Profiling top-performing drivers. By grouping the fleet into profitability brackets, this query reveals the strategic behaviors of the highest earners, analyzing their preferred trip distances, optimal working hours, favorite operational zones, and tolerance for cancellations.
 WITH driver_profit AS (
     SELECT
         trips.driver_id,
