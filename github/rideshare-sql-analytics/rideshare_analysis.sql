@@ -10,7 +10,7 @@ driver_metrics AS (
         ROUND(MAX((julianday((SELECT MAX(join_date) FROM drivers)) - julianday(join_date)) / 365.25), 2) AS max_driver_tenure_years,
         ROUND(AVG(rating), 2) AS avg_driver_rating,
         ROUND(MIN(rating), 2) AS min_driver_rating
-    FROM drivers
+    FROM drivers    
 ),
 rider_metrics AS (
     SELECT 
