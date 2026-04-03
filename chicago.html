@@ -19,7 +19,9 @@
                             <li><a href="Aboutme.html">About Me</a></li>
                         </ul>
                     </nav>
-            </section> <section id="main">
+            </section> 
+
+            <section id="main">
                     <div class="container">
                         <div class="row">
                             <div class="col-8 col-12-medium">
@@ -44,9 +46,10 @@
                                                 The dataset covers <b>millions of requests</b>, tracking <b>departments</b>, and <b>request types</b> across <b>city regions</b>, spanning several years of city activity.
                                             </p>
                                             <p>
-                                                To uncover actionable insights, the analysis was structured around <b>3 main objectives:</b>
+                                                To uncover actionable insights, the analysis was structured around <b>4 main objectives:</b>
                                             </p>
                                             <ul>
+                                                <li>What does the data quality look like?</li>
                                                 <li>What are the spatiotemporal patterns of the requests?</li>
                                                 <li>How are requests distributed across city geography?</li>
                                                 <li>What drives misrouting and how can it be resolved?</li>
@@ -58,43 +61,40 @@
                                                 <h3>Data Insights</h3>
                                             </header>
 
-                                            <h4>1. Spatiotemporal Patterns — Seasonality & Activity</h4>
-                                            <span class="image fit"><img src="images/chicago/overview.png" alt="Spatiotemporal Summary Table" /></span>
+                                            <h4>1. Data Quality — Missing Values</h4>
+                                            <span class="image fit"><img src="images/chicago/image_a8d48e.png" alt="Missing Data Heatmap" /></span>
                                             <p>
-                                                The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services. The average response time varies by department, with the highest spikes recorded in specific categories, indicating some processing bottlenecks.
+                                                The first step of any analysis is understanding the data quality. This heatmap visualizes missing values (nulls) across the dataset's columns. Solid colored bars indicate complete data, while white lines reveal missing information.
                                             </p>
                                             <p>
-                                                On the processing side, the average request is effectively tracked and categorized with a specific status, pointing to a moderately engaged and reasonably well-managed city service pool.
-                                            </p>
-
-                                            <h4>2. Geographic Distribution — Density & Clusters</h4>
-                                            <span class="image fit"><img src="images/chicago/spatial_distribution.png" alt="Spatial Distribution Query Results" /></span>
-                                            <p>
-                                                Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated.
-                                            </p>
-                                            <p>
-                                                <b>High density clusters</b> appear heavily in the <b>northern half</b> of the city and downtown, making them disproportionately active compared to the south. Similarly, specific clusters in the northwest relate to O'Hare Airport, while southwest clusters relate directly to Midway Airport.
-                                            </p>
-                                            <p>
-                                                The Inverse Pattern matters too: using <b>"mean days open"</b> shows the opposite—open-time spikes appear near the city limits rather than in high-volume central areas.
+                                                Key operational fields like `CREATED_DATE` and `SR_TYPE` are fully populated, ensuring the core analysis remains robust. However, fields related to specific location details (like `ZIP_CODE` or exact coordinates) show significant gaps, highlighting areas where data collection protocols during calls could be improved.
                                             </p>
 
-                                            <h4>3. Data Relationships — Correct Routing & Misrouting</h4>
-                                            <span class="image fit"><img src="images/chicago/routing_relationships.png" alt="Routing Relationships Breakdown" /></span>
+                                            <h4>2. Spatiotemporal Patterns — Seasonality & Activity</h4>
+                                            <span class="image fit"><img src="images/chicago/image_a8d4e8.png" alt="Time Series Plot" /></span>
+                                            <p>
+                                                The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services.
+                                            </p>
+                                            <p>
+                                                On the processing side, understanding these temporal curves allows the city to adjust static staffing levels. Fluctuations dictate exactly when temporary resources or overtime budgets must be strategically deployed to maintain service agreements.
+                                            </p>
+
+                                            <h4>3. Geographic Distribution — Density & Clusters</h4>
+                                            <span class="image fit"><img src="images/chicago/image_a8d52d.jpg" alt="Chicago Geographic Map" /></span>
+                                            <p>
+                                                Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated and where field teams should be stationed.
+                                            </p>
+                                            <p>
+                                                <b>High density clusters</b> appear heavily in the <b>northern half</b> of the city and downtown, making them disproportionately active compared to the south. Positioning operational bases near these critical hotspots minimizes average travel time and cuts fuel costs.
+                                            </p>
+
+                                            <h4>4. Data Relationships — Correct Routing & Misrouting</h4>
+                                            <span class="image fit"><img src="images/chicago/image_a8d8ed.png" alt="Department Routing Heatmap" /></span>
                                             <p>
                                                 Routing is predominantly system-driven. A <b>strong diagonal</b> in the mapping of SR types to departments indicates correctly routed requests, followed closely by specific <b>off-diagonal instances</b> — a direct operational signal that misrouting and dispatch efficiency need improvement.
                                             </p>
                                             <p>
                                                 Citizens misclassify far less frequently, suggesting the core routing issue lies on the department overlap rather than user error. Clarifying categories through better form descriptions in high-volume requests could meaningfully cut misrouting rates.
-                                            </p>
-
-                                            <h4>4. Top Request Categories</h4>
-                                            <span class="image fit"><img src="images/chicago/top_requests.png" alt="Top Request Categories Table" /></span>
-                                            <p>
-                                                The most frequent request types share a clear profile: they operate in high-density zones, affect public infrastructure directly, maintain a high daily volume rate, and tend to peak on specific seasons of the year. The analysis ranks all active categories by <b>open-time duration</b> — a metric that normalizes for request complexity and reflects true resolution efficiency.
-                                            </p>
-                                            <p>
-                                                Average closure time, department load, and geographic spread exposure round out the picture of what separates fast resolutions from the rest of the queue.
                                             </p>
 
                                         </section>
