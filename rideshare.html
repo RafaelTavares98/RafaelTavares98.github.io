@@ -10,124 +10,116 @@
         <div id="page-wrapper">
 
             <section id="header">
+                <h1><a href="index.html">Rideshare Analysis</a></h1>
+                <nav id="nav">
+                    <ul>
+                        <li class="current"><a href="index.html">Projects</a></li>
+                        <li><a href="Aboutme.html">About Me</a></li>
+                    </ul>
+                </nav>
+            </section> <section id="main">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8 col-12-medium">
 
-                    <h1><a href="index.html">Rideshare Analysis</a></h1>
+                            <article class="box post">
+                                <a href="#" class="image featured"><img src="images/rideshare/rideshare.png" alt="" /></a>
+                                <header>
+                                    <h2>Rideshare Operations Analysis Case:</h2>
+                                </header>
+                                <p>
+                                    A SQL-driven exploration of a rideshare platform's operations, covering users, drivers, riders, trips, payments, and cancellations.
+                                </p>
 
-                    <nav id="nav">
-                        <ul>
-                            <li class="current"><a href="index.html">Projects</a></li>
-                            <li><a href="Aboutme.html">About Me</a></li>
-                        </ul>
-                    </nav>
+                                <section>
+                                    <header>
+                                        <h3>Case Description</h3>
+                                    </header>
+                                    <p>
+                                        A rideshare company wants to understand the operational dynamics of its platform in order to improve driver profitability, reduce cancellations, and optimize trip efficiency.
+                                    </p>
+                                    <p>
+                                        The dataset covers <b>2,000 users</b>, <b>400 drivers</b>, and <b>1,600 riders</b> across <b>4 cities</b>, spanning approximately <b>6 years of activity</b>.
+                                    </p>
+                                    <p>
+                                        To uncover actionable insights, the analysis was structured around <b>3 main objectives:</b>
+                                    </p>
+                                    <ul>
+                                        <li>What does the platform's user and driver base look like?</li>
+                                        <li>Which trips are the most profitable and why?</li>
+                                        <li>What drives cancellations and how can they be reduced?</li>
+                                    </ul>
+                                </section>
 
-            <section id="main">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-8 col-12-medium">
+                                <section>
+                                    <header>
+                                        <h3>Data Insights</h3>
+                                    </header>
 
-                                <article class="box post">
-                                        <a href="#" class="image featured"><img src="images/rideshare/rideshare.png" alt="" /></a>
-                                        <header>
-                                            <h2>Rideshare Operations Analysis Case:</h2>
-                                        </header>
-                                        <p>
-                                            A SQL-driven exploration of a rideshare platform's operations, covering users, drivers, riders, trips, payments, and cancellations.
-                                        </p>
+                                    <h4>1. Platform Overview — Users, Drivers & Riders</h4>
+                                    <p>
+                                        The platform's user base is spread across 4 cities, with most users not being drivers themselves. Drivers have been on the platform for an average of <b>1.81 years</b>, with a maximum tenure of 4 years, suggesting a relatively young driver workforce. The average driver rating sits at <b>4.15</b>, with the lowest recorded at 2.59, indicating most drivers deliver a solid experience.
+                                    </p>
+                                    <p>
+                                        On the rider side, the average user has completed <b>10.52 trips</b> with a mean rating of <b>3.99</b>, pointing to a moderately engaged and reasonably well-behaved rider pool.
+                                    </p>
 
-                                        <section>
-                                            <header>
-                                                <h3>Case Description</h3>
-                                            </header>
-                                            <p>
-                                                A rideshare company wants to understand the operational dynamics of its platform in order to improve driver profitability, reduce cancellations, and optimize trip efficiency.
-                                            </p>
-                                            <p>
-                                                The dataset covers <b>2,000 users</b>, <b>400 drivers</b>, and <b>1,600 riders</b> across <b>4 cities</b>, spanning approximately <b>6 years of activity</b>.
-                                            </p>
-                                            <p>
-                                                To uncover actionable insights, the analysis was structured around <b>3 main objectives:</b>
-                                            </p>
-                                            <ul>
-                                                <li>What does the platform's user and driver base look like?</li>
-                                                <li>Which trips are the most profitable and why?</li>
-                                                <li>What drives cancellations and how can they be reduced?</li>
-                                            </ul>
-                                        </section>
+                                    <span class="image fit"><img src="images/rideshare/overview.png" alt="Users and Drivers Summary Table" /></span>
 
-                                        <section>
-                                            <header>
-                                                <h3>Data Insights</h3>
-                                            </header>
+                                    <h4>2. Trip Profitability — Distance, Duration & Time of Day</h4>
+                                    <p>
+                                        Not all trips are created equal. The analysis bucketed completed trips by distance, duration, and time of day to identify where real profit is generated.
+                                    </p>
+                                    <p>
+                                        <b>Short trips under 5 km</b> carry a lower platform cut (20%) compared to long trips over 20 km (45%), making them disproportionately profitable per hour of driving. Similarly, <b>trips under 20 minutes</b> maximize the number of rides a driver can complete in a shift, directly boosting hourly earnings.
+                                    </p>
+                                    <p>
+                                        Time of day matters too: <b>early morning (05:00–08:59)</b> and <b>evening to night (18:00–04:59)</b> windows show the strongest profitability, likely driven by commuter demand and surge pricing.
+                                    </p>
 
-                                            <h4>1. Platform Overview — Users, Drivers & Riders</h4>
-                                            <p>
-                                                The platform's user base is spread across 4 cities, with most users not being drivers themselves. Drivers have been on the platform for an average of <b>1.81 years</b>, with a maximum tenure of 4 years, suggesting a relatively young driver workforce. The average driver rating sits at <b>4.15</b>, with the lowest recorded at 2.59, indicating most drivers deliver a solid experience.
-                                            </p>
-                                            <p>
-                                                On the rider side, the average user has completed <b>10.52 trips</b> with a mean rating of <b>3.99</b>, pointing to a moderately engaged and reasonably well-behaved rider pool.
-                                            </p>
+                                    <span class="image fit"><img src="images/rideshare/trip_distribution.png" alt="Trip Distribution Query Results" /></span>
 
-                                            <!-- INSERT IMAGE: summary stats table for users, drivers, riders -->
-                                            <span class="image fit"><img src="images/rideshare/overview.png" alt="Users and Drivers Summary Table" /></span>
+                                    <h4>3. Cancellations — Who Cancels and Why</h4>
+                                    <p>
+                                        Cancellations are predominantly rider-driven. <b>Personal emergencies</b> are the leading stated reason, followed closely by <b>long wait times</b> — a direct operational signal that driver availability and dispatch efficiency need improvement.
+                                    </p>
+                                    <p>
+                                        Drivers cancel far less frequently, suggesting the core reliability issue lies on the demand side rather than supply. Reducing wait times through better driver positioning in high-demand zones could meaningfully cut cancellation rates.
+                                    </p>
 
-                                            <h4>2. Trip Profitability — Distance, Duration & Time of Day</h4>
-                                            <p>
-                                                Not all trips are created equal. The analysis bucketed completed trips by distance, duration, and time of day to identify where real profit is generated.
-                                            </p>
-                                            <p>
-                                                <b>Short trips under 5 km</b> carry a lower platform cut (20%) compared to long trips over 20 km (45%), making them disproportionately profitable per hour of driving. Similarly, <b>trips under 20 minutes</b> maximize the number of rides a driver can complete in a shift, directly boosting hourly earnings.
-                                            </p>
-                                            <p>
-                                                Time of day matters too: <b>early morning (05:00–08:59)</b> and <b>evening to night (18:00–04:59)</b> windows show the strongest profitability, likely driven by commuter demand and surge pricing.
-                                            </p>
+                                    <span class="image fit"><img src="images/rideshare/cancelations.png" alt="Cancellations Breakdown" /></span>
 
-                                            <!-- INSERT IMAGE: trip distribution query results table -->
-                                            <span class="image fit"><img src="images/rideshare/trip_distribution.png" alt="Trip Distribution Query Results" /></span>
+                                    <h4>4. Top Performing Drivers</h4>
+                                    <p>
+                                        The most profitable drivers share a clear profile: they operate in high-demand zones, complete <b>short to medium distance trips</b>, maintain a high trips-per-hour rate, and tend to peak on specific days of the week. The analysis ranks all active drivers by <b>profit per hour</b> — a metric that normalizes for trip length and reflects true earning efficiency.
+                                    </p>
+                                    <p>
+                                        Average speed, fare per km, and surge multiplier exposure round out the picture of what separates top earners from the rest of the fleet.
+                                    </p>
 
-                                            <h4>3. Cancellations — Who Cancels and Why</h4>
-                                            <p>
-                                                Cancellations are predominantly rider-driven. <b>Personal emergencies</b> are the leading stated reason, followed closely by <b>long wait times</b> — a direct operational signal that driver availability and dispatch efficiency need improvement.
-                                            </p>
-                                            <p>
-                                                Drivers cancel far less frequently, suggesting the core reliability issue lies on the demand side rather than supply. Reducing wait times through better driver positioning in high-demand zones could meaningfully cut cancellation rates.
-                                            </p>
+                                    <span class="image fit"><img src="images/rideshare/drivers.png" alt="Most Profitable Drivers Table" /></span>
 
-                                            <!-- INSERT IMAGE: cancellations breakdown table -->
-                                            <span class="image fit"><img src="images/rideshare/cancelations.png" alt="Cancellations Breakdown" /></span>
+                                </section>
+                            </article>
 
-                                            <h4>4. Top Performing Drivers</h4>
-                                            <p>
-                                                The most profitable drivers share a clear profile: they operate in high-demand zones, complete <b>short to medium distance trips</b>, maintain a high trips-per-hour rate, and tend to peak on specific days of the week. The analysis ranks all active drivers by <b>profit per hour</b> — a metric that normalizes for trip length and reflects true earning efficiency.
-                                            </p>
-                                            <p>
-                                                Average speed, fare per km, and surge multiplier exposure round out the picture of what separates top earners from the rest of the fleet.
-                                            </p>
+                        </div>
+                        <div class="col-4 col-12-medium">
 
-                                            <!-- INSERT IMAGE: most profitable drivers query results table -->
-                                            <span class="image fit"><img src="images/rideshare/drivers.png" alt="Most Profitable Drivers Table" /></span>
+                            <section class="box">
+                                <a href="#" class="image featured"><img src="images/rideshare/sql_logo.png" alt="SQL Logo" /></a>
+                                <header>
+                                    <h3>SQL Analysis</h3>
+                                </header>
+                                <p>View the full SQL script behind this analysis.</p>
+                                <footer>
+                                    <a href="#" class="button alt">View on GitHub</a>
+                                </footer>
+                            </section>
 
-                                        </section>
-
-                                    </article>
-
-                            </div>
-                            <div class="col-4 col-12-medium">
-
-                                <section class="box">
-                                        <a href="#" class="image featured"><img src="images/rideshare/sql_card.png" alt="SQL Logo" /></a>
-                                        <header>
-                                            <h3>SQL Analysis</h3>
-                                        </header>
-                                        <p>View the full SQL script behind this analysis.</p>
-                                        <footer>
-                                            <a href="#" class="button alt">View on GitHub</a>
-                                        </footer>
-                                    </section>
-
-                            </div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
 
             <section id="footer">
                 <div class="container">
@@ -177,17 +169,16 @@
                             </section>
                         </div>
                         <div class="col-12">
-
-                                <div id="copyright">
-                                        <ul class="links">
-                                            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                        </ul>
-                                    </div>
-
+                            <div id="copyright">
+                                <ul class="links">
+                                    <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                </ul>
                             </div>
                         </div>
+
                     </div>
-                </section>
+                </div>
+            </section>
 
         </div>
 
