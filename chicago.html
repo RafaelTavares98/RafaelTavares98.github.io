@@ -27,12 +27,12 @@
                             <div class="col-8 col-12-medium">
 
                                 <article class="box post">
-                                        <a href="#" class="image featured"><img src="images/chicago/chicago_311.png" alt="" /></a>
+                                        <a href="#" class="image featured"><img src="images/chicago/tree.jpg" alt="" /></a>
                                         <header>
                                             <h2>Chicago 311 Exploratory Analysis Case:</h2>
                                         </header>
                                         <p>
-                                            A Python-driven exploration of Chicago's 311 service requests, covering spatiotemporal patterns, geography, routing, and resolutions.
+                                            A Python-driven exploration of Chicago's 311 service requests, covering Time Series patterns, geography, routing, and resolutions.
                                         </p>
 
                                         <section>
@@ -50,7 +50,7 @@
                                             </p>
                                             <ul>
                                                 <li>What does the data quality look like?</li>
-                                                <li>What are the spatiotemporal patterns of the requests?</li>
+                                                <li>What are the Time Series patterns of the requests?</li>
                                                 <li>How are requests distributed across city geography?</li>
                                                 <li>What drives misrouting and how can it be resolved?</li>
                                             </ul>
@@ -62,7 +62,7 @@
                                             </header>
 
                                             <h4>1. Data Quality — Missing Values</h4>
-                                            <span class="image fit"><img src="images/chicago/image_a8d48e.png" alt="Missing Data Heatmap" /></span>
+                                            <span class="image fit"><img src="images/chicago/missing.png" alt="Missing Data Heatmap" /></span>
                                             <p>
                                                 The first step of any analysis is understanding the data quality. This heatmap visualizes missing values (nulls) across the dataset's columns. Solid colored bars indicate complete data, while white lines reveal missing information.
                                             </p>
@@ -70,8 +70,8 @@
                                                 Key operational fields like `CREATED_DATE` and `SR_TYPE` are fully populated, ensuring the core analysis remains robust. However, fields related to specific location details (like `ZIP_CODE` or exact coordinates) show significant gaps, highlighting areas where data collection protocols during calls could be improved.
                                             </p>
 
-                                            <h4>2. Spatiotemporal Patterns — Seasonality & Activity</h4>
-                                            <span class="image fit"><img src="images/chicago/image_a8d4e8.png" alt="Time Series Plot" /></span>
+                                            <h4>2. Time Series Patterns — Seasonality & Activity</h4>
+                                            <span class="image fit"><img src="images/chicago/time.png" alt="Time Series Plot" /></span>
                                             <p>
                                                 The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services.
                                             </p>
@@ -80,7 +80,7 @@
                                             </p>
 
                                             <h4>3. Geographic Distribution — Density & Clusters</h4>
-                                            <span class="image fit"><img src="images/chicago/image_a8d52d.jpg" alt="Chicago Geographic Map" /></span>
+                                            <span class="image fit"><img src="images/chicago/heatmap.png" alt="Chicago Geographic Map" /></span>
                                             <p>
                                                 Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated and where field teams should be stationed.
                                             </p>
@@ -89,7 +89,7 @@
                                             </p>
 
                                             <h4>4. Data Relationships — Correct Routing & Misrouting</h4>
-                                            <span class="image fit"><img src="images/chicago/image_a8d8ed.png" alt="Department Routing Heatmap" /></span>
+                                            <span class="image fit"><img src="images/chicago/correlation.png" alt="Department Routing Heatmap" /></span>
                                             <p>
                                                 Routing is predominantly system-driven. A <b>strong diagonal</b> in the mapping of SR types to departments indicates correctly routed requests, followed closely by specific <b>off-diagonal instances</b> — a direct operational signal that misrouting and dispatch efficiency need improvement.
                                             </p>
