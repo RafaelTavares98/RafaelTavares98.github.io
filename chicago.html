@@ -54,7 +54,7 @@
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <h1 data-aos="fade-up">Chicago 311 Exploratory Analysis</h1>
             <p class="muted-text">A Python-driven exploration of Chicago's 311 service requests, covering time series patterns, geography, routing, and resolutions.</p>
-            <img src="images/chicago/tree.webp" class="banner" alt="Chicago 311 Analysis" data-aos="fade-up">
+            <img src="images/chicago/tree.webp" class="banner" alt="Chicago 311 Analysis" data-aos="fade-up" decoding="async">
         </div>
     </section>
 
@@ -80,22 +80,22 @@
                         <h3>Data Insights</h3>
 
                         <h4>1. Data Quality &mdash; Missing Values</h4>
-                        <img src="images/chicago/missing.webp" alt="Missing Data Heatmap">
+                        <img src="images/chicago/missing.webp" alt="Missing Data Heatmap" loading="lazy" decoding="async">
                         <p>The first step of any analysis is understanding the data quality. This heatmap visualizes missing values (nulls) across the dataset's columns. Solid colored bars indicate complete data, while white lines reveal missing information.</p>
                         <p>Key operational fields like <code>CREATED_DATE</code> and <code>SR_TYPE</code> are fully populated, ensuring the core analysis remains robust. However, fields related to specific location details (like <code>ZIP_CODE</code> or exact coordinates) show significant gaps, highlighting areas where data collection protocols during calls could be improved.</p>
 
                         <h4>2. Time Series Patterns &mdash; Seasonality &amp; Activity</h4>
-                        <img src="images/chicago/time.webp" alt="Time Series Plot">
+                        <img src="images/chicago/time.webp" alt="Time Series Plot" loading="lazy" decoding="async">
                         <p>The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services.</p>
                         <p>On the processing side, understanding these temporal curves allows the city to adjust staffing levels. Fluctuations dictate exactly when temporary resources or overtime budgets must be strategically deployed to maintain service agreements.</p>
 
                         <h4>3. Geographic Distribution &mdash; Density &amp; Clusters</h4>
-                        <img src="images/chicago/heatmap.webp" alt="Chicago Geographic Map">
+                        <img src="images/chicago/heatmap.webp" alt="Chicago Geographic Map" loading="lazy" decoding="async">
                         <p>Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated and where field teams should be stationed.</p>
                         <p><b>High density clusters</b> appear heavily in the <b>northern half</b> of the city and downtown, making them disproportionately active compared to the south. Positioning operational bases near these critical hotspots minimizes average travel time and cuts fuel costs.</p>
 
                         <h4>4. Service Request Resolutions &mdash; Completion Rates by Department</h4>
-                        <img src="images/chicago/correlation.webp" alt="Department Completion Status Heatmap">
+                        <img src="images/chicago/correlation.webp" alt="Department Completion Status Heatmap" loading="lazy" decoding="async">
                         <p>The analysis evaluates how effectively different departments resolve their assigned service requests. This heatmap highlights the proportion of <b>Completed</b> versus <b>Not Completed</b> statuses across various city departments.</p>
                         <p>Departments like Aviation, Finance, and 311 City Services show near-perfect completion rates (100%). In contrast, the Department of Water Management (DWM), Animal Care and Control, and Health exhibit the highest proportions of uncompleted requests (ranging from 17% to 25%), indicating potential operational bottlenecks or resource constraints in fulfilling these specific civic duties.</p>
                     </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-lg-4" data-aos="fade-up">
                     <div class="cta-box">
-                        <img src="images/GitHub_Logo.png" alt="Python Logo">
+                        <img src="images/GitHub_Logo.png" alt="Python Logo" loading="lazy" decoding="async">
                         <h3>Python Analysis</h3>
                         <p>View the full Python notebook behind this analysis.</p>
                         <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
@@ -129,7 +129,6 @@
     </button>
 
     <script src="assets/js/aos.js" defer></script>
-    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
 

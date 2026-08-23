@@ -24,26 +24,40 @@ if (switchThemeBtn) {
 //AOS Initiliaze
 AOS.init();
 
-// Fixed Header & back to top button on Scroll
-window.addEventListener('scroll', () => {
+// Fixed Header & back to top button on Scroll.
+// The handler runs inside requestAnimationFrame so it fires once per frame
+// instead of once per scroll event.
+var scrollTicking = false;
+
+function onScrollFrame() {
+    scrollTicking = false;
+    var scrollY = window.scrollY;
+
     // fixed header
-    const header = document.getElementById('header');
-    if (window.scrollY > 30 && !header.classList.contains('fixed-top')) {
+    var header = document.getElementById('header');
+    if (scrollY > 30 && !header.classList.contains('fixed-top')) {
         header.classList.add('fixed-top');
         document.getElementById('offcanvasNavbar').classList.add('fixedHeaderNavbar');
-    } else if (window.scrollY <= 30 && header.classList.contains('fixed-top')) {
+    } else if (scrollY <= 30 && header.classList.contains('fixed-top')) {
         header.classList.remove('fixed-top');
         document.getElementById('offcanvasNavbar').classList.remove('fixedHeaderNavbar');
     }
 
     //backtotop
-    const backToTopButton = document.getElementById("backToTopButton");
-    if (window.scrollY > 400 && backToTopButton.style.display === 'none') {
+    var backToTopButton = document.getElementById("backToTopButton");
+    if (scrollY > 400 && backToTopButton.style.display === 'none') {
         backToTopButton.style.display = 'block';
-    } else if (window.scrollY <= 400 && backToTopButton.style.display === 'block') {
+    } else if (scrollY <= 400 && backToTopButton.style.display === 'block') {
         backToTopButton.style.display = 'none';
     }
-});
+}
+
+window.addEventListener('scroll', function () {
+    if (!scrollTicking) {
+        scrollTicking = true;
+        window.requestAnimationFrame(onScrollFrame);
+    }
+}, { passive: true });
 
 
 //jumping to top function

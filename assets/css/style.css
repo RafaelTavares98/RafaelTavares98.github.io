@@ -55,10 +55,10 @@ a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background: #000 url(/assets/images/dark-bg.webp) 50% no-repeat;
-    background-size: cover;
-    filter: brightness(50%);
-    -webkit-filter: brightness(50%);
+    /* The darkening is a gradient overlay, not a filter. A filter on a fixed
+       layer forces every backdrop-filter on the page to recompute it. */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                #000 url(/assets/images/dark-bg.webp) 50% / cover no-repeat;
     z-index: -1;
 }
 
@@ -86,10 +86,8 @@ a:hover{
     left: 0;
     width: 100%;
     height: 100%;
-    background: #fff url(/assets/images/light-bg.webp) 50% no-repeat;
-    background-size: cover;
-    filter: brightness(90%);
-    -webkit-filter: brightness(90%);
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)),
+                #fff url(/assets/images/light-bg.webp) 50% / cover no-repeat;
     z-index: -1;
 }
 
@@ -619,17 +617,22 @@ a:hover{
     min-height: 100vh;
 }
 
+/* These cards repeat 10-16 times on screen. A translucent background costs
+   nothing, while backdrop-filter would create one composited layer each. */
 .skill{
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: transparent;
+    background-color: rgba(20, 12, 40, 0.55);
     padding: 18px 0px;
     border-radius: 25px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 0 1px 0 rgba(144,81,227,.5), 0 0 0.5px 0.5px rgba(141,53,229,.336);
     -webkit-box-shadow: 0 0 1px 0 rgba(144,81,227,.5), 0 0 0.5px 0.5px rgba(141,53,229,.336);
+}
+
+[data-bs-theme="light"] .skill,
+[data-bs-theme="light"] .tool{
+    background-color: rgba(255, 255, 255, 0.65);
 }
 
 .skill-image{
@@ -659,11 +662,9 @@ a:hover{
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-color: transparent;
+    background-color: rgba(20, 12, 40, 0.55);
     padding: 18px 0px;
     border-radius: 25px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
     box-shadow: 0 0 1px 0 rgba(144,81,227,.5), 0 0 0.5px 0.5px rgba(141,53,229,.336);
     -webkit-box-shadow: 0 0 1px 0 rgba(144,81,227,.5), 0 0 0.5px 0.5px rgba(141,53,229,.336);
 }
