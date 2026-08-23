@@ -1,176 +1,136 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Food Delivery Analysis</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-    </head>
-    <body class="right-sidebar is-preload">
-        <div id="page-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Analysis - Rafael Tavares</title>
+    <meta name="description" content="Analyzing a food delivery marketing campaign with Tableau to determine true business impact and customer profitability.">
+    <link rel="icon" href="assets/images/portrait.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-bs-theme="dark">
 
-            <section id="header">
+    <div id="preloader"></div>
 
-                <h1><a href="index.html">Food Delivery Analysis</a></h1>
-
-                <nav id="nav">
-                    <ul>
-                        <li class="current"><a href="index.html">Projects</a></li>
-                        <li><a href="Aboutme.html">About Me</a></li>
-                    </ul>
-                </nav>
-                
-            </section>
-
-            <section id="main">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-8 col-12-medium">
-
-                            <article class="box post">
-                                <a href="#" class="image featured"><img src="images/food delivery/bike_delivery.webp" alt="" /></a>
-                                <header>
-                                    <h2>Delivery App Analysis Case:</h2>
-                                </header>
-                                <p>
-                                    The original dataset and case description can be found 
-                                    <a href="https://github.com/nailson/ifood-data-business-analyst-test/tree/master"> here</a>
-                                </p>
-
-                                <section>
-                                    <header>
-                                        <h3>Case description</h3>
-                                    </header>
-                                    <p>
-                                        A food company wants to produce the highest profit for the next direct marketing campaign, scheduled for the next month.
-                                    </p>
-                                    <p>
-                                        A pilot campaign involving <b>2.240 customers</b> was carried out, <b>resulting in a 15% success rate</b> (15% or 336 people said
-                                        "Yes" and bought the offer while the other 85% or 1904 didn't).
-                                    </p>
-                                    <p>
-                                        The campaign had a <b>total cost of 6.720 MU</b> and resulted in a <b>profit of -3.406 MU</b>. Resulting in:
-                                    </p>
-                                    <ul>
-                                        <li>Cost per Contact (CPC) of 3.0 MU</li>
-                                        <li>Cost per Acquisition (CPA) of 20.0 MU</li>
-                                        <li>Revenue per Sale (Average) of 10.9 MU</li>
-                                    </ul>
-                                    <p>
-                                        <b>The Problem:</b> On average, it costs the company 20 MU to "convince" someone to buy. But that person only spends 10.93 MU on average, 
-                                        therefore, the company is <b>losing 9.07 per sale</b>.
-                                    </p>
-                                    <p>
-                                        In order to improve this scenario, customer data was analyzed to develop a Tableau dashboard to better describe customer behavior.
-                                    </p>
-                                    <p>
-                                        To do that, we must cover <b>3 main objectives:</b>
-                                    </p>
-                                    <ul>
-                                        <li>Which customers are the most profitable to target?</li>
-                                        <li>Which products are the most profitable to target?</li>
-                                        <li>How does the investment relate to profitability?</li>
-                                    </ul>
-                                </section>
-
-                                <section>
-                                    <header>
-                                        <h3>Data Insights</h3>
-                                    </header>
-                                    <p>
-                                        The visual analysis of the campaign data provides direct answers to the core objectives, outlining a clear path to profitability:
-                                    </p>
-                                    
-                                    <h4>1. Which customers are the most profitable to target?</h4>
-                                    <span class="image featured"><img src="images/food delivery/heatmap.png" alt="Customer Behavior Heatmap" /></span>
-                                    <p>
-                                        The optimal target audience earns between <b>60k and 99k annually</b> and holds a higher education degree (Graduation, Master, or PhD). Customers earning below 60k consistently result in a negative ROI and should be excluded from future campaigns.
-                                    </p>
-                                    
-                                    <h4>2. Which products are the most profitable to target?</h4>
-                                    <span class="image featured"><img src="images/food delivery/customer profitability.png" alt="Product Profitability Comparison" /></span>
-                                    <p>
-                                        <b>Wines</b> and <b>Meat Products</b> are the primary profit drivers, aligning perfectly with the 60k-99k income bracket. Low-margin categories (Fruits, Sweets, Fish) generate negligible revenue and operate at a net loss.
-                                    </p>
-                                    
-                                    <h4>3. How does the investment relate to profitability?</h4>
-                                    <span class="image featured"><img src="images/food delivery/cost_vs_revenue.png" alt="Cost to Contact Analysis" /></span>
-                                    <p>
-                                        Maximum profitability is achieved at a single point of contact (<b>3 MU</b>). Repeatedly contacting the same customer yields strictly diminishing returns. Investments surpassing 15 MU per customer result in a total collapse of ROI.
-                                    </p>
-                                </section>
-
-                            </article>
-
-                        </div>
-                        <div class="col-4 col-12-medium">
-
-                            <section class="box">
-                                <a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/deliveryanalysis_17743955947550/AnalysisOverview" class="image featured"><img src="images/food delivery/Tableau-Logo-2" alt="Tableau Logo" /></a>
-                                <header>
-                                    <h3>Tableau Dashboard</h3>
-                                </header>
-                                <p>View all the charts that are associated with this analysis.</p>
-                                <footer>
-                                    <a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/deliveryanalysis_17743955947550/AnalysisOverview" class="button alt">View Dashboard</a>
-                                </footer>
-                            </section>
-
-                        </div>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-end flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
                     </div>
                 </div>
-            </section>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
 
-            <section id="footer">
-                <div class="container">
-                    <div class="row">
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Like What You See!</h2>
-                                </header>
-                                <a href="#" class="image featured"><img src="images/linechart.gif" alt="" /></a>
-                                <p>
-                                    This is <strong>Dopetrope</strong> a free, fully responsive HTML5 site template by
-                                    <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a> It's released for free under
-                                    the <a href="http://html5up.net/license/">Creative Commons Attribution</a> license so feel free to use it for any personal or commercial project &ndash; just don't forget to credit us!
-                                </p>
-                            </section>
-                        </div>
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Socials</h2>
-                                </header>
-                                <ul class="social">
-                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github"><span class="label">Github</span></a></li>
-                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998/"><span class="label">LinkedIn</span></a></li>
-                                </ul>
-                            </section>
-                        </div>
-                        <div class="col-12">
-
-                            <div id="copyright">
-                                <ul class="links">
-                                    <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">Delivery App Marketing Analysis</h1>
+            <p class="muted-text">The original dataset and case description can be found <a href="https://github.com/nailson/ifood-data-business-analyst-test/tree/master" target="_blank">here</a>.</p>
+            <img src="images/food delivery/bike_delivery.webp" class="banner" alt="Food Delivery Analysis" data-aos="fade-up">
         </div>
+    </section>
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jquery.dropotron.min.js"></script>
-        <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+    <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
 
-    </body>
+                    <div class="insight-card">
+                        <h3>Case Description</h3>
+                        <p>A food company wants to produce the highest profit for the next direct marketing campaign, scheduled for the next month.</p>
+                        <p>A pilot campaign involving <b>2,240 customers</b> was carried out, <b>resulting in a 15% success rate</b> (15% or 336 people said "Yes" and bought the offer while the other 85%, or 1,904, didn't).</p>
+                        <p>The campaign had a <b>total cost of 6,720 MU</b> and resulted in a <b>profit of -3,406 MU</b>, resulting in:</p>
+                        <ul>
+                            <li>Cost per Contact (CPC) of 3.0 MU</li>
+                            <li>Cost per Acquisition (CPA) of 20.0 MU</li>
+                            <li>Revenue per Sale (average) of 10.9 MU</li>
+                        </ul>
+                        <p><b>The problem:</b> on average, it costs the company 20 MU to convince someone to buy. But that person only spends 10.93 MU on average, so the company is <b>losing 9.07 per sale</b>.</p>
+                        <p>To improve this scenario, customer data was analyzed to build a Tableau dashboard that better describes customer behavior, covering <b>3 main objectives:</b></p>
+                        <ul>
+                            <li>Which customers are the most profitable to target?</li>
+                            <li>Which products are the most profitable to target?</li>
+                            <li>How does the investment relate to profitability?</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Data Insights</h3>
+                        <p>The visual analysis of the campaign data provides direct answers to the core objectives, outlining a clear path to profitability:</p>
+
+                        <h4>1. Which customers are the most profitable to target?</h4>
+                        <img src="images/food delivery/heatmap.png" alt="Customer Behavior Heatmap">
+                        <p>The optimal target audience earns between <b>60k and 99k annually</b> and holds a higher education degree (Graduation, Master, or PhD). Customers earning below 60k consistently result in a negative ROI and should be excluded from future campaigns.</p>
+
+                        <h4>2. Which products are the most profitable to target?</h4>
+                        <img src="images/food delivery/customer profitability.png" alt="Product Profitability Comparison">
+                        <p><b>Wines</b> and <b>Meat Products</b> are the primary profit drivers, aligning perfectly with the 60k-99k income bracket. Low-margin categories (Fruits, Sweets, Fish) generate negligible revenue and operate at a net loss.</p>
+
+                        <h4>3. How does the investment relate to profitability?</h4>
+                        <img src="images/food delivery/cost_vs_revenue.png" alt="Cost to Contact Analysis">
+                        <p>Maximum profitability is achieved at a single point of contact (<b>3 MU</b>). Repeatedly contacting the same customer yields strictly diminishing returns. Investments surpassing 15 MU per customer result in a total collapse of ROI.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/food delivery/Tableau-Logo-2" alt="Tableau Logo">
+                        <h3>Tableau Dashboard</h3>
+                        <p>View all the charts that are associated with this analysis.</p>
+                        <a href="https://public.tableau.com/app/profile/rafael.tavares4751/viz/deliveryanalysis_17743955947550/AnalysisOverview" target="_blank" class="btn primary-bg-btn">View Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
 </html>

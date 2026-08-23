@@ -1,152 +1,129 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Data Jobs Analysis</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-    </head>
-    <body class="right-sidebar is-preload">
-        <div id="page-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Job Market Analysis - Rafael Tavares</title>
+    <meta name="description" content="An interactive Power BI exploration of the global data job market, covering top paying salaries, skills, and optimal skills demand across roles.">
+    <link rel="icon" href="assets/images/portrait.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-bs-theme="dark">
 
-            <section id="header">
-                <h1><a href="index.html">Data Jobs Analysis</a></h1>
-                <nav id="nav">
-                    <ul>
-                        <li class="current"><a href="index.html">Projects</a></li>
-                        <li><a href="Aboutme.html">About Me</a></li>
-                    </ul>
-                </nav>
-            </section>
+    <div id="preloader"></div>
 
-            <section id="main">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-8 col-12-medium">
-
-                            <article class="box post">
-                                <a href="https://app.powerbi.com/links/C4_JWcnZhv?ctid=659ce2b8-0714-4198-8c38-dc9b60aabb57&pbi_source=linkShare" target="_blank" class="image featured">
-                                    <img src="images/data jobs/Dashboard.png" alt="Power BI Dashboard" />
-                                </a>
-                                <header>
-                                    <h2>Data job postings analysis with Power BI</h2>
-                                </header>
-                                <p>
-                                    An interactive Power BI exploration of the global data job market, covering top paying salaries, skills, and optimal skills demand across roles.
-                                </p>
-
-                                <section>
-                                    <header>
-                                        <h3>Case Description</h3>
-                                    </header>
-                                    <p>
-                                        Based on the comprehensive <a href="https://github.com/lukebarousse/Job_Analysis" target="_blank">dataset created by data analyst Luke Barousse</a>, this project explores the modern data ecosystem. Sourced from online listings, it covers over <b>785,000 job postings</b> from companies across multiple countries, tracking real-world employer demands, technical skill requirements, and salary trends.
-                                    </p>
-                                    <p>
-                                        To uncover actionable career insights, the analysis was structured around <b>3 main objectives:</b>
-                                    </p>
-                                    <ul>
-                                        <li>Identify the top data jobs based on market demand and average salaries.</li>
-                                        <li>Determine the most demanded skills across these technical roles.</li>
-                                        <li>Highlight "optimal skills" that offer the best balance of high demand and high pay.</li>
-                                    </ul>
-                                </section>
-
-                                <section>
-                                    <header>
-                                        <h3>Data Insights</h3>
-                                    </header>
-
-                                    <h4>1. Top Data Jobs</h4>
-                                    <span class="image fit"><img src="images/data jobs/top_data_jobs.png" alt="Top Data Jobs Chart" /></span>
-                                    <p>
-                                        The job market is heavily concentrated in core technical roles. <b>Data Analysts</b> and <b>Data Engineers</b> dominate the landscape, representing the vast majority of the postings. Data Analysts lead in sheer volume (over 28% of postings), while Data Engineers follow closely (over 23%) but command a higher average baseline salary ($10.3K vs $7.1K). This highlights a clear path: strong demand for foundational analysis, with significant financial incentives for those moving into data architecture and engineering.
-                                    </p>
-
-                                    <h4>2. Top Data Skills</h4>
-                                    <span class="image fit"><img src="images/data jobs/top_data_skills.png" alt="Top Data Skills Chart" /></span>
-                                    <p>
-                                        The analysis of technical requirements reveals a market heavily skewed towards two foundational languages: <b>SQL (58.3%)</b> and <b>Python (57.7%)</b>, which appear in more than half of all job listings. Following these two pillars, there is a sharp decline in demand percentage, with secondary skills like Redshift, AWS, and R hovering around the 20% mark. This distribution clearly defines the current baseline for data professionals: mastery of SQL and Python is a strict market expectation, serving as the prerequisite for further tool-specific specialization.
-                                    </p>
-
-                                    <h4>3. Optimal Skills (High Demand & High Pay)</h4>
-                                    <span class="image fit"><img src="images/data jobs/optimal_data_skills.png" alt="Optimal Data Skills Scatter Plot" /></span>
-                                    <p>
-                                        By plotting skill demand against average pay, we can identify the most strategic areas for professional development. Skills located in the upper-right quadrant of our analysis—such as <b>Python, SQL, AWS, and Redshift</b>—represent the "sweet spot". These technologies not only have an extremely high market adoption rate but are also tied to the most lucrative salary brackets in the industry, making them the most optimal skills to learn.
-                                    </p>
-
-                                </section>
-                            </article>
-
-                        </div>
-                        <div class="col-4 col-12-medium">
-
-                            <section class="box">
-                                <a href="https://app.powerbi.com/links/C4_JWcnZhv?ctid=659ce2b8-0714-4198-8c38-dc9b60aabb57&pbi_source=linkShare" target="_blank" class="image featured">
-                                    <img src="images/data jobs/bi_logo_2.jpg" alt="Power BI Logo" />
-                                </a>
-                                <header>
-                                    <h3>Power BI Dashboard</h3>
-                                </header>
-                                <p>View the interactive report, filter by specific roles, and explore the data models behind this analysis.</p>
-                                <footer>
-                                    <a href="https://app.powerbi.com/links/C4_JWcnZhv?ctid=659ce2b8-0714-4198-8c38-dc9b60aabb57&pbi_source=linkShare" target="_blank" class="button alt">View Interactive</a>
-                                </footer>
-                            </section>
-
-                        </div>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-end flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
                     </div>
                 </div>
-            </section>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
 
-            <section id="footer">
-                <div class="container">
-                    <div class="row">
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Like What You See!</h2>
-                                </header>
-                                <a href="#" class="image featured"><img src="images/linechart.gif" alt="" /></a>
-                                <p>
-                                    This is <strong>Dopetrope</strong> a free, fully responsive HTML5 site template by
-                                    <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a> It's released for free under
-                                    the <a href="http://html5up.net/license/">Creative Commons Attribution</a> license so feel free to use it for any personal or commercial project &ndash; just don't forget to credit us!
-                                </p>
-                            </section>
-                        </div>
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Socials</h2>
-                                </header>
-                                <ul class="social">
-                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github"><span class="label">Github</span></a></li>
-                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998/"><span class="label">LinkedIn</span></a></li>
-                                </ul>
-                            </section>
-                        </div>
-                        <div class="col-12">
-                            <div id="copyright">
-                                <ul class="links">
-                                    <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">Data Job Postings Analysis</h1>
+            <p class="muted-text">An interactive Power BI exploration of the global data job market, covering top paying salaries, skills, and optimal skills demand across roles.</p>
+            <a href="https://app.powerbi.com/links/C4_JWcnZhv?ctid=659ce2b8-0714-4198-8c38-dc9b60aabb57&pbi_source=linkShare" target="_blank">
+                <img src="images/data jobs/Dashboard.png" class="banner" alt="Power BI Dashboard" data-aos="fade-up">
+            </a>
         </div>
+    </section>
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jquery.dropotron.min.js"></script>
-        <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+    <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
 
-    </body>
+                    <div class="insight-card">
+                        <h3>Case Description</h3>
+                        <p>Based on the comprehensive <a href="https://github.com/lukebarousse/Job_Analysis" target="_blank">dataset created by data analyst Luke Barousse</a>, this project explores the modern data ecosystem. Sourced from online listings, it covers over <b>785,000 job postings</b> from companies across multiple countries, tracking real-world employer demands, technical skill requirements, and salary trends.</p>
+                        <p>To uncover actionable career insights, the analysis was structured around <b>3 main objectives:</b></p>
+                        <ul>
+                            <li>Identify the top data jobs based on market demand and average salaries.</li>
+                            <li>Determine the most demanded skills across these technical roles.</li>
+                            <li>Highlight "optimal skills" that offer the best balance of high demand and high pay.</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Data Insights</h3>
+
+                        <h4>1. Top Data Jobs</h4>
+                        <img src="images/data jobs/top_data_jobs.png" alt="Top Data Jobs Chart">
+                        <p>The job market is heavily concentrated in core technical roles. <b>Data Analysts</b> and <b>Data Engineers</b> dominate the landscape, representing the vast majority of postings. Data Analysts lead in sheer volume (over 28% of postings), while Data Engineers follow closely (over 23%) but command a higher average baseline salary ($10.3K vs $7.1K). This highlights a clear path: strong demand for foundational analysis, with significant financial incentives for those moving into data architecture and engineering.</p>
+
+                        <h4>2. Top Data Skills</h4>
+                        <img src="images/data jobs/top_data_skills.png" alt="Top Data Skills Chart">
+                        <p>The analysis of technical requirements reveals a market heavily skewed towards two foundational languages: <b>SQL (58.3%)</b> and <b>Python (57.7%)</b>, which appear in more than half of all job listings. Following these two pillars, there is a sharp decline in demand percentage, with secondary skills like Redshift, AWS, and R hovering around the 20% mark. This distribution clearly defines the current baseline for data professionals: mastery of SQL and Python is a strict market expectation, serving as the prerequisite for further tool-specific specialization.</p>
+
+                        <h4>3. Optimal Skills (High Demand &amp; High Pay)</h4>
+                        <img src="images/data jobs/optimal_data_skills.png" alt="Optimal Data Skills Scatter Plot">
+                        <p>By plotting skill demand against average pay, we can identify the most strategic areas for professional development. Skills located in the upper-right quadrant of the analysis &mdash; such as <b>Python, SQL, AWS, and Redshift</b> &mdash; represent the "sweet spot". These technologies not only have an extremely high market adoption rate but are also tied to the most lucrative salary brackets in the industry, making them the most optimal skills to learn.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/data jobs/bi_logo_2.jpg" alt="Power BI Logo">
+                        <h3>Power BI Dashboard</h3>
+                        <p>View the interactive report, filter by specific roles, and explore the data models behind this analysis.</p>
+                        <a href="https://app.powerbi.com/links/C4_JWcnZhv?ctid=659ce2b8-0714-4198-8c38-dc9b60aabb57&pbi_source=linkShare" target="_blank" class="btn primary-bg-btn">View Interactive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
 </html>

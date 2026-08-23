@@ -1,0 +1,28 @@
+<svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pb-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1b1330"/>
+      <stop offset="100%" stop-color="#2a1547"/>
+    </linearGradient>
+    <linearGradient id="pb-text" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e64157"/>
+      <stop offset="100%" stop-color="#415de6"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="340" fill="url(#pb-bg)"/>
+  <g opacity="0.5" stroke="#7042f8" stroke-width="1.2">
+    <line x1="60" y1="230" x2="180" y2="230"/>
+    <line x1="180" y1="230" x2="180" y2="150"/>
+    <line x1="180" y1="150" x2="300" y2="150"/>
+    <line x1="300" y1="150" x2="300" y2="230"/>
+    <line x1="300" y1="230" x2="420" y2="230"/>
+    <line x1="420" y1="230" x2="420" y2="110"/>
+    <line x1="420" y1="110" x2="540" y2="110"/>
+  </g>
+  <circle cx="60" cy="230" r="6" fill="#12c2e9"/>
+  <circle cx="180" cy="150" r="6" fill="#c471ed"/>
+  <circle cx="300" cy="230" r="6" fill="#e64157"/>
+  <circle cx="420" cy="110" r="6" fill="#12c2e9"/>
+  <circle cx="540" cy="110" r="6" fill="#415de6"/>
+  <text x="50%" y="290" text-anchor="middle" font-family="Rubik, sans-serif" font-size="42" font-weight="700" fill="url(#pb-text)">Portbill</text>
+</svg>

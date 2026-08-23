@@ -1,177 +1,137 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Chicago 311 Analysis</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-    </head>
-    <body class="right-sidebar is-preload">
-        <div id="page-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chicago 311 Analysis - Rafael Tavares</title>
+    <meta name="description" content="A Python-driven exploration of Chicago's 311 service requests, covering time series patterns, geography, routing, and resolutions.">
+    <link rel="icon" href="assets/images/portrait.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-bs-theme="dark">
 
-            <section id="header">
+    <div id="preloader"></div>
 
-                    <h1><a href="index.html">Chicago 311 Analysis</a></h1>
-
-                    <nav id="nav">
-                        <ul>
-                            <li class="current"><a href="index.html">Projects</a></li>
-                            <li><a href="Aboutme.html">About Me</a></li>
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-end flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
                         </ul>
-                    </nav>
-            </section>
-
-            <section id="main">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-8 col-12-medium">
-
-                                <article class="box post">
-                                        <a href="#" class="image featured"><img src="images/chicago/tree.webp" alt="" /></a>
-                                        <header>
-                                            <h2>Chicago 311 Exploratory Analysis Case:</h2>
-                                        </header>
-                                        <p>
-                                            A Python-driven exploration of Chicago's 311 service requests, covering Time Series patterns, geography, routing, and resolutions.
-                                        </p>
-
-                                        <section>
-                                            <header>
-                                                <h3>Case Description</h3>
-                                            </header>
-                                            <p>
-                                                The City of Chicago wants to understand the operational dynamics of its 311 system in order to improve response times, reduce misrouting, and optimize service efficiency.
-                                            </p>
-                                            <p>
-                                                The dataset covers <b>millions of requests</b>, tracking <b>departments</b>, and <b>request types</b> across <b>city regions</b>, spanning several years of city activity.
-                                            </p>
-                                            <p>
-                                                To uncover actionable insights, the analysis was structured around <b>4 main objectives:</b>
-                                            </p>
-                                            <ul>
-                                                <li>What does the data quality look like?</li>
-                                                <li>What are the Time Series patterns of the requests?</li>
-                                                <li>How are requests distributed across city geography?</li>
-                                                <li>How effectively do different departments complete their assigned requests?</li>
-                                            </ul>
-                                        </section>
-
-                                        <section>
-                                            <header>
-                                                <h3>Data Insights</h3>
-                                            </header>
-
-                                            <h4>1. Data Quality — Missing Values</h4>
-                                            <span class="image fit"><img src="images/chicago/missing.webp" alt="Missing Data Heatmap" /></span>
-                                            <p>
-                                                The first step of any analysis is understanding the data quality. This heatmap visualizes missing values (nulls) across the dataset's columns. Solid colored bars indicate complete data, while white lines reveal missing information.
-                                            </p>
-                                            <p>
-                                                Key operational fields like `CREATED_DATE` and `SR_TYPE` are fully populated, ensuring the core analysis remains robust. However, fields related to specific location details (like `ZIP_CODE` or exact coordinates) show significant gaps, highlighting areas where data collection protocols during calls could be improved.
-                                            </p>
-
-                                            <h4>2. Time Series Patterns — Seasonality & Activity</h4>
-                                            <span class="image fit"><img src="images/chicago/time.webp" alt="Time Series Plot" /></span>
-                                            <p>
-                                                The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services.
-                                            </p>
-                                            <p>
-                                                On the processing side, understanding these temporal curves allows the city to adjust static staffing levels. Fluctuations dictate exactly when temporary resources or overtime budgets must be strategically deployed to maintain service agreements.
-                                            </p>
-
-                                            <h4>3. Geographic Distribution — Density & Clusters</h4>
-                                            <span class="image fit"><img src="images/chicago/heatmap.webp" alt="Chicago Geographic Map" /></span>
-                                            <p>
-                                                Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated and where field teams should be stationed.
-                                            </p>
-                                            <p>
-                                                <b>High density clusters</b> appear heavily in the <b>northern half</b> of the city and downtown, making them disproportionately active compared to the south. Positioning operational bases near these critical hotspots minimizes average travel time and cuts fuel costs.
-                                            </p>
-
-                                            <h4>4. Service Request Resolutions — Completion Rates by Department</h4>
-                                            <span class="image fit"><img src="images/chicago/correlation.webp" alt="Department Completion Status Heatmap" /></span>
-                                            <p>
-                                                The analysis evaluates how effectively different departments resolve their assigned service requests. This heatmap highlights the proportion of <b>Completed</b> versus <b>Not Completed</b> statuses across various city departments.
-                                            </p>
-                                            <p>
-                                                Departments like Aviation, Finance, and 311 City Services show near-perfect completion rates (100%). In contrast, the Department of Water Management (DWM), Animal Care and Control, and Health exhibit the highest proportions of uncompleted requests (ranging from 17% to 25%), indicating potential operational bottlenecks or resource constraints in fulfilling these specific civic duties.
-                                            </p>
-
-                                        </section>
-
-                                    </article>
-
-                            </div>
-                            <div class="col-4 col-12-medium">
-
-                                <section class="box">
-                                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github" target="_blank" class="image featured">
-                                            <img src="images/GitHub_Logo.png" alt="Python Logo" />
-                                        </a>
-                                        <header>
-                                            <h3>Python Analysis</h3>
-                                        </header>
-                                        <p>View the full Python Notebook behind this analysis.</p>
-                                        <footer>
-                                            <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github" target="_blank" class="button alt">View on GitHub</a>
-                                        </footer>
-                                    </section>
-
-                            </div>
-                        </div>
                     </div>
-                </section>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
 
-            <section id="footer">
-                <div class="container">
-                    <div class="row">
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Like What You See!</h2>
-                                </header>
-                                <a href="#" class="image featured"><img src="images/linechart.gif" alt="" /></a>
-                                <p>
-                                    This is <strong>Dopetrope</strong> a free, fully responsive HTML5 site template by
-                                    <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a> It's released for free under
-                                    the <a href="http://html5up.net/license/">Creative Commons Attribution</a> license so feel free to use it for any personal or commercial project &ndash; just don't forget to credit us!
-                                </p>
-                            </section>
-                        </div>
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Socials</h2>
-                                </header>
-                                <ul class="social">
-                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github"><span class="label">Github</span></a></li>
-                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998/"><span class="label">LinkedIn</span></a></li>
-                                </ul>
-                            </section>
-                        </div>
-                        <div class="col-12">
-
-                                <div id="copyright">
-                                        <ul class="links">
-                                            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                        </ul>
-                                    </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">Chicago 311 Exploratory Analysis</h1>
+            <p class="muted-text">A Python-driven exploration of Chicago's 311 service requests, covering time series patterns, geography, routing, and resolutions.</p>
+            <img src="images/chicago/tree.webp" class="banner" alt="Chicago 311 Analysis" data-aos="fade-up">
         </div>
+    </section>
 
-        <script src="assets/js/jquery.min.js"></script>
-        <script src="assets/js/jquery.dropotron.min.js"></script>
-        <script src="assets/js/browser.min.js"></script>
-        <script src="assets/js/breakpoints.min.js"></script>
-        <script src="assets/js/util.js"></script>
-        <script src="assets/js/main.js"></script>
+    <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
 
-    </body>
+                    <div class="insight-card">
+                        <h3>Case Description</h3>
+                        <p>The City of Chicago wants to understand the operational dynamics of its 311 system in order to improve response times, reduce misrouting, and optimize service efficiency.</p>
+                        <p>The dataset covers <b>millions of requests</b>, tracking <b>departments</b> and <b>request types</b> across <b>city regions</b>, spanning several years of city activity.</p>
+                        <p>To uncover actionable insights, the analysis was structured around <b>4 main objectives:</b></p>
+                        <ul>
+                            <li>What does the data quality look like?</li>
+                            <li>What are the time series patterns of the requests?</li>
+                            <li>How are requests distributed across city geography?</li>
+                            <li>How effectively do different departments complete their assigned requests?</li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Data Insights</h3>
+
+                        <h4>1. Data Quality &mdash; Missing Values</h4>
+                        <img src="images/chicago/missing.webp" alt="Missing Data Heatmap">
+                        <p>The first step of any analysis is understanding the data quality. This heatmap visualizes missing values (nulls) across the dataset's columns. Solid colored bars indicate complete data, while white lines reveal missing information.</p>
+                        <p>Key operational fields like <code>CREATED_DATE</code> and <code>SR_TYPE</code> are fully populated, ensuring the core analysis remains robust. However, fields related to specific location details (like <code>ZIP_CODE</code> or exact coordinates) show significant gaps, highlighting areas where data collection protocols during calls could be improved.</p>
+
+                        <h4>2. Time Series Patterns &mdash; Seasonality &amp; Activity</h4>
+                        <img src="images/chicago/time.webp" alt="Time Series Plot">
+                        <p>The system's request volume shows clear annual seasonality, with most requests peaking during <b>mid-year months</b> and slowing down during winter. Daily activity is highly concentrated during <b>weekdays and business hours</b>, suggesting a predominantly routine-driven interaction with city services.</p>
+                        <p>On the processing side, understanding these temporal curves allows the city to adjust staffing levels. Fluctuations dictate exactly when temporary resources or overtime budgets must be strategically deployed to maintain service agreements.</p>
+
+                        <h4>3. Geographic Distribution &mdash; Density &amp; Clusters</h4>
+                        <img src="images/chicago/heatmap.webp" alt="Chicago Geographic Map">
+                        <p>Not all city areas generate equal volume. The analysis bucketed service requests by geographic coordinates, neighborhoods, and specific clusters to identify where real volume is generated and where field teams should be stationed.</p>
+                        <p><b>High density clusters</b> appear heavily in the <b>northern half</b> of the city and downtown, making them disproportionately active compared to the south. Positioning operational bases near these critical hotspots minimizes average travel time and cuts fuel costs.</p>
+
+                        <h4>4. Service Request Resolutions &mdash; Completion Rates by Department</h4>
+                        <img src="images/chicago/correlation.webp" alt="Department Completion Status Heatmap">
+                        <p>The analysis evaluates how effectively different departments resolve their assigned service requests. This heatmap highlights the proportion of <b>Completed</b> versus <b>Not Completed</b> statuses across various city departments.</p>
+                        <p>Departments like Aviation, Finance, and 311 City Services show near-perfect completion rates (100%). In contrast, the Department of Water Management (DWM), Animal Care and Control, and Health exhibit the highest proportions of uncompleted requests (ranging from 17% to 25%), indicating potential operational bottlenecks or resource constraints in fulfilling these specific civic duties.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/GitHub_Logo.png" alt="Python Logo">
+                        <h3>Python Analysis</h3>
+                        <p>View the full Python notebook behind this analysis.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
 </html>

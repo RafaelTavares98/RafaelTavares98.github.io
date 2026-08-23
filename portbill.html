@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rideshare Analysis - Rafael Tavares</title>
-    <meta name="description" content="A SQL-driven exploration of a rideshare platform's operations, covering users, drivers, riders, trips, payments, and cancellations.">
+    <title>Portbill - Rafael Tavares</title>
+    <meta name="description" content="A warehouse billing pipeline that turns WMS activity logs into auditable invoices, priced through merchant-specific Lua rate cards and persisted to Postgres.">
     <link rel="icon" href="assets/images/portrait.jpg" type="image/jpeg">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
     <link rel="stylesheet" href="assets/css/aos.css">
@@ -52,9 +52,9 @@
     <section class="page-hero">
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
-            <h1 data-aos="fade-up">Rideshare Operations Analysis</h1>
-            <p class="muted-text">A SQL-driven exploration of a rideshare platform's operations, covering users, drivers, riders, trips, payments, and cancellations.</p>
-            <img src="images/rideshare/rideshare.webp" class="banner" alt="Rideshare Analysis" data-aos="fade-up">
+            <h1 data-aos="fade-up">Portbill</h1>
+            <p class="muted-text">A warehouse billing pipeline that turns WMS activity logs into auditable invoices. Events are generated, validated, priced through merchant-specific Lua rate cards, and persisted to Postgres as the analytical source of truth. Power BI connects directly to the database.</p>
+            <img src="assets/images/projects/portbill-banner.svg" class="banner" alt="Portbill" data-aos="fade-up">
         </div>
     </section>
 
@@ -64,49 +64,52 @@
                 <div class="col-lg-8" data-aos="fade-up">
 
                     <div class="insight-card">
-                        <h3>Case Description</h3>
-                        <p>A rideshare company wants to understand the operational dynamics of its platform in order to improve driver profitability, reduce cancellations, and optimize trip efficiency.</p>
-                        <p>The dataset covers <b>2,000 users</b>, <b>400 drivers</b>, and <b>1,600 riders</b> across <b>4 cities</b>, spanning approximately <b>6 years of activity</b>.</p>
-                        <p>To uncover actionable insights, the analysis was structured around <b>3 main objectives:</b></p>
+                        <h3>The Problem</h3>
+                        <p>A 3PL warehouse generates thousands of events per day &mdash; receive, putaway, pick, pack, ship, return, storage snapshot. Each merchant has a unique contract that turns those events into money: tiered pricing, cold-chain surcharges, grace periods, white-glove fees, CPI adjustments. Pricing rules change often, and codifying them inside the application means every contract amendment becomes a code release.</p>
+                        <p>Portbill solves this the same way real billing systems do: rules live in <b>Lua scripts</b>, one per merchant, hot-loaded at runtime. The pipeline handles generation, validation, persistence, and audit. The pricing math itself is a document the billing team can read and edit directly.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Architecture</h3>
+                        <p>Two services, one command. The pipeline seeds a 3-month historical backlog on first start (~1,800 events spread across business hours), then runs an hourly batch using a Poisson distribution proportional to each merchant's monthly volume.</p>
                         <ul>
-                            <li>What does the platform's user and driver base look like?</li>
-                            <li>Which trips are the most profitable and why?</li>
-                            <li>What drives cancellations and how can they be reduced?</li>
+                            <li><b>Generator:</b> truncated-normal quantities, business-hour timestamps.</li>
+                            <li><b>Validators:</b> five error categories checked per event, in fixed order.</li>
+                            <li><b>Lua runner:</b> a <code>lupa</code> bridge that loads each merchant's rate card with <code>dofile</code> and executes the matching pricing function.</li>
+                            <li><b>Postgres:</b> events, charges, errors, and audit_summary tables, queried directly from Power BI Desktop.</li>
                         </ul>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Data Insights</h3>
+                        <h3>Data Quality as a First-Class Table</h3>
+                        <p>A 2% injection rate is applied to every batch, distributed across five error categories: schema mistakes, negative quantities, unknown merchants, duplicate event IDs, and future timestamps. Because injection is deterministic and recorded, the pipeline knows the true number of bad events.</p>
+                        <p>The detection rate (<code>errors_detected / errors_injected &times; 100</code>) is written once per batch to <code>audit_summary</code>. A run below 100% means a validator regressed &mdash; a metric that is on the database, queryable and plottable, not buried in a log.</p>
+                    </div>
 
-                        <h4>1. Platform Overview &mdash; Users, Drivers &amp; Riders</h4>
-                        <img src="images/rideshare/overview.png" alt="Users and Drivers Summary Table">
-                        <p>The platform's user base is spread across 4 cities, with most users not being drivers themselves. Drivers have been on the platform for an average of <b>1.81 years</b>, with a maximum tenure of 4 years, suggesting a relatively young driver workforce. The average driver rating sits at <b>4.15</b>, with the lowest recorded at 2.59, indicating most drivers deliver a solid experience.</p>
-                        <p>On the rider side, the average user has completed <b>10.52 trips</b> with a mean rating of <b>3.99</b>, pointing to a moderately engaged and reasonably well-behaved rider pool.</p>
+                    <div class="insight-card">
+                        <h3>The Five Merchants</h3>
+                        <p>Each contract exercises a different Lua feature and a different real-world billing pattern:</p>
+                        <ul>
+                            <li><b>NORDVIK-LOGISTICS</b> &mdash; three-tier pick pricing.</li>
+                            <li><b>HARLOW-ELECTRONICS</b> &mdash; flat per-event fees plus multi-unit surcharge.</li>
+                            <li><b>STONEGATE-APPAREL</b> &mdash; pallet grace period and storage overflow break.</li>
+                            <li><b>COASTAL-FRESH</b> &mdash; cold-chain and rush multipliers, compounded.</li>
+                            <li><b>ORION-HOMEGOODS</b> &mdash; pallet-equivalent pricing plus a white-glove fee.</li>
+                        </ul>
+                    </div>
 
-                        <h4>2. Trip Profitability &mdash; Distance, Duration &amp; Time of Day</h4>
-                        <img src="images/rideshare/trip_distribution.png" alt="Trip Distribution Query Results">
-                        <p>Not all trips are created equal. The analysis bucketed completed trips by distance, duration, and time of day to identify where real profit is generated.</p>
-                        <p><b>Short trips under 5 km</b> carry a lower platform cut (20%) compared to long trips over 20 km (45%), making them disproportionately profitable per hour of driving. Similarly, <b>trips under 20 minutes</b> maximize the number of rides a driver can complete in a shift, directly boosting hourly earnings.</p>
-                        <p>Time of day matters too: <b>early morning (05:00&ndash;08:59)</b> and <b>evening to night (18:00&ndash;04:59)</b> windows show the strongest profitability, likely driven by commuter demand and surge pricing.</p>
-
-                        <h4>3. Cancellations &mdash; Who Cancels and Why</h4>
-                        <img src="images/rideshare/cancelations.png" alt="Cancellations Breakdown">
-                        <p>Cancellations are predominantly rider-driven. <b>Personal emergencies</b> are the leading stated reason, followed closely by <b>long wait times</b> &mdash; a direct operational signal that driver availability and dispatch efficiency need improvement.</p>
-                        <p>Drivers cancel far less frequently, suggesting the core reliability issue lies on the demand side rather than supply. Reducing wait times through better driver positioning in high-demand zones could meaningfully cut cancellation rates.</p>
-
-                        <h4>4. Top Performing Drivers</h4>
-                        <img src="images/rideshare/drivers.png" alt="Most Profitable Drivers Table">
-                        <p>The most profitable drivers share a clear profile: they operate in high-demand zones, complete <b>short to medium distance trips</b>, maintain a high trips-per-hour rate, and tend to peak on specific days of the week. The analysis ranks all active drivers by <b>profit per hour</b> &mdash; a metric that normalizes for trip length and reflects true earning efficiency.</p>
-                        <p>Average speed, fare per km, and surge multiplier exposure round out the picture of what separates top earners from the rest of the fleet.</p>
+                    <div class="insight-card">
+                        <h3>Stack</h3>
+                        <p>Lua 5.4 (via <code>lupa</code>) for pricing rules, Python 3.11 for the pipeline, Postgres 16 for storage, Docker Compose for orchestration, and Oracle Cloud Always Free for deployment. 44 automated tests cover the rate cards, validators, generator, and the Python&ndash;Lua bridge.</p>
                     </div>
 
                 </div>
                 <div class="col-lg-4" data-aos="fade-up">
                     <div class="cta-box">
-                        <img src="images/GitHub_Logo.png" alt="GitHub Logo">
-                        <h3>SQL Analysis</h3>
-                        <p>View the full SQL script behind this analysis.</p>
-                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                        <i class="bi bi-github" style="font-size:3rem;"></i>
+                        <h3>Source Code</h3>
+                        <p>View the full pipeline, rate cards, and tests on GitHub.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/Portbill" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
                     </div>
                 </div>
             </div>

@@ -1,158 +1,495 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>Rafael Tavares Portfolio Website</title>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <link rel="stylesheet" href="assets/css/main.css" />
-    </head>
-    <body class="homepage is-preload">
-        <div id="page-wrapper">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            <section id="header">
+    <!-- Primary Meta Tags -->
+    <title>Rafael Tavares - Data Analyst</title>
 
-                    <h1><a href="index.html">Portfolio Website</a></h1>
+    <meta name="title" content="Rafael Tavares - Data Analyst">
+    <meta name="description" content="Rafael Tavares - Data Analyst working with SQL, Python, Power BI, and Tableau. Explore my portfolio of logistics, freight audit, and data analytics projects.">
+    <meta name="keywords" content="Rafael Tavares, Data Analyst, SQL, Python, Power BI, Tableau, Portfolio, Logistics Analytics">
+    <meta name="author" content="Rafael Tavares">
 
-                    <nav id="nav">
-                            <ul>
-                                <li class="current"><a href="index.html">Projects</a></li>
-                                <li><a href="Aboutme.html">About Me</a></li>
-                            </ul>
-                        </nav>
+    <!-- Open Graph Meta Tags / Facebook -->
+    <meta property="og:title" content="Rafael Tavares - Data Analyst">
+    <meta property="og:description" content="Data Analyst working with SQL, Python, Power BI, and Tableau. Explore my portfolio of data analytics projects.">
+    <meta property="og:image" content="assets/images/portrait.jpg">
+    <meta property="og:url" content="/">
+    <meta property="og:type" content="website">
 
-                    <section id="banner">
-                            <header>
-                                <h2>Rafael The Data Analyst</h2>
-                                <p>Portfolio Projects in Excel, SQL, Tableau and Python</p>
-                            </header>
-                        </section>
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rafael Tavares - Data Analyst">
+    <meta name="twitter:description" content="Data Analyst working with SQL, Python, Power BI, and Tableau.">
+    <meta name="twitter:image" content="assets/images/portrait.jpg">
 
-                </section>
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/portrait.jpg" type="image/jpeg">
 
-            <section id="main">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12">
+    <!-- Google Fonts: Rubik -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
 
-                                <section>
-                                        <header class="major">
-                                            <h2>My Portfolio</h2>
-                                        </header>
-                                        <div class="row">
-                                            <div class="col-6 col-12-small">
-                                                <section class="box">
-                                                    <a href="delivery_analysis.html" class="image featured"><img src="images/food delivery/Tableau-Logo.webp" alt="" /></a>
-                                                    <header>
-                                                        <h3>Analyzing food delivery marketing campaign with Tableau</h3>
-                                                    </header>
-                                                    <p>Analyzing Marketing Campaigns with Tableau to Determine True Business Impact.</p>
-                                                    <footer>
-                                                        <ul class="actions">
-                                                            <li><a href="delivery_analysis.html" class="button alt">Find out more</a></li>
-                                                        </ul>
-                                                    </footer>
-                                                </section>
-                                            </div>
-                                            <div class="col-6 col-12-small">
-                                                <section class="box">
-                                                    <a href="rideshare.html" class="image featured"><img src="images/rideshare/sql_card.webp" alt="" /></a>
-                                                    <header>
-                                                        <h3>Analyzing rideshare data with SQL</h3>
-                                                    </header>
-                                                    <p>Evaluating Rideshare Profitability and Meta Strategies with Advanced SQL.</p>
-                                                    <footer>
-                                                        <ul class="actions">
-                                                            <li><a href="rideshare.html" class="button alt">Find out more</a></li>
-                                                        </ul>
-                                                    </footer>
-                                                </section>
-                                            </div>
-                                            <div class="col-6 col-12-small">
-                                                <section class="box">
-                                                    <a href="chicago.html " class="image featured"><img src="images/chicago/chicago_card.webp" alt="" /></a>
-                                                    <header>
-                                                         <h3>Analyzing Chicago 311 service requests with Python</h3>
-                                                    </header>
-                                                    <p>Exploratory Data Analysis covering spatiotemporal patterns, geography, routing, and resolutions.</p>
-                                                    <footer>
-                                                        <ul class="actions">
-                                                            <li><a href="chicago.html" class="button alt">Find out more</a></li>
-                                                        </ul>
-                                                    </footer>
-                                                </section>
-                                            </div>
-                                            <div class="col-6 col-12-small">
-                                                <section class="box">
-                                                    <a href="data_jobs.html" class="image featured"><img src="images/data jobs/Hyper (2).png" alt="" /></a>
-                                                    <header>
-                                                        <h3>Data job postings analysis with Power BI</h3>
-                                                    </header>
-                                                    <p>Exploring the global data job market, covering salaries, top skills, and demand.</p>
-                                                    <footer>
-                                                        <ul class="actions">
-                                                            <li><a href="data_jobs.html" class="button alt">Find out more</a></li>
-                                                        </ul>
-                                                    </footer>
-                                                </section>
-                                            </div>
-                                        </div>
-                                    </section>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 
-                            </div>
-                        </div>
+    <!-- Preload Important resources -->
+    <link rel="preload" href="assets/css/aos.css" as="style" >
+    <link rel="preload" href="assets/css/bootstrap.min.css" as="style" />
+    <link rel="preload" href="assets/css/bootstrap-icons.min.css" as="style" />
+    <link rel="preload" href="assets/css/style.css" as="style" />
+
+</head>
+
+<body data-bs-theme="dark" data-bs-spy="scroll" data-bs-target="#navbar">
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="/" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="/" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu" data-aos="fade-down" data-aos-delay="600">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
                     </div>
-                </section>
-
-            <section id="footer">
-                <div class="container">
-                    <div class="row">
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Like What You See!</h2>
-                                </header>
-                                <a href="#" class="image featured"><img src="images/linechart.gif" alt="" /></a>
-                                <p>
-                                    This is <strong>Dopetrope</strong> a free, fully responsive HTML5 site template by
-                                    <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a> It's released for free under
-                                    the <a href="http://html5up.net/license/">Creative Commons Attribution</a> license so feel free to use it for any personal or commercial project &ndash; just don't forget to credit us!
-                                </p>
-                            </section>
-                        </div>
-                        
-                        <div class="col-4 col-12-medium">
-                            <section>
-                                <header>
-                                    <h2>Socials</h2>
-                                </header>
-                                <ul class="social">
-                                    <li><a class="icon brands fa-github" href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github"><span class="label">Github</span></a></li>
-                                    <li><a class="icon brands fa-linkedin-in" href="https://www.linkedin.com/in/rafaeltavares1998/"><span class="label">LinkedIn</span></a></li>
-                                </ul>
-                            </section>
-                        </div>
-                        <div class="col-12">
-
-                                <div id="copyright">
-                                        <ul class="links">
-                                            <li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-                                        </ul>
-                                    </div>
-
-                            </div>
-                        </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-end flex-grow-1">
+                            <li class="nav-item" data-aos="fade-down" data-aos-delay="500" data-bs-dismiss="offcanvas"><a href="#hero" class="nav-link active" aria-current="page">Home</a></li>
+                            <li class="nav-item" data-aos="fade-down" data-aos-delay="600" data-bs-dismiss="offcanvas"><a href="#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-aos="fade-down" data-aos-delay="700" data-bs-dismiss="offcanvas" ><a href="#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-aos="fade-down" data-aos-delay="800" data-bs-dismiss="offcanvas"><a href="#projects" class="nav-link">Projects</a></li>
+                            <li class="nav-item" data-aos="fade-down" data-aos-delay="900" data-bs-dismiss="offcanvas"><a href="#contact" class="nav-link">Contact</a></li>
+                        </ul>
                     </div>
-                </section>
+                </div>
+                <button class="btn border-0" id="switchTheme" data-aos="fade-down" data-aos-delay="600"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu" data-aos="fade-down" data-aos-delay="600"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
 
+    <!-- Hero -->
+    <section id="hero">
+        <div class="container">
+            <div class="row about-content">
+                <div class="col-lg-5 order-lg-2">
+                    <div class="hero-portrait">
+                        <div class="pic" data-aos="fade-up" data-aos-delay="600"></div>
+                    </div>
+                </div>
+                <div class="col-lg-7 order-lg-1 hero-content">
+                    <span class="h3" data-aos="fade-up" data-aos-delay="0">Hi, I'm</span>
+                    <h1 class="name" data-aos="fade-up" data-aos-delay="200"><span>Rafael Tavares</span></h1>
+                    <button type="button" class="btn btn-sm mt-3 mb-3 btn-showcase" data-aos="fade-up" data-aos-delay="400"><i class="bi bi-stars"></i> Data Analyst</button>
+                    <p class="tagline mb-3" data-aos="fade-up" data-aos-delay="600">Based in Goiânia, Brazil. I started in logistics operations and moved into freight audit, where I built dashboards and automated workflows with <span class="underline">SQL, Python, and Power BI</span>. Now I turn operational data into decisions.</p>
+                    <div class="social-icons pb-2 pt-2 mb-2">
+                        <a href="https://github.com/RafaelTavares98" target="_blank" class="github" data-aos="fade-up" data-aos-delay="620"><i class="bi bi-github"></i></a>
+                        <a href="https://www.linkedin.com/in/rafaeltavares1998/" target="_blank" class="linkedin" data-aos="fade-up" data-aos-delay="690"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                    <div class="d-flex call-to-action">
+                        <a href="#contact" data-aos="fade-up" data-aos-delay="700"><button type="button" class="btn me-4 primary-bg-btn"><i class="bi bi-envelope"></i> Contact Me</button></a>
+                        <a href="#projects" data-aos="fade-up" data-aos-delay="800"><button type="button" class="btn btn-light secondary-bg-btn">View Portfolio <i class="bi bi-arrow-up-right-circle"></i></button></a>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <script src="assets/js/jquery.min.js"></script>
-            <script src="assets/js/jquery.dropotron.min.js"></script>
-            <script src="assets/js/browser.min.js"></script>
-            <script src="assets/js/breakpoints.min.js"></script>
-            <script src="assets/js/util.js"></script>
-            <script src="assets/js/main.js"></script>
+    <!-- What I Do -->
+    <section id="things-i-love">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">Focus Areas</span></h6>
+            <h2 class="section-heading text-center">What I Do</h2>
+            <div class="row justify-content-center pt-3 gy-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="card">
+                        <div class="circle-container">
+                            <div class="circle"><i class="bi bi-database"></i></div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title">Analyzing</p>
+                            <p class="card-text">I work directly with operational data in SQL, Python, and Excel to find the root cause behind a number, not just report it.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="card">
+                        <div class="circle-container">
+                            <div class="circle"><i class="bi bi-lightning-charge"></i></div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title">Automating</p>
+                            <p class="card-text">I replace manual spreadsheet work with Python and VBA scripts, cutting processing time and freeing the team for higher-value work.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up">
+                    <div class="card">
+                        <div class="circle-container">
+                            <div class="circle"><i class="bi bi-bar-chart-line"></i></div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-title">Visualizing</p>
+                            <p class="card-text">I build Power BI and Tableau dashboards that track KPIs and give stakeholders a clear view of the operation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    </body>
+    <!-- About Me -->
+    <section id="about">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">But who am I?</span></h6>
+            <h2 class="section-heading text-center">About Me</h2>
+            <p class="text-center muted-text mt-3 mb-4">My story in a nutshell ;)</p>
+            <div class="row justify-content-center" data-aos="fade-down" data-aos-delay="200">
+                <div class="col-lg-5 about-portrait">
+                    <img src="assets/images/portrait-about.jpg" class="img-fluid pic" alt="Rafael Tavares">
+                </div>
+                <div class="col-lg-7">
+                    <p class="bio">
+                        I am Rafael Tavares, 27, based in Goiânia, Brazil, currently looking to move into the international remote market.
+                        </br></br>
+                        I have three years of hands-on experience in logistics and operations at Coty. I started as an Operational Production Analyst and later moved into Freight Audit, where I built my technical foundation. My core stack is SQL, Python, Power BI, Tableau, and Advanced Excel, which I use to automate workflows and analyze data directly from the operation.
+                        </br></br>
+                        To expand my technical limits, I joined a research group at the Federal University of Goiás (UFG) to study MLOps and implement Reinforcement Learning models.
+                        </br></br>
+                        My long-term goal is to become a Data Engineer or Machine Learning Engineer. When I am not coding or analyzing data, my main hobbies are training Jiu-Jitsu and horseback riding.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">What do I know?</span></h6>
+            <h2 class="section-heading text-center">Skills</h2>
+            <p class="text-center muted-text mt-3 mb-4">Here are some of the technologies that are part of my current stack:</p>
+            <div class="row justify-content-center row-cols-2 row-cols-md-3 row-cols-lg-6 mt-4 gy-4 skills-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-database skill-icon"></i>
+                        <p class="skill-name">SQL</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-filetype-py skill-icon"></i>
+                        <p class="skill-name">Python</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-bar-chart-fill skill-icon"></i>
+                        <p class="skill-name">Power BI</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-graph-up skill-icon"></i>
+                        <p class="skill-name">Tableau</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-file-earmark-spreadsheet skill-icon"></i>
+                        <p class="skill-name">Excel</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-code-square skill-icon"></i>
+                        <p class="skill-name">VBA</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-braces skill-icon"></i>
+                        <p class="skill-name">DAX</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-funnel-fill skill-icon"></i>
+                        <p class="skill-name">Power Query</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-git skill-icon"></i>
+                        <p class="skill-name">Git</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="skill">
+                        <i class="bi bi-boxes skill-icon"></i>
+                        <p class="skill-name">Docker</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tools -->
+    <section id="tools">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">What I use?</span></h6>
+            <h2 class="section-heading text-center">Tools</h2>
+            <p class="text-center muted-text mt-3 mb-4">Tech stack known? Here are the tools I run:</p>
+            <div class="row justify-content-center row-cols-2 row-cols-md-3 row-cols-lg-6 mt-4 gy-4 tools-container" data-aos="fade-down" data-aos-delay="200">
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-code-slash tool-icon"></i>
+                        <p class="tool-name">VS Code</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-github tool-icon"></i>
+                        <p class="tool-name">Github</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-microsoft tool-icon"></i>
+                        <p class="tool-name">MS Office</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-shield-check tool-icon"></i>
+                        <p class="tool-name">Wazuh</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-hdd-network tool-icon"></i>
+                        <p class="tool-name">MCP Servers</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="tool">
+                        <i class="bi bi-stars tool-icon"></i>
+                        <p class="tool-name">Claude</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">What I've done?</span></h6>
+            <h2 class="section-heading text-center">Projects</h2>
+            <div class="row justify-content-center mt-4 gy-4" data-aos="fade-up" data-aos-delay="200">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="col-2">
+                                    <img src="assets/images/projects/rideshare-icon.png" class="img-fluid icon" alt="Rideshare Analysis Logo">
+                                </div>
+                                <div class="col-7 p-0">
+                                    <a href="rideshare.html" class="card-title title">Rideshare Analysis</a>
+                                    <p class="stacks m-0">SQL</p>
+                                </div>
+                                <div class="col-3 align-middle">
+                                    <a href="rideshare.html" class="btn btn-sm primary-bg-btn rounded-5">Visit <i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <p class="description">Evaluating rideshare profitability, cancellations, and driver performance with advanced SQL.</p>
+                        </div>
+                        <div class="banner-container">
+                            <div class="overlay">
+                                <a href="rideshare.html" class="btn"><i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                            </div>
+                            <img src="assets/images/projects/rideshare-banner.webp" class="card-img-top banner" alt="Rideshare Analysis Banner">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="col-2">
+                                    <img src="assets/images/projects/chicago-icon.png" class="img-fluid icon" alt="Chicago 311 Analysis Logo">
+                                </div>
+                                <div class="col-7 p-0">
+                                    <a href="chicago.html" class="card-title title">Chicago 311 Analysis</a>
+                                    <p class="stacks m-0">Python</p>
+                                </div>
+                                <div class="col-3 align-middle">
+                                    <a href="chicago.html" class="btn btn-sm primary-bg-btn rounded-5">Visit <i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <p class="description">Exploratory analysis of Chicago 311 service requests covering time series, geography, and routing.</p>
+                        </div>
+                        <div class="banner-container">
+                            <div class="overlay">
+                                <a href="chicago.html" class="btn"><i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                            </div>
+                            <img src="assets/images/projects/chicago-banner.webp" class="card-img-top banner" alt="Chicago 311 Analysis Banner">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="col-2">
+                                    <img src="assets/images/projects/delivery-icon.png" class="img-fluid icon" alt="Food Delivery Analysis Logo">
+                                </div>
+                                <div class="col-7 p-0">
+                                    <a href="delivery_analysis.html" class="card-title title">Food Delivery Analysis</a>
+                                    <p class="stacks m-0">Tableau</p>
+                                </div>
+                                <div class="col-3 align-middle">
+                                    <a href="delivery_analysis.html" class="btn btn-sm primary-bg-btn rounded-5">Visit <i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <p class="description">Analyzing a marketing campaign to determine true business impact and customer profitability.</p>
+                        </div>
+                        <div class="banner-container">
+                            <div class="overlay">
+                                <a href="delivery_analysis.html" class="btn"><i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                            </div>
+                            <img src="assets/images/projects/delivery-banner.webp" class="card-img-top banner" alt="Food Delivery Analysis Banner">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="col-2">
+                                    <img src="assets/images/projects/datajobs-icon.png" class="img-fluid icon" alt="Data Job Market Analysis Logo">
+                                </div>
+                                <div class="col-7 p-0">
+                                    <a href="data_jobs.html" class="card-title title">Data Job Market</a>
+                                    <p class="stacks m-0">Power BI</p>
+                                </div>
+                                <div class="col-3 align-middle">
+                                    <a href="data_jobs.html" class="btn btn-sm primary-bg-btn rounded-5">Visit <i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <p class="description">Interactive dashboard covering salary distributions, role demand, and top technical skills.</p>
+                        </div>
+                        <div class="banner-container">
+                            <div class="overlay">
+                                <a href="data_jobs.html" class="btn"><i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                            </div>
+                            <img src="assets/images/projects/datajobs-banner.png" class="card-img-top banner" alt="Data Job Market Analysis Banner">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card project-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="col-2">
+                                    <i class="bi bi-receipt-cutoff" style="font-size:1.8rem;"></i>
+                                </div>
+                                <div class="col-7 p-0">
+                                    <a href="portbill.html" class="card-title title">Portbill</a>
+                                    <p class="stacks m-0">Python | Lua | Postgres | Docker</p>
+                                </div>
+                                <div class="col-3 align-middle">
+                                    <a href="portbill.html" class="btn btn-sm primary-bg-btn rounded-5">Visit <i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="description-container">
+                            <p class="description">A warehouse billing pipeline that turns WMS activity logs into auditable invoices, priced through Lua rate cards.</p>
+                        </div>
+                        <div class="banner-container">
+                            <div class="overlay">
+                                <a href="portbill.html" class="btn"><i class="bi bi-arrow-up-right-circle-fill"></i></a>
+                            </div>
+                            <img src="assets/images/projects/portbill-banner.svg" class="card-img-top banner" alt="Portbill Banner">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">What's next!</span></h6>
+            <h2 class="section-heading text-center">Get In Touch</h2>
+            <p class="text-center muted-text mt-3 mb-4">Interested in working together? Reach out through any of the channels below.</p>
+            <div class="row justify-content-center" data-aos="fade-down" data-aos-delay="500">
+                <div class="col-lg-6">
+                    <div class="contact-form text-center">
+                        <p class="mb-3"><i class="bi bi-envelope"></i> rafaeltavaressnp@outlook.com</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="mailto:rafaeltavaressnp@outlook.com"><button type="button" class="btn primary-bg-btn"><i class="bi bi-envelope"></i> Email Me</button></a>
+                            <a href="https://www.linkedin.com/in/rafaeltavares1998/" target="_blank"><button type="button" class="btn secondary-bg-btn"><i class="bi bi-linkedin"></i> LinkedIn</button></a>
+                            <a href="https://github.com/RafaelTavares98" target="_blank"><button type="button" class="btn tertiary-bg-btn"><i class="bi bi-github"></i> GitHub</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>. Many thanks to Vijay for the great work &mdash; check out his site at <a href="https://itsvijay.com" target="_blank">itsvijay.com</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+              </svg>
+        </span>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/jquery-3.7.1.min.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
 </html>
