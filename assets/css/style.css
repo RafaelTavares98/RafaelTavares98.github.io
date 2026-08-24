@@ -755,47 +755,36 @@ a:hover{
 .project-card .stacks {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 4px !important;
+    gap: 5px;
+    margin-top: 5px !important;
 }
 
 .project-card .tech {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
+    gap: 5px;
+    padding: 3px 9px;
     border-radius: 32px;
     font-size: 10px;
     font-weight: 500;
-    line-height: 1.6;
-    border: 1px solid currentColor;
-    background-color: rgba(255, 255, 255, .04);
+    line-height: 1.5;
+    color: var(--text-color);
+    border: 1px solid rgba(144, 81, 227, .35);
+    background-color: rgba(255, 255, 255, .05);
     white-space: nowrap;
 }
 
 .project-card .tech-logo {
-    width: 11px;
-    height: 11px;
+    width: 13px;
+    height: 13px;
     flex-shrink: 0;
+    object-fit: contain;
 }
-
-.project-card .tech-sql       { color: #9aa4b2; }
-.project-card .tech-postgres  { color: #5b82e8; }
-.project-card .tech-python    { color: #4b90d0; }
-.project-card .tech-streamlit { color: #ff4b4b; }
-.project-card .tech-gcp       { color: #4285f4; }
-.project-card .tech-bigquery  { color: #669df6; }
 
 [data-bs-theme="light"] .project-card .tech {
     background-color: rgba(0, 0, 0, .03);
+    border-color: rgba(144, 81, 227, .25);
 }
-
-[data-bs-theme="light"] .project-card .tech-sql       { color: #5c6673; }
-[data-bs-theme="light"] .project-card .tech-postgres  { color: #33628f; }
-[data-bs-theme="light"] .project-card .tech-python    { color: #2b6a9c; }
-[data-bs-theme="light"] .project-card .tech-streamlit { color: #d33b3b; }
-[data-bs-theme="light"] .project-card .tech-gcp       { color: #2f6fd0; }
-[data-bs-theme="light"] .project-card .tech-bigquery  { color: #3f74c8; }
 
 
 .project-card .in-progress{
