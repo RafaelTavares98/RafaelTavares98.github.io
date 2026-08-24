@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL EDA - Rafael Tavares</title>
-    <meta name="description" content="Exploratory data analysis on a sales data warehouse, told business-first, on PostgreSQL 17.">
+    <meta name="description" content="Exploratory analysis of a sales data warehouse in PostgreSQL 17, with the business decision behind each query.">
     <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
     <link rel="stylesheet" href="assets/css/aos.css">
@@ -54,7 +54,7 @@
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <h1 data-aos="fade-up">SQL EDA</h1>
-            <p class="muted-text">Exploratory data analysis on a sales data warehouse, told business-first: the question, the query, and the decision it drives.</p>
+            <p class="muted-text">Exploratory analysis of a sales data warehouse. Each section gives the question, the query, and the decision the result supports.</p>
             <img src="assets/images/projects/sql-eda-banner.png" class="banner" alt="SQL EDA Notebook" data-aos="fade-up" decoding="async">
         </div>
     </section>
@@ -65,48 +65,48 @@
                 <div class="col-lg-8" data-aos="fade-up">
 
                     <div class="insight-card">
-                        <h3>Why this data set, and why this way</h3>
-                        <p>This is the same <code>gold</code> schema as the SQL EDA project: 18,484 customers, 295 products, 60,398 sales records, loaded into PostgreSQL 17. The original project runs the 13 exploration scripts top to bottom. This page picks 5 of those results and presents them the way I'd actually walk a stakeholder through them: what did I ask, what came back, and what does it change about how we run the business. No result gets a number without a decision attached to it.</p>
+                        <h3>The data set and the approach</h3>
+                        <p>The <code>gold</code> schema holds 18,484 customers, 295 products, and 60,398 sales records in PostgreSQL 17. The repository runs 13 exploration scripts. This page selects 5 of those results and presents them as I would present them to a stakeholder: the question, the result, and what the result changes. Every number here has a decision attached to it.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>How healthy is the business, at a glance?</h3>
-                        <p>Before slicing anything, I pull the one-screen number set a stakeholder would ask for first: total sales, orders, products, and customers. It sets the baseline everything else gets compared against.</p>
+                        <h3>What is the current baseline?</h3>
+                        <p>The first query gives the totals a stakeholder asks for first: sales, orders, products, and customers. These totals are the baseline for every later comparison.</p>
                         <img class="result-shot" src="assets/images/projects/shot-kpi.png" alt="Key business metrics result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT 'Total Sales', SUM(sales_amount) FROM gold.fact_sales
 UNION ALL SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
 UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;</code></pre>
-                        <p>Average order size lands near $1,061 (29.36M across 27,659 orders). That's the number I'll keep coming back to as a sanity check on everything downstream.</p>
+                        <p>The average order is near $1,061, from $29.36M across 27,659 orders. I use this figure to check every later result for consistency.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Which product category is actually paying the bills?</h3>
-                        <p>Splitting revenue by category is usually the first real business cut, not a technical exercise. It answers "where does the money actually come from."</p>
+                        <h3>Which product category produces the revenue?</h3>
+                        <p>A split of revenue by category shows where the money comes from. It is normally the first business question after the totals.</p>
                         <img class="result-shot" src="assets/images/projects/shot-category.png" alt="Revenue by category result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT p.category, SUM(f.sales_amount) AS total_revenue
 FROM gold.fact_sales f
 LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
 GROUP BY p.category ORDER BY total_revenue DESC;</code></pre>
-                        <p>96.5% of revenue rides on Bikes alone. That's not a strength, it's concentration risk — one bad quarter for Bikes is a bad quarter for the whole business. The pragmatic follow-up isn't "sell more bikes," it's checking whether Accessories and Clothing are underinvested or genuinely low-demand, ideally cut by margin next, not just revenue.</p>
+                        <p>Bikes produce 96.5% of revenue. This is concentration risk. If Bikes have a weak quarter, the whole business has a weak quarter. The next step is not to sell more bikes. It is to find out if Accessories and Clothing have low demand or low investment, and then to repeat the split by margin instead of revenue.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Is the business growing or shrinking, year over year?</h3>
-                        <p>A single trend line hides more than it shows. Breaking sales out by year is what actually surfaces whether growth is real or a one-off spike.</p>
+                        <h3>Is the business growing year over year?</h3>
+                        <p>One trend line can hide a single unusual period. A split by year shows if growth continues or if one year carries it.</p>
                         <img class="result-shot" src="assets/images/projects/shot-yearly.png" alt="Yearly sales trend result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT DATE_TRUNC('year', order_date) AS order_date, SUM(sales_amount) AS total_sales
 FROM gold.fact_sales
 WHERE order_date IS NOT NULL
 GROUP BY DATE_TRUNC('year', order_date);</code></pre>
-                        <p>2012 dipped 17% against 2011, then 2013 nearly tripled it. Before calling 2013 a win, the real next question is what changed operationally between the two years — new product line, new region, pricing — because that's the repeatable part, not the number itself.</p>
+                        <p>Sales in 2012 fell 17% against 2011. Sales in 2013 were almost three times the 2012 figure. Before I record 2013 as growth, I must find the operational change between the two years, such as a new product line, a new region, or a price change. That change is the part the business can repeat.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Who are the customers actually worth protecting?</h3>
-                        <p>Ranking customers by revenue tells me whether the business depends on a handful of whales or a broader base, which changes how a retention program should be built.</p>
+                        <h3>Which customers carry the revenue?</h3>
+                        <p>A rank of customers by revenue shows if the business depends on a few large accounts or on a wide base. The answer changes the design of a retention program.</p>
                         <img class="result-shot" src="assets/images/projects/shot-topcustomers.png" alt="Top customers by revenue result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT c.customer_key, c.first_name, c.last_name, SUM(f.sales_amount) AS total_revenue
@@ -114,12 +114,12 @@ FROM gold.fact_sales f
 LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
 GROUP BY c.customer_key, c.first_name, c.last_name
 ORDER BY total_revenue DESC LIMIT 10;</code></pre>
-                        <p>The top 10 cluster tightly around ~13,000 each. No single whale. Good news for retention risk, but it means a loyalty program needs to target a band of similar customers, not chase a handful of VIP names.</p>
+                        <p>The top 10 customers each spend near $13,000. No single account dominates. This lowers the risk from one lost customer. It also means a loyalty program must address a band of similar customers instead of a short VIP list.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>What does the customer base actually look like?</h3>
-                        <p>Segmenting by lifespan and spend (VIP, Regular, New) turns a flat customer list into something a marketing or CS team can act on.</p>
+                        <h3>What is the shape of the customer base?</h3>
+                        <p>Segmentation by lifespan and spend (VIP, Regular, New) turns a flat customer list into groups that a marketing or support team can address.</p>
                         <img class="result-shot" src="assets/images/projects/shot-segments.png" alt="Customer segmentation result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">-- VIP: 12+ months history, spend > 5,000
@@ -127,7 +127,7 @@ ORDER BY total_revenue DESC LIMIT 10;</code></pre>
 -- New: less than 12 months history
 SELECT customer_segment, COUNT(customer_key) AS total_customers
 FROM segmented_customers GROUP BY customer_segment;</code></pre>
-                        <p>79% of the customer base is "New," under 12 months of history. That isn't automatically a growth story, it could just as easily be weak retention past year one. The next query this forces is a cohort retention check, not another acquisition metric.</p>
+                        <p>79% of customers are "New", with less than 12 months of history. This can show fast acquisition, or it can show that customers leave after the first year. The next query must be a cohort retention check, not another acquisition metric.</p>
                     </div>
 
                 </div>
@@ -145,7 +145,7 @@ FROM segmented_customers GROUP BY customer_segment;</code></pre>
 
     <footer id="footer">
         <div class="container">
-            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
             <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
         </div>
     </footer>

@@ -54,7 +54,7 @@
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <h1 data-aos="fade-up">Avocado Price Analysis</h1>
-            <p class="muted-text">Does price move volume? Which regions and varieties lead U.S. avocado sales? Answered in PostgreSQL.</p>
+            <p class="muted-text">Does price change volume? Which regions and varieties lead U.S. avocado sales? Answered with PostgreSQL.</p>
             <img src="assets/images/projects/avocado-banner.png" class="banner" alt="Avocado Price Analysis" data-aos="fade-up" decoding="async">
         </div>
     </section>
@@ -66,47 +66,47 @@
 
                     <div class="insight-card">
                         <h3>Case description</h3>
-                        <p>Weekly Hass avocado sales data, 2015 to 2018: average price, total volume, and volume by PLU code (small, large, extra-large), across U.S. regions. Loaded into PostgreSQL and queried directly. This rebuilds a project I studied where the original repository had gone offline, using a different, real, obtainable dataset covering the same questions.</p>
+                        <p>Weekly Hass avocado sales data from 2015 to 2018: average price, total volume, and volume by PLU code (small, large, and extra-large) across U.S. regions. The data is loaded into PostgreSQL and queried directly. The repository of the project I studied is offline, so I rebuilt the same questions with a public data set.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Does price actually move volume?</h3>
-                        <p>The obvious hypothesis for any priced product: raise the price, sales drop. Worth testing before assuming it, because if the relationship is weak, pricing isn't the lever to pull.</p>
+                        <h3>Does price change volume?</h3>
+                        <p>The usual hypothesis is that a higher price gives lower sales. I test it first, because a weak relation means price is the wrong control to use.</p>
                         <img class="result-shot" src="assets/images/projects/shot-avocado-corr.png" alt="Price-volume correlation result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT CORR(average_price, total_volume) AS price_volume_correlation
 FROM avocado_prices
 WHERE region <> 'TotalUS';</code></pre>
-                        <p>-0.34. Price and volume move in opposite directions, but weakly. Something else, promotions, seasonality, competing produce, is doing more work than price alone. Pricing changes shouldn't be sold internally as a guaranteed volume lever.</p>
+                        <p>The correlation is -0.34. Price and volume move in opposite directions, but the relation is weak. Other causes, such as promotions, seasons, and competing produce, have more effect than price. A price change is therefore not a reliable method to control volume.</p>
                     </div>
 
                     <div class="insight-card">
                         <h3>Which regions carry the volume?</h3>
-                        <p>Not every region buys the same. Knowing where volume concentrates changes where a distribution or marketing budget should go first.</p>
+                        <p>Regions do not buy equally. The location of the volume decides where the distribution and marketing budget goes first.</p>
                         <img class="result-shot" src="assets/images/projects/shot-avocado-regions.png" alt="Top regions by volume result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT region, SUM(total_volume) AS total_volume_2015_2018
 FROM avocado_prices
 WHERE region <> 'TotalUS'
 GROUP BY region ORDER BY total_volume_2015_2018 DESC LIMIT 10;</code></pre>
-                        <p>West, California, and SouthCentral lead, within 7% of each other. No single region dominates the way Bikes dominates the SQL EDA sales data, this is a genuinely distributed demand base, which lowers regional concentration risk.</p>
+                        <p>West, California, and SouthCentral lead, and they are within 7% of each other. No region dominates. Demand is distributed, so the regional concentration risk is low.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Which size variety actually sells?</h3>
-                        <p>If a supplier assumes small avocados are the safe default order, the data should back that up before it becomes a purchasing rule.</p>
+                        <h3>Which size sells most?</h3>
+                        <p>A supplier can assume that small avocados are the safe default order. The data must confirm that assumption before it becomes a purchasing rule.</p>
                         <img class="result-shot" src="assets/images/projects/shot-avocado-variety.png" alt="PLU variety volume result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT 'PLU4046 (small)' AS variety, SUM(plu4046) AS total_volume FROM avocado_prices
 UNION ALL SELECT 'PLU4225 (large)', SUM(plu4225) FROM avocado_prices
 UNION ALL SELECT 'PLU4770 (extra-large)', SUM(plu4770) FROM avocado_prices
 ORDER BY total_volume DESC;</code></pre>
-                        <p>Large Hass (PLU4225) edges out small Hass (PLU4046) by less than 1%, both far ahead of extra-large. That's close enough to call a tie, not a clear default. A supplier ordering only small avocados on the assumption it's the safe bet would be leaving nearly half the market's actual preference on the table.</p>
+                        <p>Large Hass (PLU4225) is less than 1% above small Hass (PLU4046). Both are far above extra-large. The difference is too small to give a default size. A supplier that orders only small avocados ignores almost half of the demand.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Does Los Angeles track the national trend, or move on its own?</h3>
-                        <p>If a major metro moves independently of the national number, using national trends to plan for it is a mistake.</p>
+                        <h3>Does Los Angeles follow the national trend?</h3>
+                        <p>If a large city moves independently of the national figure, national trends are not a valid basis to plan for that city.</p>
                         <img class="result-shot" src="assets/images/projects/shot-avocado-la.png" alt="Los Angeles vs national volume result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT sale_year,
@@ -115,7 +115,7 @@ ORDER BY total_volume DESC;</code></pre>
 FROM avocado_prices
 WHERE region IN ('LosAngeles', 'TotalUS')
 GROUP BY sale_year ORDER BY sale_year;</code></pre>
-                        <p>LA holds a steady ~8.9% share of national volume across all three full years (2015-2017). It tracks the national trend closely enough that national-level forecasts are a reasonable proxy for LA, no separate regional model needed here.</p>
+                        <p>Los Angeles holds a stable share near 8.9% of national volume in the three full years, 2015 to 2017. It follows the national trend closely, so national forecasts are sufficient for Los Angeles. A separate regional model is not necessary.</p>
                     </div>
 
                 </div>
@@ -133,7 +133,7 @@ GROUP BY sale_year ORDER BY sale_year;</code></pre>
 
     <footer id="footer">
         <div class="container">
-            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
             <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
         </div>
     </footer>

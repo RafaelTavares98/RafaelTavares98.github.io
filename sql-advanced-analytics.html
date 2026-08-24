@@ -54,7 +54,7 @@
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <h1 data-aos="fade-up">Advanced SQL Analytics</h1>
-            <p class="muted-text">Same data warehouse as the SQL EDA project, one level deeper: window functions, segmentation, and year-over-year performance, told business-first.</p>
+            <p class="muted-text">The same data warehouse as the SQL EDA project, at one more level of detail: window functions, product segmentation, and year-over-year performance.</p>
             <img src="assets/images/projects/sql-advanced-banner.png" class="banner" alt="Advanced SQL Analytics" data-aos="fade-up" decoding="async">
         </div>
     </section>
@@ -65,13 +65,13 @@
                 <div class="col-lg-8" data-aos="fade-up">
 
                     <div class="insight-card">
-                        <h3>Why go past exploration</h3>
-                        <p>The SQL EDA project answers "what happened." This one answers "how much of it matters, and is it repeatable." Same <code>gold</code> schema, PostgreSQL 17, but now using window functions, CTEs, and two reporting views (<code>gold.report_customers</code>, <code>gold.report_products</code>) to get comparisons a plain <code>GROUP BY</code> can't give.</p>
+                        <h3>Purpose of this analysis</h3>
+                        <p>The SQL EDA project answers what happened. This project measures how much each result matters and if the business can repeat it. It uses the same <code>gold</code> schema in PostgreSQL 17, with window functions, CTEs, and two reporting views (<code>gold.report_customers</code> and <code>gold.report_products</code>). These give comparisons that a plain <code>GROUP BY</code> cannot give.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Does the Bikes concentration hold up under a stricter method?</h3>
-                        <p>The EDA project found Bikes at 96.5% of revenue with a simple <code>GROUP BY</code>. Here I recompute the same share with a window function, so the category total and the grand total live in the same row, no separate query to cross-check against.</p>
+                        <h3>Does a second method confirm the Bikes concentration?</h3>
+                        <p>The EDA project measured Bikes at 96.5% of revenue with a simple <code>GROUP BY</code>. Here I calculate the same share with a window function. The category total and the grand total are then in the same row, and no second query is necessary for the check.</p>
                         <img class="result-shot" src="assets/images/projects/shot-parttowhole.png" alt="Part-to-whole category share result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">WITH category_sales AS (
@@ -84,12 +84,12 @@ SELECT category, total_sales,
     SUM(total_sales) OVER () AS overall_sales,
     ROUND((total_sales::numeric / SUM(total_sales) OVER ()) * 100, 2) AS percentage_of_total
 FROM category_sales ORDER BY total_sales DESC;</code></pre>
-                        <p>96.46%, same conclusion, independently verified. That consistency is the point: two different techniques agreeing means the concentration risk isn't a query artifact, it's real, and it belongs in front of whoever owns the product roadmap.</p>
+                        <p>The window function gives 96.46%. Two different methods agree, so the concentration is a property of the data and not an error in one query. This result belongs with the owner of the product roadmap.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>What does the product catalog actually cost to stock?</h3>
-                        <p>Segmenting products into cost bands turns 295 individual price tags into a shape I can act on: is this a catalog of cheap accessories with a few flagship items, or something more evenly spread?</p>
+                        <h3>How is the product catalog distributed by cost?</h3>
+                        <p>Cost bands turn 295 separate prices into a distribution. They show if the catalog is a set of low-cost accessories with a few premium items, or a more equal spread.</p>
                         <img class="result-shot" src="assets/images/projects/shot-costsegment.png" alt="Product cost segmentation result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">SELECT
@@ -102,12 +102,12 @@ FROM category_sales ORDER BY total_sales DESC;</code></pre>
     COUNT(product_key) AS total_products
 FROM gold.dim_products
 GROUP BY cost_range ORDER BY total_products DESC;</code></pre>
-                        <p>71% of the catalog (211 of 295 products) costs under $500. Only 39 products sit above $1,000. Combined with the category finding above, the picture is a business selling a lot of accessory-priced items and a small set of premium bikes — the accessory volume just isn't converting into accessory revenue.</p>
+                        <p>71% of the catalog, 211 of 295 products, costs less than $500. Only 39 products cost more than $1,000. With the category result above, this shows a catalog full of accessory-priced items and a small set of premium bikes. The accessory volume does not become accessory revenue.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Was the 2013 sales spike real growth?</h3>
-                        <p>The EDA project flagged 2013 nearly tripling 2012. Year-over-year performance at the product level is what tells me if that was broad, sustainable growth or a handful of one-off events.</p>
+                        <h3>Was the 2013 increase durable growth?</h3>
+                        <p>The EDA project showed 2013 at almost three times 2012. A year-over-year comparison at product level shows if the increase was wide and durable, or the result of a few single events.</p>
                         <img class="result-shot" src="assets/images/projects/shot-yoyperf.png" alt="Year-over-year product performance result">
                         <p class="code-label">Query</p>
                         <pre><code class="language-sql">WITH yearly_product_sales AS (
@@ -120,7 +120,7 @@ GROUP BY cost_range ORDER BY total_products DESC;</code></pre>
 SELECT order_year, product_name, current_sales,
     LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS py_sales
 FROM yearly_product_sales ORDER BY product_name, order_year;</code></pre>
-                        <p>This pattern (159 in 2012, 37,683 in 2013, back down to 1,749 in 2014) repeats across dozens of products, not just one. That's not organic growth, that's a spike and a crash. Whatever drove 2013 — a bulk order, a promotion, a channel that later closed — it wasn't durable, and treating it as the new baseline would be a planning mistake.</p>
+                        <p>The pattern of 159 in 2012, 37,683 in 2013, and 1,749 in 2014 repeats across dozens of products. This is an increase followed by a fall, and not durable growth. The cause can be a bulk order, a promotion, or a sales channel that closed. Until the cause is known, 2013 must not become the planning baseline.</p>
                     </div>
 
                 </div>
@@ -138,7 +138,7 @@ FROM yearly_product_sales ORDER BY product_name, order_year;</code></pre>
 
     <footer id="footer">
         <div class="container">
-            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
             <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
         </div>
     </footer>
