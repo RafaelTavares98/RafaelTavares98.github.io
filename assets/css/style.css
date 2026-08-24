@@ -726,7 +726,6 @@ a:hover{
 .project-card .title {
     position: relative;
     display: block;
-    min-height: 54px;
     font-size: 18px;
     text-decoration: none;
 }
@@ -763,8 +762,18 @@ a:hover{
     flex-wrap: wrap;
     align-content: flex-start;
     gap: 5px;
-    min-height: 45px;
     margin-top: 10px !important;
+}
+
+/* Reserve the same header space only when the cards share a row. */
+@media (min-width: 768px) {
+    .project-card .title {
+        min-height: 54px;
+    }
+
+    .project-card .stacks {
+        min-height: 45px;
+    }
 }
 
 .project-card .tech {
