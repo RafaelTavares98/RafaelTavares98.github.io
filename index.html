@@ -35,13 +35,13 @@
     <link rel="stylesheet" href="assets/css/aos.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=11">
+    <link rel="stylesheet" href="assets/css/style.css?v=12">
 
     <!-- Preload Important resources -->
     <link rel="preload" href="assets/css/aos.css" as="style" >
     <link rel="preload" href="assets/css/bootstrap.min.css" as="style" />
     <link rel="preload" href="assets/css/bootstrap-icons.min.css" as="style" />
-    <link rel="preload" href="assets/css/style.css?v=11" as="style" />
+    <link rel="preload" href="assets/css/style.css?v=12" as="style" />
 
 </head>
 
@@ -434,15 +434,43 @@
         <div class="container">
             <h6 class="text-center"><span class="btn btn-sm theme-button theme-text">Contact</span></h6>
             <h2 class="section-heading text-center">Get In Touch</h2>
-            <p class="text-center muted-text mt-3 mb-4">I am open to remote data roles. You can contact me through any channel below.</p>
+            <p class="text-center muted-text mt-3 mb-4">I am open to remote data roles. Send me a message, or use one of the channels below.</p>
             <div class="row justify-content-center" data-aos="fade-down" data-aos-delay="500">
-                <div class="col-lg-6">
-                    <div class="contact-form text-center">
-                        <p class="mb-3"><i class="bi bi-envelope"></i> rafaeltavaressnp@outlook.com</p>
-                        <div class="d-flex justify-content-center gap-3">
-                            <a href="mailto:rafaeltavaressnp@outlook.com"><button type="button" class="btn primary-bg-btn"><i class="bi bi-envelope"></i> Email Me</button></a>
-                            <a href="https://www.linkedin.com/in/rafaeltavares1998/" target="_blank"><button type="button" class="btn secondary-bg-btn"><i class="bi bi-linkedin"></i> LinkedIn</button></a>
-                            <a href="https://github.com/RafaelTavares98" target="_blank"><button type="button" class="btn tertiary-bg-btn"><i class="bi bi-github"></i> GitHub</button></a>
+                <div class="col-lg-8">
+                    <div class="contact-form">
+                        <form action="https://formsubmit.co/rafaeltavaressnp@outlook.com" method="POST">
+                            <input type="hidden" name="_subject" value="New message from the portfolio site">
+                            <input type="hidden" name="_template" value="table">
+                            <input type="hidden" name="_next" value="https://rafaeltavares98.github.io/#contact">
+                            <input type="text" name="_honey" style="display:none">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="contact-name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="contact-name" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="contact-email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="contact-email" name="email" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-subject" class="form-label">Subject</label>
+                                    <input type="text" class="form-control" id="contact-subject" name="subject" required>
+                                </div>
+                                <div class="col-12">
+                                    <label for="contact-message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="contact-message" name="message" rows="5" required></textarea>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn primary-bg-btn"><i class="bi bi-send"></i> Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="contact-channels">
+                            <p class="mb-3"><i class="bi bi-envelope"></i> rafaeltavaressnp@outlook.com</p>
+                            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                <a href="https://www.linkedin.com/in/rafaeltavares1998/" target="_blank"><button type="button" class="btn secondary-bg-btn"><i class="bi bi-linkedin"></i> LinkedIn</button></a>
+                                <a href="https://github.com/RafaelTavares98" target="_blank"><button type="button" class="btn tertiary-bg-btn"><i class="bi bi-github"></i> GitHub</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>

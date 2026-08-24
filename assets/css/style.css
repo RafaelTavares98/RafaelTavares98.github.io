@@ -1109,6 +1109,40 @@ a:hover{
     background-color: #850dd5;
 }
 
+.contact-form .form-label {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: var(--muted-text);
+}
+
+.contact-form .form-control {
+    color: var(--text-color);
+    border-color: rgba(144, 81, 227, .35);
+}
+
+.contact-form textarea.form-control {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.contact-channels {
+    margin-top: 28px;
+    padding-top: 22px;
+    text-align: center;
+    border-top: 1px solid rgba(144, 81, 227, .25);
+}
+
+.contact-channels p {
+    font-size: 14px;
+    color: var(--muted-text);
+}
+
+@media (max-width: 576px) {
+    .contact-form {
+        padding: 22px 18px;
+    }
+}
+
 /*--------------------------------------------------------------
 # Footer Section
 --------------------------------------------------------------*/
