@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <style>
         .insight-card img.result-shot{
             width: 100%;
@@ -28,8 +29,9 @@
             line-height: 1.6;
             margin: 4px 0 16px 0;
         }
-        .insight-card pre code{
-            color: #d8d2f0;
+        .insight-card pre code.hljs{
+            background: transparent;
+            padding: 0;
         }
         .insight-card .code-label{
             font-size: 12px;
@@ -101,7 +103,7 @@
                         <p>Before slicing anything, I pull the one-screen number set a stakeholder would ask for first: total sales, orders, products, and customers. It sets the baseline everything else gets compared against.</p>
                         <img class="result-shot" src="assets/images/projects/shot-kpi.png" alt="Key business metrics result">
                         <p class="code-label">Query</p>
-                        <pre><code>SELECT 'Total Sales', SUM(sales_amount) FROM gold.fact_sales
+                        <pre><code class="language-sql">SELECT 'Total Sales', SUM(sales_amount) FROM gold.fact_sales
 UNION ALL SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
 UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;</code></pre>
                         <p>Average order size lands near $1,061 (29.36M across 27,659 orders). That's the number I'll keep coming back to as a sanity check on everything downstream.</p>
@@ -112,7 +114,7 @@ UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;
                         <p>Splitting revenue by category is usually the first real business cut, not a technical exercise. It answers "where does the money actually come from."</p>
                         <img class="result-shot" src="assets/images/projects/shot-category.png" alt="Revenue by category result">
                         <p class="code-label">Query</p>
-                        <pre><code>SELECT p.category, SUM(f.sales_amount) AS total_revenue
+                        <pre><code class="language-sql">SELECT p.category, SUM(f.sales_amount) AS total_revenue
 FROM gold.fact_sales f
 LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
 GROUP BY p.category ORDER BY total_revenue DESC;</code></pre>
@@ -124,7 +126,7 @@ GROUP BY p.category ORDER BY total_revenue DESC;</code></pre>
                         <p>A single trend line hides more than it shows. Breaking sales out by year is what actually surfaces whether growth is real or a one-off spike.</p>
                         <img class="result-shot" src="assets/images/projects/shot-yearly.png" alt="Yearly sales trend result">
                         <p class="code-label">Query</p>
-                        <pre><code>SELECT DATE_TRUNC('year', order_date) AS order_date, SUM(sales_amount) AS total_sales
+                        <pre><code class="language-sql">SELECT DATE_TRUNC('year', order_date) AS order_date, SUM(sales_amount) AS total_sales
 FROM gold.fact_sales
 WHERE order_date IS NOT NULL
 GROUP BY DATE_TRUNC('year', order_date);</code></pre>
@@ -136,7 +138,7 @@ GROUP BY DATE_TRUNC('year', order_date);</code></pre>
                         <p>Ranking customers by revenue tells me whether the business depends on a handful of whales or a broader base, which changes how a retention program should be built.</p>
                         <img class="result-shot" src="assets/images/projects/shot-topcustomers.png" alt="Top customers by revenue result">
                         <p class="code-label">Query</p>
-                        <pre><code>SELECT c.customer_key, c.first_name, c.last_name, SUM(f.sales_amount) AS total_revenue
+                        <pre><code class="language-sql">SELECT c.customer_key, c.first_name, c.last_name, SUM(f.sales_amount) AS total_revenue
 FROM gold.fact_sales f
 LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
 GROUP BY c.customer_key, c.first_name, c.last_name
@@ -149,7 +151,7 @@ ORDER BY total_revenue DESC LIMIT 10;</code></pre>
                         <p>Segmenting by lifespan and spend (VIP, Regular, New) turns a flat customer list into something a marketing or CS team can act on.</p>
                         <img class="result-shot" src="assets/images/projects/shot-segments.png" alt="Customer segmentation result">
                         <p class="code-label">Query</p>
-                        <pre><code>-- VIP: 12+ months history, spend > 5,000
+                        <pre><code class="language-sql">-- VIP: 12+ months history, spend > 5,000
 -- Regular: 12+ months history, spend &lt;= 5,000
 -- New: less than 12 months history
 SELECT customer_segment, COUNT(customer_key) AS total_customers
@@ -188,6 +190,9 @@ FROM segmented_customers GROUP BY customer_segment;</code></pre>
     <script src="assets/js/aos.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
 </body>
 </html>
