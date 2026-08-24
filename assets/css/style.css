@@ -773,27 +773,29 @@ a:hover{
     white-space: nowrap;
 }
 
-.project-card .tech i {
-    font-size: 11px;
+.project-card .tech-logo {
+    width: 11px;
+    height: 11px;
+    flex-shrink: 0;
 }
 
-.project-card .tech-sql        { color: #e38c00; }
-.project-card .tech-postgres   { color: #4d9bd7; }
-.project-card .tech-python     { color: #ffd43b; }
-.project-card .tech-streamlit  { color: #ff6b6b; }
-.project-card .tech-gcp        { color: #5b9bf8; }
-.project-card .tech-bigquery   { color: #7c9cf0; }
+.project-card .tech-sql       { color: #9aa4b2; }
+.project-card .tech-postgres  { color: #5b82e8; }
+.project-card .tech-python    { color: #4b90d0; }
+.project-card .tech-streamlit { color: #ff4b4b; }
+.project-card .tech-gcp       { color: #4285f4; }
+.project-card .tech-bigquery  { color: #669df6; }
 
 [data-bs-theme="light"] .project-card .tech {
     background-color: rgba(0, 0, 0, .03);
 }
 
-[data-bs-theme="light"] .project-card .tech-sql       { color: #a86500; }
-[data-bs-theme="light"] .project-card .tech-postgres  { color: #2f6f9e; }
-[data-bs-theme="light"] .project-card .tech-python    { color: #9a7b00; }
+[data-bs-theme="light"] .project-card .tech-sql       { color: #5c6673; }
+[data-bs-theme="light"] .project-card .tech-postgres  { color: #33628f; }
+[data-bs-theme="light"] .project-card .tech-python    { color: #2b6a9c; }
 [data-bs-theme="light"] .project-card .tech-streamlit { color: #d33b3b; }
 [data-bs-theme="light"] .project-card .tech-gcp       { color: #2f6fd0; }
-[data-bs-theme="light"] .project-card .tech-bigquery  { color: #4a6fd0; }
+[data-bs-theme="light"] .project-card .tech-bigquery  { color: #3f74c8; }
 
 
 .project-card .in-progress{
