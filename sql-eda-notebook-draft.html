@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL EDA Notebook Draft - Rafael Tavares</title>
+    <meta name="description" content="Exploratory data analysis on a sales data warehouse, notebook-style, on PostgreSQL 17.">
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .notebook-cell{
+            background: var(--section-bg-color, #15121f);
+            border: 1px solid rgba(144,81,227,.25);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 28px;
+        }
+        .notebook-cell h4{
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted-text);
+            margin-bottom: 6px;
+        }
+        .notebook-cell .cell-question{
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .notebook-cell pre{
+            background: #0c0a13;
+            border-radius: 10px;
+            padding: 16px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .notebook-cell pre code{
+            color: #d8d2f0;
+        }
+        .notebook-cell table{
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .notebook-cell th, .notebook-cell td{
+            padding: 6px 10px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            text-align: left;
+        }
+        .notebook-cell th{
+            color: var(--muted-text);
+            font-weight: 500;
+        }
+        .notebook-cell .cell-insight{
+            border-left: 3px solid #9051E3;
+            padding-left: 14px;
+            font-size: 15px;
+        }
+        .notebook-cell .cell-insight b{
+            color: #fff;
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+
+    <div id="preloader"></div>
+
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-center flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">SQL EDA — Notebook draft</h1>
+            <p class="muted-text">Draft layout. Same PostgreSQL analysis as the SQL EDA project, walked through cell by cell: the question, the query, the result, and what it means for the business.</p>
+        </div>
+    </section>
+
+    <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto" data-aos="fade-up">
+
+                    <div class="notebook-cell">
+                        <h4>Cell 1 — Business question</h4>
+                        <p class="cell-question">How healthy is the business, at a glance?</p>
+                        <pre><code>SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value FROM gold.fact_sales
+UNION ALL
+SELECT 'Total Quantity', SUM(quantity) FROM gold.fact_sales
+UNION ALL
+SELECT 'Average Price', AVG(price) FROM gold.fact_sales
+UNION ALL
+SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
+UNION ALL
+SELECT 'Total Products', COUNT(DISTINCT product_name) FROM gold.dim_products
+UNION ALL
+SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;</code></pre>
+                        <table>
+                            <tr><th>Measure</th><th>Value</th></tr>
+                            <tr><td>Total sales</td><td>29,356,250</td></tr>
+                            <tr><td>Total quantity</td><td>60,423</td></tr>
+                            <tr><td>Average price</td><td>486.04</td></tr>
+                            <tr><td>Total orders</td><td>27,659</td></tr>
+                            <tr><td>Total products</td><td>295</td></tr>
+                            <tr><td>Total customers</td><td>18,484</td></tr>
+                        </table>
+                        <div class="cell-insight"><b>Decision:</b> Before slicing anything, get the one-screen number set a stakeholder would ask for first. Average order size lands near $1,061 (29.36M / 27,659 orders), which sets the baseline every later cut gets compared against.</div>
+                    </div>
+
+                    <div class="notebook-cell">
+                        <h4>Cell 2 — Business question</h4>
+                        <p class="cell-question">Which product category is actually paying the bills?</p>
+                        <pre><code>SELECT p.category, SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+GROUP BY p.category
+ORDER BY total_revenue DESC;</code></pre>
+                        <table>
+                            <tr><th>Category</th><th>Revenue</th><th>Share</th></tr>
+                            <tr><td>Bikes</td><td>28,316,272</td><td>96.5%</td></tr>
+                            <tr><td>Accessories</td><td>700,262</td><td>2.4%</td></tr>
+                            <tr><td>Clothing</td><td>339,716</td><td>1.2%</td></tr>
+                        </table>
+                        <div class="cell-insight"><b>Decision:</b> 96.5% of revenue rides on one category. That is not a strength, it is concentration risk: if Bikes has one bad quarter, the whole business has a bad quarter. The pragmatic move is not "sell more bikes," it is asking whether Accessories and Clothing are underinvested or just genuinely low-demand — worth a follow-up cut by margin, not just revenue.</div>
+                    </div>
+
+                    <div class="notebook-cell">
+                        <h4>Cell 3 — Business question</h4>
+                        <p class="cell-question">Is the business growing or shrinking, year over year?</p>
+                        <pre><code>SELECT
+    DATE_TRUNC('year', order_date) AS order_date,
+    SUM(sales_amount) AS total_sales,
+    SUM(SUM(sales_amount)) OVER (ORDER BY DATE_TRUNC('year', order_date)) AS running_total_sales
+FROM gold.fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_TRUNC('year', order_date);</code></pre>
+                        <table>
+                            <tr><th>Year</th><th>Sales</th></tr>
+                            <tr><td>2010 (partial, Dec only)</td><td>43,419</td></tr>
+                            <tr><td>2011</td><td>7,075,088</td></tr>
+                            <tr><td>2012</td><td>5,842,231</td></tr>
+                            <tr><td>2013</td><td>16,344,878</td></tr>
+                            <tr><td>2014 (partial, Jan only)</td><td>45,642</td></tr>
+                        </table>
+                        <div class="cell-insight"><b>Decision:</b> 2012 dipped 17% against 2011, then 2013 nearly tripled it. A single trend line would hide that dip. Before calling 2013 a win, the real next question is what changed operationally between 2012 and 2013 — new product line, new region, or a pricing change — because that is the repeatable part, not the number itself.</div>
+                    </div>
+
+                    <div class="notebook-cell">
+                        <h4>Cell 4 — Business question</h4>
+                        <p class="cell-question">Who are the customers worth protecting?</p>
+                        <pre><code>SELECT c.customer_key, c.first_name, c.last_name, SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY total_revenue DESC
+LIMIT 10;</code></pre>
+                        <table>
+                            <tr><th>Customer</th><th>Revenue</th></tr>
+                            <tr><td>Kaitlyn Henderson</td><td>13,294</td></tr>
+                            <tr><td>Nichole Nara</td><td>13,294</td></tr>
+                            <tr><td>Margaret He</td><td>13,268</td></tr>
+                            <tr><td>Randall Dominguez</td><td>13,265</td></tr>
+                            <tr><td>Adriana Gonzalez</td><td>13,242</td></tr>
+                        </table>
+                        <div class="cell-insight"><b>Decision:</b> The top 10 customers cluster tightly around ~13,000 each, no single whale. That is good news for retention risk (losing one customer will not sink the business) but it means a loyalty program needs to target a band, not a handful of VIP names.</div>
+                    </div>
+
+                    <div class="notebook-cell">
+                        <h4>Cell 5 — Business question</h4>
+                        <p class="cell-question">What does the customer base actually look like?</p>
+                        <pre><code>-- VIP: 12+ months history, spend > 5,000
+-- Regular: 12+ months history, spend <= 5,000
+-- New: less than 12 months history
+SELECT customer_segment, COUNT(customer_key) AS total_customers
+FROM segmented_customers
+GROUP BY customer_segment
+ORDER BY total_customers DESC;</code></pre>
+                        <table>
+                            <tr><th>Segment</th><th>Customers</th></tr>
+                            <tr><td>New</td><td>14,631</td></tr>
+                            <tr><td>Regular</td><td>2,198</td></tr>
+                            <tr><td>VIP</td><td>1,655</td></tr>
+                        </table>
+                        <div class="cell-insight"><b>Decision:</b> 79% of the customer base is "New" — under 12 months of history. That is not automatically a growth story; it could just as easily mean weak retention past year one. The next query this should force is a cohort retention check, not another acquisition metric.</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>
