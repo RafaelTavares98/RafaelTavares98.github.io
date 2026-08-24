@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body data-bs-theme="dark">
 
@@ -70,6 +71,27 @@
                     </div>
 
                     <div class="insight-card">
+                        <h3>Can the model actually separate approvals from rejections?</h3>
+                        <p>A classifier is only useful if it beats guessing by a meaningful margin. The ROC curve is the first honest check: how does true positive rate trade off against false positive rate as the decision threshold moves.</p>
+                        <img class="result-shot" src="assets/images/projects/cc-roc.png" alt="ROC curve result">
+                        <p class="code-label">Model check</p>
+                        <pre><code class="language-python">from sklearn.metrics import roc_auc_score, roc_curve
+fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
+roc_auc_score(y_test, y_pred_proba)</code></pre>
+                        <p>The curve bows well above the diagonal, so the model is separating the classes, not guessing. The real product decision isn't "is AUC high enough," it's where on this curve to set the threshold: a stricter cutoff cuts false approvals but also turns away good applicants, and that trade-off is a business call, not a modeling one.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Where does the model actually get it wrong?</h3>
+                        <p>Aggregate accuracy hides which kind of mistake the model makes. For a credit decision, a false approval and a false rejection cost the business in completely different ways, so the confusion matrix matters more than the headline score.</p>
+                        <img class="result-shot" src="assets/images/projects/cc-confusion-matrix.png" alt="Confusion matrix result">
+                        <p class="code-label">Model check</p>
+                        <pre><code class="language-python">from sklearn.metrics import confusion_matrix
+confusion_matrix(y_test, y_pred)</code></pre>
+                        <p>Before shipping this behind an approval flow, false approvals need to be weighed against the cost of a bad line of credit, and false rejections against the cost of losing a good customer. Those two error types justify different thresholds, and that's a conversation with risk and product, not a metric to optimize in isolation.</p>
+                    </div>
+
+                    <div class="insight-card">
                         <h3>Status</h3>
                         <p>This page is a study reference, not finished original work. It walks through an existing binary classification project to learn the approach before rebuilding it with different data and framing.</p>
                     </div>
@@ -105,6 +127,9 @@
     <script src="assets/js/aos.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
 </body>
 </html>

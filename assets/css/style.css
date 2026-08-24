@@ -1137,6 +1137,34 @@ a:hover{
     margin: 14px 0px;
 }
 
+.insight-card img.result-shot{
+    max-width: 680px;
+    border: 1px solid rgba(144,81,227,.25);
+}
+
+.insight-card pre{
+    background: #0c0a13;
+    border-radius: 10px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 4px 0 16px 0;
+}
+
+.insight-card pre code.hljs{
+    background: transparent;
+    padding: 0;
+}
+
+.insight-card .code-label{
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted-text);
+    margin: 0 0 4px 0;
+}
+
 .cta-box{
     background-color: transparent;
     padding: 24px;

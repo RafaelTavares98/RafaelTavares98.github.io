@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body data-bs-theme="dark">
 
@@ -65,17 +66,56 @@
 
                     <div class="insight-card">
                         <h3>Case description</h3>
-                        <p>Weekly Hass avocado sales data, 2015 to 2018: average price, total volume, and volume by PLU code (small, large, extra-large), across U.S. regions. Loaded into PostgreSQL and queried directly, no notebook layer.</p>
+                        <p>Weekly Hass avocado sales data, 2015 to 2018: average price, total volume, and volume by PLU code (small, large, extra-large), across U.S. regions. Loaded into PostgreSQL and queried directly. This rebuilds a project I studied where the original repository had gone offline, using a different, real, obtainable dataset covering the same questions.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Findings</h3>
-                        <ul>
-                            <li>Price and volume correlate at -0.34. Price moves volume, but weakly, other factors matter more.</li>
-                            <li>West, California, and SouthCentral are the highest-volume regions in the dataset.</li>
-                            <li>Large Hass (PLU4225) narrowly outsells small Hass (PLU4046), 5.39B to 5.35B units. Extra-large (PLU4770) is a distant third.</li>
-                            <li>Los Angeles holds a steady ~8-9% share of total U.S. volume across full years.</li>
-                        </ul>
+                        <h3>Does price actually move volume?</h3>
+                        <p>The obvious hypothesis for any priced product: raise the price, sales drop. Worth testing before assuming it, because if the relationship is weak, pricing isn't the lever to pull.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-avocado-corr.png" alt="Price-volume correlation result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT CORR(average_price, total_volume) AS price_volume_correlation
+FROM avocado_prices
+WHERE region <> 'TotalUS';</code></pre>
+                        <p>-0.34. Price and volume move in opposite directions, but weakly. Something else, promotions, seasonality, competing produce, is doing more work than price alone. Pricing changes shouldn't be sold internally as a guaranteed volume lever.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Which regions carry the volume?</h3>
+                        <p>Not every region buys the same. Knowing where volume concentrates changes where a distribution or marketing budget should go first.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-avocado-regions.png" alt="Top regions by volume result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT region, SUM(total_volume) AS total_volume_2015_2018
+FROM avocado_prices
+WHERE region <> 'TotalUS'
+GROUP BY region ORDER BY total_volume_2015_2018 DESC LIMIT 10;</code></pre>
+                        <p>West, California, and SouthCentral lead, within 7% of each other. No single region dominates the way Bikes dominates the SQL EDA sales data, this is a genuinely distributed demand base, which lowers regional concentration risk.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Which size variety actually sells?</h3>
+                        <p>If a supplier assumes small avocados are the safe default order, the data should back that up before it becomes a purchasing rule.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-avocado-variety.png" alt="PLU variety volume result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT 'PLU4046 (small)' AS variety, SUM(plu4046) AS total_volume FROM avocado_prices
+UNION ALL SELECT 'PLU4225 (large)', SUM(plu4225) FROM avocado_prices
+UNION ALL SELECT 'PLU4770 (extra-large)', SUM(plu4770) FROM avocado_prices
+ORDER BY total_volume DESC;</code></pre>
+                        <p>Large Hass (PLU4225) edges out small Hass (PLU4046) by less than 1%, both far ahead of extra-large. That's close enough to call a tie, not a clear default. A supplier ordering only small avocados on the assumption it's the safe bet would be leaving nearly half the market's actual preference on the table.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Does Los Angeles track the national trend, or move on its own?</h3>
+                        <p>If a major metro moves independently of the national number, using national trends to plan for it is a mistake.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-avocado-la.png" alt="Los Angeles vs national volume result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT sale_year,
+    SUM(CASE WHEN region = 'LosAngeles' THEN total_volume END) AS los_angeles_volume,
+    SUM(CASE WHEN region = 'TotalUS' THEN total_volume END) AS total_us_volume
+FROM avocado_prices
+WHERE region IN ('LosAngeles', 'TotalUS')
+GROUP BY sale_year ORDER BY sale_year;</code></pre>
+                        <p>LA holds a steady ~8.9% share of national volume across all three full years (2015-2017). It tracks the national trend closely enough that national-level forecasts are a reasonable proxy for LA, no separate regional model needed here.</p>
                     </div>
 
                 </div>
@@ -109,6 +149,9 @@
     <script src="assets/js/aos.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
 </body>
 </html>

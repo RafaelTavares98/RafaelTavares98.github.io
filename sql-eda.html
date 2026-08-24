@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL EDA - Rafael Tavares</title>
-    <meta name="description" content="Exploratory data analysis on a sales data warehouse, translated from SQL Server to PostgreSQL 17.">
+    <meta name="description" content="Exploratory data analysis on a sales data warehouse, told business-first, on PostgreSQL 17.">
     <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
     <link rel="stylesheet" href="assets/css/aos.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body data-bs-theme="dark">
 
@@ -52,9 +53,9 @@
     <section class="page-hero">
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
-            <h1 data-aos="fade-up">SQL EDA — PostgreSQL</h1>
-            <p class="muted-text">Exploratory data analysis on a sales data warehouse, translated from SQL Server to PostgreSQL 17.</p>
-            <img src="assets/images/projects/sql-eda-banner.png" class="banner" alt="SQL EDA on PostgreSQL" data-aos="fade-up" decoding="async">
+            <h1 data-aos="fade-up">SQL EDA</h1>
+            <p class="muted-text">Exploratory data analysis on a sales data warehouse, told business-first: the question, the query, and the decision it drives.</p>
+            <img src="assets/images/projects/sql-eda-banner.png" class="banner" alt="SQL EDA Notebook" data-aos="fade-up" decoding="async">
         </div>
     </section>
 
@@ -64,31 +65,69 @@
                 <div class="col-lg-8" data-aos="fade-up">
 
                     <div class="insight-card">
-                        <h3>Case Description</h3>
-                        <p>This project follows Baraa Khatib Salkini's "sql-data-analytics-project" hands-on portfolio project, an exploratory data analysis exercise over a sales data warehouse. The original scripts target SQL Server; I rebuilt the whole thing on <b>PostgreSQL 17</b>, running locally.</p>
-                        <p>The <code>gold</code> schema holds <b>3 tables</b>: <b>18,484</b> customers, <b>295</b> products, and <b>60,398</b> sales records.</p>
-                        <p>The analysis is structured around <b>13 sections</b>, from basic database exploration to two final reporting views:</p>
-                        <ul>
-                            <li>Database and dimension exploration, date ranges, key measures</li>
-                            <li>Magnitude and ranking analysis</li>
-                            <li>Change over time, cumulative totals, year-over-year performance</li>
-                            <li>Customer and product segmentation, part-to-whole analysis</li>
-                            <li>Two reporting views: <code>gold.report_customers</code> and <code>gold.report_products</code></li>
-                        </ul>
+                        <h3>Why this data set, and why this way</h3>
+                        <p>This is the same <code>gold</code> schema as the SQL EDA project: 18,484 customers, 295 products, 60,398 sales records, loaded into PostgreSQL 17. The original project runs the 13 exploration scripts top to bottom. This page picks 5 of those results and presents them the way I'd actually walk a stakeholder through them: what did I ask, what came back, and what does it change about how we run the business. No result gets a number without a decision attached to it.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>SQL Server → PostgreSQL</h3>
-                        <p>Every script needed a real syntax translation, not just a copy-paste. The main changes:</p>
-                        <ul>
-                            <li><code>DATEDIFF(month, a, b)</code> → a calendar-month difference built from <code>EXTRACT(YEAR ...)</code> and <code>EXTRACT(MONTH ...)</code></li>
-                            <li><code>GETDATE()</code> → <code>CURRENT_DATE</code></li>
-                            <li><code>TOP n</code> → <code>ORDER BY ... LIMIT n</code></li>
-                            <li><code>DATETRUNC()</code> / <code>FORMAT()</code> → <code>DATE_TRUNC()</code> / <code>TO_CHAR()</code></li>
-                            <li><code>BULK INSERT</code> → <code>COPY ... WITH (FORMAT csv, HEADER true)</code></li>
-                            <li><code>ROUND()</code> on a 2-argument call needed an explicit cast to <code>numeric</code>, since Postgres only allows the 2-argument form on that type</li>
-                        </ul>
-                        <p>The full, commented query file runs end to end against a local PostgreSQL 17 install with no errors.</p>
+                        <h3>How healthy is the business, at a glance?</h3>
+                        <p>Before slicing anything, I pull the one-screen number set a stakeholder would ask for first: total sales, orders, products, and customers. It sets the baseline everything else gets compared against.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-kpi.png" alt="Key business metrics result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT 'Total Sales', SUM(sales_amount) FROM gold.fact_sales
+UNION ALL SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
+UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;</code></pre>
+                        <p>Average order size lands near $1,061 (29.36M across 27,659 orders). That's the number I'll keep coming back to as a sanity check on everything downstream.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Which product category is actually paying the bills?</h3>
+                        <p>Splitting revenue by category is usually the first real business cut, not a technical exercise. It answers "where does the money actually come from."</p>
+                        <img class="result-shot" src="assets/images/projects/shot-category.png" alt="Revenue by category result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT p.category, SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+GROUP BY p.category ORDER BY total_revenue DESC;</code></pre>
+                        <p>96.5% of revenue rides on Bikes alone. That's not a strength, it's concentration risk — one bad quarter for Bikes is a bad quarter for the whole business. The pragmatic follow-up isn't "sell more bikes," it's checking whether Accessories and Clothing are underinvested or genuinely low-demand, ideally cut by margin next, not just revenue.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Is the business growing or shrinking, year over year?</h3>
+                        <p>A single trend line hides more than it shows. Breaking sales out by year is what actually surfaces whether growth is real or a one-off spike.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-yearly.png" alt="Yearly sales trend result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT DATE_TRUNC('year', order_date) AS order_date, SUM(sales_amount) AS total_sales
+FROM gold.fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_TRUNC('year', order_date);</code></pre>
+                        <p>2012 dipped 17% against 2011, then 2013 nearly tripled it. Before calling 2013 a win, the real next question is what changed operationally between the two years — new product line, new region, pricing — because that's the repeatable part, not the number itself.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Who are the customers actually worth protecting?</h3>
+                        <p>Ranking customers by revenue tells me whether the business depends on a handful of whales or a broader base, which changes how a retention program should be built.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-topcustomers.png" alt="Top customers by revenue result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT c.customer_key, c.first_name, c.last_name, SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY total_revenue DESC LIMIT 10;</code></pre>
+                        <p>The top 10 cluster tightly around ~13,000 each. No single whale. Good news for retention risk, but it means a loyalty program needs to target a band of similar customers, not chase a handful of VIP names.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>What does the customer base actually look like?</h3>
+                        <p>Segmenting by lifespan and spend (VIP, Regular, New) turns a flat customer list into something a marketing or CS team can act on.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-segments.png" alt="Customer segmentation result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">-- VIP: 12+ months history, spend > 5,000
+-- Regular: 12+ months history, spend &lt;= 5,000
+-- New: less than 12 months history
+SELECT customer_segment, COUNT(customer_key) AS total_customers
+FROM segmented_customers GROUP BY customer_segment;</code></pre>
+                        <p>79% of the customer base is "New," under 12 months of history. That isn't automatically a growth story, it could just as easily be weak retention past year one. The next query this forces is a cohort retention check, not another acquisition metric.</p>
                     </div>
 
                 </div>
@@ -122,6 +161,9 @@
     <script src="assets/js/aos.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
 </body>
 </html>

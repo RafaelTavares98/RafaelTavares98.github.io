@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
 </head>
 <body data-bs-theme="dark">
 
@@ -69,6 +70,32 @@
                     </div>
 
                     <div class="insight-card">
+                        <h3>How does raw trip data become an analyzable table?</h3>
+                        <p>Before any dashboard question can be asked, the fact and dimension data has to be joined into one flat table BigQuery can query fast. The entity-relationship diagram is the plan for that join.</p>
+                        <img class="result-shot" src="assets/images/projects/uber-erd.png" alt="Uber data ER diagram">
+                        <p class="code-label">Transform, BigQuery SQL</p>
+                        <pre><code class="language-sql">CREATE OR REPLACE TABLE uber_analytics AS
+SELECT
+    f.VendorID, d.tpep_pickup_datetime, d.tpep_dropoff_datetime,
+    p.passenger_count, t.trip_distance, r.rate_code_name,
+    pick.pickup_latitude, pick.pickup_longitude,
+    dropoff.dropoff_latitude, dropoff.dropoff_longitude,
+    pay.payment_type_name, f.fare_amount, f.tip_amount, f.total_amount
+FROM fact_table f
+JOIN datetime_dim d ON f.datetime_id = d.datetime_id
+JOIN passenger_count_dim p ON f.passenger_count_id = p.passenger_count_id
+JOIN trip_distance_dim t ON f.trip_distance_id = t.trip_distance_id;</code></pre>
+                        <p>Denormalizing into one wide table trades storage for query speed, the right call for a dashboard that gets hit repeatedly but rebuilt rarely. The cost of that trade-off is a table that must be fully rebuilt whenever a dimension changes, worth knowing before scaling this past a portfolio project.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>What does the dashboard actually surface?</h3>
+                        <p>The pipeline only matters if it ends in something a non-technical stakeholder can read without a SQL client open.</p>
+                        <img class="result-shot" src="assets/images/projects/uber-dashboard.png" alt="Looker Studio dashboard">
+                        <p>Looker Studio reads directly from the BigQuery table above, no separate export step. That's the part worth replicating: the dashboard updates whenever the pipeline reruns, instead of going stale between manual refreshes.</p>
+                    </div>
+
+                    <div class="insight-card">
                         <h3>Status</h3>
                         <p>This page is a study reference, not finished original work. It walks through an existing GCP and Mage pipeline to learn the architecture before rebuilding it with a different dataset and a data warehouse angle closer to my own background.</p>
                     </div>
@@ -104,6 +131,9 @@
     <script src="assets/js/aos.js" defer></script>
     <script src="assets/js/bootstrap.min.js" defer></script>
     <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
 </body>
 </html>
