@@ -406,14 +406,14 @@ a:hover{
 
 .hero-portrait .pic {
     position: absolute;
-    right: 0;
+    right: 10%;
     top: 0;
-    bottom: 0;
-    width: 45vw;
+    bottom: 90px;
+    width: min(30vw, 340px);
     background-size: contain;
     background-position: bottom;
     background-repeat: no-repeat;
-    background-image: url(/assets/images/portrait.jpg);
+    background-image: url(/assets/images/portrait-about.jpg);
 }
 
 @media (max-width: 576px) {
@@ -441,7 +441,7 @@ a:hover{
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-image: url(/assets/images/portrait.jpg);
+        background-image: url(/assets/images/portrait-about.jpg);
     }
 
     .hero-content{
@@ -755,6 +755,18 @@ a:hover{
 
 .project-card .icon{
     max-width: 70%;
+}
+
+.project-card .icon-badge{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--primary-gradient-color);
+    font-size: 1.3rem;
 }
 
 .project-card .description-container{

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL EDA - Rafael Tavares</title>
+    <meta name="description" content="Exploratory data analysis on a sales data warehouse, translated from SQL Server to PostgreSQL 17.">
+    <link rel="icon" href="assets/images/portrait-about.jpg" type="image/jpeg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-bs-theme="dark">
+
+    <div id="preloader"></div>
+
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-center flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">SQL EDA — PostgreSQL</h1>
+            <p class="muted-text">Exploratory data analysis on a sales data warehouse, translated from SQL Server to PostgreSQL 17.</p>
+            <img src="assets/images/projects/sql-eda-banner.png" class="banner" alt="SQL EDA on PostgreSQL" data-aos="fade-up" decoding="async">
+        </div>
+    </section>
+
+    <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
+
+                    <div class="insight-card">
+                        <h3>Case Description</h3>
+                        <p>This project follows Baraa Khatib Salkini's "sql-data-analytics-project" hands-on portfolio project, an exploratory data analysis exercise over a sales data warehouse. The original scripts target SQL Server; I rebuilt the whole thing on <b>PostgreSQL 17</b>, running locally.</p>
+                        <p>The <code>gold</code> schema holds <b>3 tables</b>: <b>18,484</b> customers, <b>295</b> products, and <b>60,398</b> sales records.</p>
+                        <p>The analysis is structured around <b>13 sections</b>, from basic database exploration to two final reporting views:</p>
+                        <ul>
+                            <li>Database and dimension exploration, date ranges, key measures</li>
+                            <li>Magnitude and ranking analysis</li>
+                            <li>Change over time, cumulative totals, year-over-year performance</li>
+                            <li>Customer and product segmentation, part-to-whole analysis</li>
+                            <li>Two reporting views: <code>gold.report_customers</code> and <code>gold.report_products</code></li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>SQL Server → PostgreSQL</h3>
+                        <p>Every script needed a real syntax translation, not just a copy-paste. The main changes:</p>
+                        <ul>
+                            <li><code>DATEDIFF(month, a, b)</code> → a calendar-month difference built from <code>EXTRACT(YEAR ...)</code> and <code>EXTRACT(MONTH ...)</code></li>
+                            <li><code>GETDATE()</code> → <code>CURRENT_DATE</code></li>
+                            <li><code>TOP n</code> → <code>ORDER BY ... LIMIT n</code></li>
+                            <li><code>DATETRUNC()</code> / <code>FORMAT()</code> → <code>DATE_TRUNC()</code> / <code>TO_CHAR()</code></li>
+                            <li><code>BULK INSERT</code> → <code>COPY ... WITH (FORMAT csv, HEADER true)</code></li>
+                            <li><code>ROUND()</code> on a 2-argument call needed an explicit cast to <code>numeric</code>, since Postgres only allows the 2-argument form on that type</li>
+                        </ul>
+                        <p>The full, commented query file runs end to end against a local PostgreSQL 17 install with no errors.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/GitHub_Logo.png" alt="GitHub Logo" loading="lazy" decoding="async">
+                        <h3>SQL Scripts</h3>
+                        <p>View the full PostgreSQL scripts and schema behind this analysis.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/sql-eda-postgresql" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Made with <span>Bootstrap, HTML, CSS, JS</span> and a dash of <span class="heart-icon"><i class="bi bi-hearts"></i></span> by <span>Rafael Tavares</span>.</p>
+            <p class="text-center credit-note">Front-end design adapted from <a href="https://github.com/itsvijaysingh/My-Portfolio" target="_blank">Vijay Singh's portfolio template</a>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+
+</body>
+</html>
