@@ -101,11 +101,6 @@ JOIN trip_distance_dim t ON f.trip_distance_id = t.trip_distance_id;</code></pre
                         <p>The design has one limit. The wide table must be rebuilt in full after any change to a dimension. That is acceptable for trip data that arrives in batches. A source with frequent dimension changes needs incremental loads instead.</p>
                     </div>
 
-                    <div class="insight-card">
-                        <h3>Status</h3>
-                        <p>This page is a study reference and not original work. I followed an existing Google Cloud and Mage pipeline to learn the architecture. I will then rebuild it with a different data set, closer to the logistics data I work with.</p>
-                    </div>
-
                 </div>
                 <div class="col-lg-4" data-aos="fade-up">
                     <div class="cta-box">
