@@ -725,6 +725,8 @@ a:hover{
 
 .project-card .title {
     position: relative;
+    display: block;
+    min-height: 54px;
     font-size: 18px;
     text-decoration: none;
 }
@@ -752,11 +754,17 @@ a:hover{
 }
 
 /* Tech pills on the project cards */
+.project-card .card-body {
+    flex: 0 0 auto;
+}
+
 .project-card .stacks {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
-    margin-top: 4px !important;
+    align-content: flex-start;
+    gap: 5px;
+    min-height: 45px;
+    margin-top: 10px !important;
 }
 
 .project-card .tech {
