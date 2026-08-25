@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL: Fundamental Exploratory Data Analysis - Rafael Tavares</title>
+    <meta name="description" content="A handful of SQL commands answers most of the questions a business asks. Exploratory analysis of a sales data warehouse in PostgreSQL 17.">
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=12">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- Analytics -->
+    <script data-goatcounter="https://rafaeltavares.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <style>
+        .insight-card .step-list {
+            margin: 14px 0px 18px 0px;
+            padding-left: 20px;
+        }
+
+        .insight-card .step-list li {
+            padding: 3px 0px;
+        }
+
+        .insight-card .step-list li::marker {
+            color: #a06ce0;
+        }
+
+        .insight-card .command-grid {
+            column-count: 3;
+            column-gap: 24px;
+            margin: 18px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .command-grid li {
+            break-inside: avoid;
+            padding: 5px 0px 5px 20px;
+            position: relative;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13.5px;
+            color: var(--text-color);
+        }
+
+        .insight-card .command-grid li::before {
+            content: "\203A";
+            position: absolute;
+            left: 4px;
+            color: #a06ce0;
+        }
+
+        @media (max-width: 767.98px) {
+            .insight-card .command-grid {
+                column-count: 2;
+            }
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+
+    <div id="preloader"></div>
+
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-center flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">SQL: Fundamental Exploratory Data Analysis</h1>
+            <p class="muted-text">A handful of commands answers most of what a business asks. Each one here ends in a decision.</p>
+            <img src="assets/images/projects/sql-eda-banner-draft.png" class="banner" alt="SQL EDA Notebook" data-aos="fade-up" decoding="async">
+        </div>
+    </section>
+
+        <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
+
+                    <div class="insight-card">
+                        <h3>A small set of commands, most of the work!</h3>
+                        <p>A fifth of SQL carries most of the work, and the same short list keeps coming up. Here it is.</p>
+                        <ul class="command-grid">
+                            <li>SELECT / FROM</li>
+                            <li>WHERE</li>
+                            <li>DISTINCT</li>
+                            <li>JOIN</li>
+                            <li>GROUP BY</li>
+                            <li>HAVING</li>
+                            <li>SUM, COUNT, AVG</li>
+                            <li>MIN, MAX</li>
+                            <li>ORDER BY</li>
+                            <li>LIMIT</li>
+                            <li>UNION ALL</li>
+                            <li>CASE WHEN</li>
+                            <li>CTE (WITH)</li>
+                            <li>Window functions</li>
+                            <li>Subqueries</li>
+                            <li>Date functions</li>
+                            <li>COALESCE, NULLIF</li>
+                        </ul>
+                        <p>The list is short for a reason. SQL rests on a small, closed set of operations, and business questions come in a narrow shape: how much, of what kind, compared to what, and which are the extremes. A short vocabulary is enough because the questions repeat. The hard part was never the syntax. It is knowing which item to reach for, and what the answer means once it arrives.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>The data, and what is being checked</h3>
+                        <p>The warehouse is the teaching data set from <a href="https://github.com/DataWithBaraa/sql-data-analytics-project" target="_blank">Data With Baraa</a>, written for SQL Server. I rebuilt the schema and rewrote every query for PostgreSQL 17.</p>
+                        <p>It is a bicycle retailer in a star schema: 60,398 order lines, 18,484 customers, 295 products, from 2010 to 2014.</p>
+                        <p>Exploratory analysis follows a fixed order:</p>
+                        <ol class="step-list">
+                            <li>Read the structure, and find what one row means.</li>
+                            <li>Check the quality: nulls, duplicates, impossible ranges, broken keys.</li>
+                            <li>Look at one field at a time.</li>
+                            <li>Look at fields together.</li>
+                            <li>Look at the whole thing over time.</li>
+                            <li>Split it by segment and compare.</li>
+                        </ol>
+                        <p>What it produces is not a conclusion. It is a shorter list of questions worth asking, and a note on what the data cannot answer. The five sections below work through that order.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Aggregates and UNION ALL: what is the current baseline?</h3>
+                        <p>The first question in any review is the size of the business. Five aggregates give it, and <code>UNION ALL</code> stacks them into a single result set instead of five separate queries. This is the shape of a KPI board before any tool draws it.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-kpi.png" alt="Key business metrics result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value FROM gold.fact_sales
+UNION ALL SELECT 'Total Quantity', SUM(quantity) FROM gold.fact_sales
+UNION ALL SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
+UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;</code></pre>
+                        <p>The business turns over $29.36M across 27,659 orders, which puts the average order near $1,061. That single figure is the reference I check every later result against. A slice that implies an average order of $300 or $4,000 means the slice is wrong, not the business.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>JOIN and GROUP BY: where does the revenue come from?</h3>
+                        <p>The fact table holds the money and the dimension table holds the labels, so one <code>LEFT JOIN</code> connects them and one <code>GROUP BY</code> collapses the result to the level the business thinks in. This pair is the most used construction in analytical SQL, and it answers the question that follows the totals every time.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-category.png" alt="Revenue by category result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT
+    p.category,
+    SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+GROUP BY p.category
+ORDER BY total_revenue DESC;</code></pre>
+                        <p>Bikes produce 96.5% of the revenue. Accessories and Clothing together account for the remaining 3.5%, even though they hold most of the catalogue. This is concentration risk, and it is the kind of finding that changes a roadmap: a weak quarter for one category becomes a weak quarter for the whole company. The next query is the same one cut by margin instead of revenue.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>DATE_TRUNC: is the business growing, and how steadily?</h3>
+                        <p>Dates are the field where SQL dialects differ most, and where a lot of analysts stall. In PostgreSQL, <code>DATE_TRUNC</code> flattens a timestamp to the start of the year, the month, or the day, which turns a raw order date into a reporting period. One function replaces the calendar table that this task often gets built with.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-yearly.png" alt="Yearly sales trend result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT
+    DATE_TRUNC('year', order_date) AS order_year,
+    SUM(sales_amount) AS total_sales,
+    COUNT(DISTINCT customer_key) AS total_customers
+FROM gold.fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_TRUNC('year', order_date)
+ORDER BY order_year;</code></pre>
+                        <p>Sales fell 17% in 2012 against 2011, then came close to tripling in 2013. A trend that moves like this is not a trend yet. Before anyone builds a forecast on 2013, somebody has to name the operational change behind it, whether that was a new product line, a new region, or a price move. The number is the symptom, and the change is the thing the business can repeat.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>ORDER BY and LIMIT: which customers carry the revenue?</h3>
+                        <p>Ranking is the cheapest useful query in SQL, and it settles a question that changes how a retention programme is designed. If a handful of accounts carry the revenue, the company protects those accounts by name. If the revenue is spread, it needs a programme instead of a phone call.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-topcustomers.png" alt="Top customers by revenue result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">SELECT
+    c.customer_key,
+    c.first_name,
+    c.last_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY total_revenue DESC
+LIMIT 10;</code></pre>
+                        <p>The ten largest customers each spend close to $13,000, and the gap between first and tenth is small. No single account dominates, so losing one of them costs the business little. The same result rules out a VIP list as a retention plan, because there is no meaningful VIP tier to build one from.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>CASE and a CTE: what does the customer base look like?</h3>
+                        <p><code>CASE</code> is how business rules enter SQL. It turns two continuous measures, how long a customer has been buying and how much they have spent, into the three groups a marketing team can actually work with. The CTE holds the per-customer totals so the <code>CASE</code> has something to classify, which is the only reason it is there.</p>
+                        <img class="result-shot" src="assets/images/projects/shot-segments.png" alt="Customer segmentation result">
+                        <p class="code-label">Query</p>
+                        <pre><code class="language-sql">WITH customer_spending AS (
+    SELECT
+        c.customer_key,
+        SUM(f.sales_amount) AS total_spending,
+        (EXTRACT(YEAR FROM MAX(order_date)) - EXTRACT(YEAR FROM MIN(order_date))) * 12
+            + (EXTRACT(MONTH FROM MAX(order_date)) - EXTRACT(MONTH FROM MIN(order_date))) AS lifespan
+    FROM gold.fact_sales f
+    LEFT JOIN gold.dim_customers c ON f.customer_key = c.customer_key
+    GROUP BY c.customer_key
+)
+SELECT
+    CASE
+        WHEN lifespan >= 12 AND total_spending > 5000 THEN 'VIP'
+        WHEN lifespan >= 12 AND total_spending <= 5000 THEN 'Regular'
+        ELSE 'New'
+    END AS customer_segment,
+    COUNT(customer_key) AS total_customers
+FROM customer_spending
+GROUP BY customer_segment
+ORDER BY total_customers DESC;</code></pre>
+                        <p>79% of the customers fall into "New", with less than twelve months of history. That figure has two readings and the data here cannot separate them: either acquisition is strong, or customers stop buying before the first year is out. The honest next step is a cohort retention check, not another acquisition metric on the dashboard.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Bottom line</h3>
+                        <p>Five commands and one date function carried this analysis from an empty console to three findings a manager can act on: the revenue sits in one category, the customer base has no anchor accounts, and four out of five customers are too new to judge. None of that needed a tool beyond PostgreSQL, and none of it needed SQL that a first-year analyst has not already seen.</p>
+                        <p>What the fundamentals do not give you is the next step. Confirming whether 2013 was durable, or whether those new customers stay, needs window functions and cohort logic. That is the follow-up project, and it starts exactly where this one stops.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/GitHub_Logo.png" alt="GitHub Logo" loading="lazy" decoding="async">
+                        <h3>SQL Scripts</h3>
+                        <p>View the full PostgreSQL scripts and schema behind this analysis.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/sql-eda-postgresql" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+</body>
+</html>
