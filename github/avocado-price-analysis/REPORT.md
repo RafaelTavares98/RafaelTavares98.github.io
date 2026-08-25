@@ -1,5 +1,12 @@
 # Avocado price analysis, rebuilt
 
+> **Superseded.** This was the first pass over the data, four queries answering
+> the original project's questions. The conclusion in Q1, that the price to
+> volume relationship is moderate, does not survive the current analysis: the
+> -0.34 figure pools 53 markets and two product lines, and inside a single
+> market the correlation averages -0.72. The file is kept as the record of what
+> the first pass said. See `README.md` for the current work.
+
 A rebuild of Valentin Joseph's "Avocadocalypse" project. His original repo
 returned 404 on 2026-08-24, so this uses a different real dataset: the
 public "Avocado Prices" Kaggle dataset (Hass Avocado Board, weekly,

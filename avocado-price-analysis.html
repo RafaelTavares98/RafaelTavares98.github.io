@@ -3,18 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avocado Price Analysis - Rafael Tavares</title>
+    <title>SQL: Advanced Analysis with CRISP-DM - Rafael Tavares</title>
     <meta name="description" content="Avocado sales trends and price-volume relationship, analyzed in PostgreSQL.">
     <link rel="icon" href="assets/images/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
     <link rel="stylesheet" href="assets/css/aos.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css?v=14">
+    <link rel="stylesheet" href="assets/css/style.css?v=15">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <!-- Analytics -->
     <script data-goatcounter="https://rafaeltavares.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
+    <style>
+        .insight-card .card-head {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-card .card-head h3 {
+            margin-bottom: 0;
+        }
+
+        .insight-card .commands-used {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            gap: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .card-head {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .insight-card .commands-used {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+        }
+
+        .insight-card .commands-used span {
+            padding: 2px 8px;
+            border-radius: 32px;
+            border: 1px solid rgba(144, 81, 227, .35);
+            background-color: rgba(255, 255, 255, .04);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 10.5px;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
+
+        .crisp-figure {
+            margin: 20px 0px 22px 0px;
+        }
+
+        .crisp-figure svg {
+            display: block;
+            width: 100%;
+            max-width: 560px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .crisp-figure .crisp-node rect {
+            fill: rgba(144, 81, 227, .16);
+            stroke: #a06ce0;
+            stroke-width: 2;
+        }
+
+        .crisp-figure .crisp-node text {
+            fill: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 21px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        .crisp-figure .crisp-centre {
+            fill: var(--muted-text);
+            font-family: var(--font-family);
+            font-size: 19px;
+            font-weight: 500;
+        }
+
+        .crisp-figure .crisp-caption {
+            margin: 6px 0px 0px 0px;
+            text-align: center;
+            font-size: 13px !important;
+        }
+
+        .insight-card .recap-list {
+            margin: 16px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .recap-list li {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 9px 0px;
+            border-bottom: 1px solid rgba(144, 81, 227, .18);
+        }
+
+        .insight-card .recap-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .insight-card .recap-list .q {
+            flex: 0 0 42%;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+
+        .insight-card .recap-list .a {
+            flex: 1;
+            color: var(--muted-text);
+            font-size: 15px;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .recap-list .q {
+                flex: 0 0 100%;
+            }
+        }
+
+        .insight-card .step-list {
+            margin: 14px 0px 18px 0px;
+            padding-left: 20px;
+        }
+
+        .insight-card .step-list li {
+            padding: 3px 0px;
+        }
+
+        .insight-card .step-list li::marker {
+            color: #a06ce0;
+        }
+
+        .insight-card .command-grid {
+            column-count: 3;
+            column-gap: 24px;
+            margin: 18px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .command-grid li {
+            break-inside: avoid;
+            padding: 5px 0px 5px 20px;
+            position: relative;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13.5px;
+            color: var(--text-color);
+        }
+
+        .insight-card .command-grid li::before {
+            content: "\203A";
+            position: absolute;
+            left: 4px;
+            color: #a06ce0;
+        }
+
+        @media (max-width: 767.98px) {
+            .insight-card .command-grid {
+                column-count: 2;
+            }
+        }
+    </style>
 </head>
 <body data-bs-theme="dark">
 
@@ -56,75 +220,548 @@
     <section class="page-hero">
         <div class="container">
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
-            <h1 data-aos="fade-up">Avocado Price Analysis</h1>
-            <p class="muted-text">Does price change volume? Which regions and varieties lead U.S. avocado sales? Answered with PostgreSQL.</p>
-            <img src="assets/images/projects/avocado-banner.png" class="banner" alt="Avocado Price Analysis" data-aos="fade-up" decoding="async">
+            <h1 data-aos="fade-up">SQL: Advanced Analysis with CRISP-DM</h1>
+            <p class="muted-text">Window functions carry the SQL. CRISP-DM carries the order. Three years of weekly prices as the case.</p>
+            <img src="assets/images/projects/avocado-banner.png?v=3" class="banner" alt="Avocado Price Analysis" data-aos="fade-up" decoding="async">
         </div>
     </section>
 
-    <section class="detail-section">
+            <section class="detail-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8" data-aos="fade-up">
 
                     <div class="insight-card">
-                        <h3>Case description</h3>
-                        <p>Weekly Hass avocado sales data from 2015 to 2018: average price, total volume, and volume by PLU code (small, large, and extra-large) across U.S. regions. The data is loaded into PostgreSQL and queried directly.</p>
+                        <h3>Past the fundamentals</h3>
+                        <p>The <a href="sql-eda.html">first project</a> argued that seventeen commands answer most of what a business asks. They run out when a question needs one row compared against another, because an aggregate destroys the rows it summarises.</p>
+                        <p>A window function keeps the row and brings the comparison to it. That is the boundary between basic and advanced SQL.</p>
+                        <ul class="command-grid">
+                            <li>AVG() OVER</li>
+                            <li>ROWS BETWEEN</li>
+                            <li>Moving average</li>
+                            <li>LAG(col, n)</li>
+                            <li>RANK() OVER</li>
+                            <li>PARTITION BY</li>
+                            <li>SUM() OVER ()</li>
+                            <li>Running total</li>
+                            <li>CORR</li>
+                            <li>CTE (WITH)</li>
+                            <li>CASE WHEN</li>
+                            <li>NULLIF</li>
+                            <li>GROUP BY</li>
+                            <li>UNION ALL</li>
+                            <li>CREATE VIEW</li>
+                        </ul>
+                        <p>Fifteen items, each extending one of the seventeen rather than replacing it.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Does price change volume?</h3>
-                        <p>The usual hypothesis is that a higher price gives lower sales. I test it first, because a weak relation means price is the wrong control to use.</p>
-                        <img class="result-shot" src="assets/images/projects/shot-avocado-corr.png" alt="Price-volume correlation result">
-                        <p class="code-label">Query</p>
-                        <pre><code class="language-sql">SELECT CORR(average_price, total_volume) AS price_volume_correlation
+                        <h3>The case, and the method</h3>
+                        <p><strong>The goal is to take a published number apart and find out whether a buyer can act on it.</strong> Advanced SQL is how the number gets tested. CRISP-DM is what stops the testing from becoming a tour of techniques.</p>
+                        <p>The case: 18,249 weekly rows of Hass avocado sales, 2015 to early 2018, across 54 regions and two product types. Three full years of weeks is the natural shape for windows. The six phases:</p>
+                        <div class="crisp-figure">
+                            <svg viewBox="0 0 760 640" role="img" aria-labelledby="crispTitle">
+                                <title id="crispTitle">The six phases of CRISP-DM, arranged as a cycle</title>
+                                <defs>
+                                    <marker id="crispArrow" viewBox="0 0 10 10" refX="8" refY="5"
+                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6bb5"></path>
+                                    </marker>
+                                    <marker id="crispArrowFaint" viewBox="0 0 10 10" refX="8" refY="5"
+                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b5a86"></path>
+                                    </marker>
+                                </defs>
+
+                                <!-- the outer loop: the process repeats -->
+                                <circle cx="380" cy="310" r="288" fill="none" stroke="#4a3d63"
+                                        stroke-width="10" stroke-dasharray="1140 120"
+                                        transform="rotate(-84 380 310)"></circle>
+                                <path d="M 372 22 L 398 22" stroke="#4a3d63" stroke-width="10"
+                                      marker-end="url(#crispArrowFaint)"></path>
+
+                                <!-- centre -->
+                                <g transform="translate(380 300)">
+                                    <ellipse cx="0" cy="-34" rx="46" ry="14" fill="#2c2440" stroke="#6b5a86" stroke-width="2"></ellipse>
+                                    <path d="M -46 -34 L -46 30 A 46 14 0 0 0 46 30 L 46 -34"
+                                          fill="#221c33" stroke="#6b5a86" stroke-width="2"></path>
+                                    <ellipse cx="0" cy="-6" rx="46" ry="14" fill="none" stroke="#6b5a86" stroke-width="1.5" opacity=".7"></ellipse>
+                                    <ellipse cx="0" cy="16" rx="46" ry="14" fill="none" stroke="#6b5a86" stroke-width="1.5" opacity=".7"></ellipse>
+                                    <text x="0" y="76" text-anchor="middle" class="crisp-centre">Data</text>
+                                </g>
+
+                                <!-- phase boxes -->
+                                <g class="crisp-node">
+                                    <rect x="150" y="86" width="215" height="72" rx="12"></rect>
+                                    <text x="257" y="115">Business</text>
+                                    <text x="257" y="141">understanding</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="415" y="86" width="215" height="72" rx="12"></rect>
+                                    <text x="522" y="115">Data</text>
+                                    <text x="522" y="141">understanding</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="500" y="238" width="200" height="72" rx="12"></rect>
+                                    <text x="600" y="267">Data</text>
+                                    <text x="600" y="293">preparation</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="500" y="378" width="200" height="60" rx="12"></rect>
+                                    <text x="600" y="414">Modelling</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="285" y="498" width="200" height="60" rx="12"></rect>
+                                    <text x="385" y="534">Evaluation</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="60" y="298" width="200" height="60" rx="12"></rect>
+                                    <text x="160" y="334">Deployment</text>
+                                </g>
+
+                                <!-- the two-way pass between the first two phases -->
+                                <path d="M 373 112 L 407 112" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+                                <path d="M 407 134 L 373 134" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+
+                                <!-- understanding to preparation -->
+                                <path d="M 560 166 Q 600 200 600 228" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- preparation and modelling loop back and forth -->
+                                <path d="M 585 320 L 585 368" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+                                <path d="M 615 368 L 615 320" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+
+                                <!-- modelling to evaluation -->
+                                <path d="M 560 446 Q 520 512 495 526" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- evaluation back to business understanding -->
+                                <path d="M 330 496 Q 300 340 300 168" fill="none" stroke="#6b5a86"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- evaluation to deployment -->
+                                <path d="M 280 512 Q 180 470 150 368" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+                            </svg>
+                            <p class="crisp-caption">The six phases. Evaluation feeds back into the business question, which is the loop that catches a wrong answer before it ships.</p>
+                        </div>
+                        <ul class="recap-list">
+                            <li><span class="q">Business understanding</span><span class="a">what decision is this for?</span></li>
+                            <li><span class="q">Data understanding</span><span class="a">what is in the table, and what is wrong with it?</span></li>
+                            <li><span class="q">Data preparation</span><span class="a">what gets dropped, and what does that cost?</span></li>
+                            <li><span class="q">Modelling</span><span class="a">the windows that answer the question.</span></li>
+                            <li><span class="q">Evaluation</span><span class="a">does the answer survive being split apart?</span></li>
+                            <li><span class="q">Deployment</span><span class="a">who queries this after I stop?</span></li>
+                        </ul>
+                        <p>Two published claims about this data set fail at phase five. Catching that before the answer ships is the entire point of running a process instead of writing queries.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>1. Business understanding</h3>
+                            <p class="commands-used"><span>No query yet</span></p>
+                        </div>
+                        <p><strong>A produce buyer holds one week of stock and sets one price.</strong> How much to buy and what to charge both need the same answer.</p>
+                        <p>Does price move volume, and by how much in the market I actually buy for?</p>
+                        <p>The published answer is a correlation of <strong>-0.34</strong>, weak enough that a buyer would drop price as a lever. The decision flips depending on whether that is right.</p>
+                        <p>One rule, set before any query runs: a result counts only if it holds one market at a time.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>2. Data understanding</h3>
+                            <p class="commands-used"><span>COUNT</span><span>CASE WHEN</span><span>UNION ALL</span><span>Views as tests</span></p>
+                        </div>
+                        <p><strong>Every data set arrives claiming to be clean.</strong> Seven rules test that, and they live in a view so the next person runs them.</p>
+                        <p class="code-label">The rules, as a view</p>
+                        <pre><code class="language-sql">CREATE OR REPLACE VIEW data_quality_checks AS
+WITH checks AS (
+    SELECT 1 AS rule_no, 'No null in any key field' AS rule,
+        COUNT(*) FILTER (WHERE sale_date IS NULL OR region IS NULL
+                            OR avocado_type IS NULL OR total_volume IS NULL) AS offenders
+    FROM avocado_prices
+    UNION ALL
+    SELECT 2, 'One row per date, region and type',
+        (SELECT COUNT(*) FROM (
+            SELECT 1 FROM avocado_prices
+            GROUP BY sale_date, region, avocado_type HAVING COUNT(*) &gt; 1) d)
+    UNION ALL
+    SELECT 3, 'row_id is unique',
+        (SELECT COUNT(*) - COUNT(DISTINCT row_id) FROM avocado_prices)
+    UNION ALL
+    SELECT 4, 'Volume equals the sum of its parts',
+        COUNT(*) FILTER (WHERE ABS(total_volume
+            - (plu4046 + plu4225 + plu4770 + total_bags)) &gt; 1)
+    FROM avocado_prices
+    UNION ALL
+    SELECT 5, 'sale_year agrees with sale_date',
+        COUNT(*) FILTER (WHERE sale_year &lt;&gt; EXTRACT(YEAR FROM sale_date))
+    FROM avocado_prices
+    UNION ALL
+    SELECT 6, 'No zero or negative price or volume',
+        COUNT(*) FILTER (WHERE average_price &lt;= 0 OR total_volume &lt;= 0)
+    FROM avocado_prices
+    UNION ALL
+    SELECT 7, 'Every series has all 169 weeks',
+        (SELECT COUNT(*) FROM (
+            SELECT 1 FROM avocado_prices
+            GROUP BY region, avocado_type
+            HAVING COUNT(DISTINCT sale_date) &lt;&gt; 169) s)
+)
+SELECT
+    rule_no,
+    rule,
+    offenders,
+    CASE WHEN offenders = 0 THEN 'pass' ELSE 'FAIL' END AS verdict
+FROM checks;</code></pre>
+                        <p class="code-label">Run them</p>
+                        <pre><code class="language-sql">SELECT rule_no, rule, offenders, verdict
+FROM data_quality_checks
+ORDER BY rule_no;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a12-quality.png" alt="Data quality check results">
+                        <p>Four pass, three fail. A suite where everything passes is usually a suite that asks nothing.</p>
+                        <h4>What the three failures mean</h4>
+                        <p><code>row_id</code> is not an id. 18,249 rows hold 53 distinct values, because it is a week counter that restarts inside every region, type and year. Join on it and the data is destroyed quietly.</p>
+                        <p>181 rows report a <code>total_volume</code> that is not the sum of its parts, by up to 7.9% of the row. Use the reported total, never the components.</p>
+                        <p>One series is short. That is the one that matters, and phase three is where it bites.</p>
+                        <p class="code-label">The shape underneath all of that</p>
+                        <pre><code class="language-sql">SELECT
+    COUNT(*) AS weekly_rows,
+    COUNT(DISTINCT region) AS regions,
+    COUNT(DISTINCT avocado_type) AS types,
+    MIN(sale_date) AS first_week,
+    MAX(sale_date) AS last_week
+FROM avocado_prices;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a1-shape.png" alt="Shape of the avocado table">
+                        <h4>And the trap the tests do not catch</h4>
+                        <p>The <code>region</code> column looks like a list of markets. It holds eight multi-state aggregates beside the metros they already contain, plus a <code>TotalUS</code> row holding everything.</p>
+                        <p class="code-label">Add the regions up and compare</p>
+                        <pre><code class="language-sql">SELECT
+    'Sum of every region except TotalUS' AS measure,
+    ROUND(SUM(CASE WHEN region &lt;&gt; 'TotalUS' THEN total_volume END)) AS units
 FROM avocado_prices
-WHERE region <> 'TotalUS';</code></pre>
-                        <p>The correlation is -0.34. Price and volume move in opposite directions, but the relation is weak. Other causes, such as promotions, seasons, and competing produce, have more effect than price. A price change is therefore not a reliable method to control volume.</p>
-                    </div>
-
-                    <div class="insight-card">
-                        <h3>Which regions carry the volume?</h3>
-                        <p>Regions do not buy equally. The location of the volume decides where the distribution and marketing budget goes first.</p>
-                        <img class="result-shot" src="assets/images/projects/shot-avocado-regions.png" alt="Top regions by volume result">
-                        <p class="code-label">Query</p>
-                        <pre><code class="language-sql">SELECT region, SUM(total_volume) AS total_volume_2015_2018
+UNION ALL SELECT 'Reported TotalUS',
+    ROUND(SUM(CASE WHEN region = 'TotalUS' THEN total_volume END))
 FROM avocado_prices
-WHERE region <> 'TotalUS'
-GROUP BY region ORDER BY total_volume_2015_2018 DESC LIMIT 10;</code></pre>
-                        <p>West, California, and SouthCentral lead, and they are within 7% of each other. No region dominates. Demand is distributed, so the regional concentration risk is low.</p>
+UNION ALL SELECT 'Overstatement',
+    ROUND(SUM(CASE WHEN region &lt;&gt; 'TotalUS' THEN total_volume END)
+        - SUM(CASE WHEN region = 'TotalUS' THEN total_volume END))
+FROM avocado_prices;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a2-trap.png" alt="Double counting across regions">
+                        <p>Summing every region overstates the country by 65%. No rule catches it, because nothing is malformed: the column is right and the assumption about it is wrong.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Which size sells most?</h3>
-                        <p>A supplier can assume that small avocados are the safe default order. The data must confirm that assumption before it becomes a purchasing rule.</p>
-                        <img class="result-shot" src="assets/images/projects/shot-avocado-variety.png" alt="PLU variety volume result">
-                        <p class="code-label">Query</p>
-                        <pre><code class="language-sql">SELECT 'PLU4046 (small)' AS variety, SUM(plu4046) AS total_volume FROM avocado_prices
-UNION ALL SELECT 'PLU4225 (large)', SUM(plu4225) FROM avocado_prices
-UNION ALL SELECT 'PLU4770 (extra-large)', SUM(plu4770) FROM avocado_prices
-ORDER BY total_volume DESC;</code></pre>
-                        <p>Large Hass (PLU4225) is less than 1% above small Hass (PLU4046). Both are far above extra-large. The difference is too small to give a default size. A supplier that orders only small avocados ignores almost half of the demand.</p>
-                    </div>
-
-                    <div class="insight-card">
-                        <h3>Does Los Angeles follow the national trend?</h3>
-                        <p>If a large city moves independently of the national figure, national trends are not a valid basis to plan for that city.</p>
-                        <img class="result-shot" src="assets/images/projects/shot-avocado-la.png" alt="Los Angeles vs national volume result">
-                        <p class="code-label">Query</p>
-                        <pre><code class="language-sql">SELECT sale_year,
-    SUM(CASE WHEN region = 'LosAngeles' THEN total_volume END) AS los_angeles_volume,
-    SUM(CASE WHEN region = 'TotalUS' THEN total_volume END) AS total_us_volume
+                        <div class="card-head">
+                            <h3>3. Data preparation</h3>
+                            <p class="commands-used"><span>CREATE OR REPLACE VIEW</span><span>LAG</span><span>Layered ELT</span><span>Idempotency</span></p>
+                        </div>
+                        <p><strong>The loader touches nothing, so every transformation lives in the database.</strong> That makes this ELT rather than ETL, and every step readable rather than trusted.</p>
+                        <p>Three layers, one job each:</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Landing</span><span class="a"><code>avocado_prices</code>, a table. Typed, and nothing removed.</span></li>
+                            <li><span class="q">Conformed</span><span class="a"><code>avocado_clean</code>, a view. Safe to add up.</span></li>
+                            <li><span class="q">Consumption</span><span class="a"><code>weekly_us</code> and <code>report_regions</code>, one per question.</span></li>
+                        </ul>
+                        <p>That is the medallion shape with the labels left off on purpose. Bronze, silver and gold carry machinery for scale and incremental loads that a 5 MB CSV does not need. The shape is worth borrowing, the vocabulary would be decoration.</p>
+                        <p class="code-label">The conformed layer</p>
+                        <pre><code class="language-sql">CREATE OR REPLACE VIEW avocado_clean AS
+SELECT
+    sale_date,
+    region,
+    avocado_type,
+    average_price,
+    total_volume,
+    plu4046,
+    plu4225,
+    plu4770,
+    total_bags,
+    sale_year,
+    sale_year = 2018 AS is_partial_year
 FROM avocado_prices
-WHERE region IN ('LosAngeles', 'TotalUS')
-GROUP BY sale_year ORDER BY sale_year;</code></pre>
-                        <p>Los Angeles holds a stable share near 8.9% of national volume in the three full years, 2015 to 2017. It follows the national trend closely, so national forecasts are sufficient for Los Angeles. A separate regional model is not necessary.</p>
+WHERE region NOT IN ('TotalUS', 'West', 'SouthCentral', 'Northeast', 'Southeast',
+                     'GreatLakes', 'Midsouth', 'Plains', 'California');</code></pre>
+                        <p>It drops the nine overlapping regions and <code>row_id</code>, and flags the partial year instead of deleting it: 2018 is valid weekly, invalid in a yearly average.</p>
+                        <p class="code-label">What each layer holds</p>
+                        <pre><code class="language-sql">SELECT 'avocado_prices (landing)' AS layer, COUNT(*) AS rows,
+       COUNT(DISTINCT region) AS regions
+FROM avocado_prices
+UNION ALL
+SELECT 'avocado_clean (conformed)', COUNT(*), COUNT(DISTINCT region)
+FROM avocado_clean
+UNION ALL
+SELECT 'weekly_us (consumption)', COUNT(*), 1
+FROM weekly_us
+UNION ALL
+SELECT 'report_regions (consumption)', COUNT(*), COUNT(*)
+FROM report_regions;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a14-layers.png" alt="Row counts at each layer">
+                        <p>Views and not tables, because the transformation is cheap and never stale. That inverts when recomputing starts to hurt, or when somebody needs yesterday's version.</p>
+                        <p>Every statement is <code>CREATE OR REPLACE</code>, so the script runs from the top as often as needed.</p>
+                        <h4>The check that justifies the layer</h4>
+                        <p><code>LAG(week_price, 52)</code> assumes an unbroken weekly grid. A skipped week makes the offset read the wrong date, silently. That is testable, so it gets tested.</p>
+                        <p class="code-label">Find any week that is not seven days after the last</p>
+                        <pre><code class="language-sql">WITH steps AS (
+    SELECT
+        region,
+        avocado_type,
+        sale_date,
+        sale_date - LAG(sale_date) OVER (
+            PARTITION BY region, avocado_type ORDER BY sale_date) AS days_since_previous
+    FROM avocado_prices
+)
+SELECT region, avocado_type, sale_date, days_since_previous
+FROM steps
+WHERE days_since_previous &lt;&gt; 7
+ORDER BY sale_date;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a13-gaps.png" alt="Gaps in the weekly grid">
+                        <p>Organic in WestTexNewMexico jumps 14 days once and 21 once, holding 166 weeks of 169. The windows below run on <code>TotalUS</code>, which is whole. A per-market version would need a generated calendar.</p>
+                        <p>That is the argument for a preparation phase: invisible in a row count, invisible in a null check, fatal to the technique the page is built on.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Bottom line</h3>
-                        <p>Price is a weak control on volume, at a correlation of -0.34. A price change alone does not deliver a volume target, so promotions and seasonal supply need the attention first.</p>
-                        <p>The demand is stable and distributed. West, California, and SouthCentral are within 7% of each other, and Los Angeles holds a steady 8.9% share of national volume. National forecasts are therefore sufficient for those markets. On purchasing, large and small Hass are less than 1% apart, so an order of only small fruit ignores almost half of the demand.</p>
+                        <div class="card-head">
+                            <h3>4. Modelling</h3>
+                            <p class="commands-used"><span>CORR</span><span>AVG OVER</span><span>ROWS BETWEEN</span><span>LAG(col, 52)</span><span>RANK</span><span>SUM OVER ()</span><span>CASE WHEN</span></p>
+                        </div>
+                        <p><strong>The question from phase one, asked three times, holding a different thing constant each time.</strong></p>
+                        <p class="code-label">The same question at three levels</p>
+                        <pre><code class="language-sql">WITH by_region AS (
+    SELECT CORR(average_price, total_volume)::numeric AS c
+    FROM avocado_prices WHERE region &lt;&gt; 'TotalUS' GROUP BY region
+),
+by_region_and_type AS (
+    SELECT CORR(average_price, total_volume)::numeric AS c
+    FROM avocado_prices WHERE region &lt;&gt; 'TotalUS' GROUP BY region, avocado_type
+)
+SELECT 'Everything pooled' AS held_constant,
+       ROUND(CORR(average_price, total_volume)::numeric, 2) AS price_volume_corr,
+       1 AS groups
+FROM avocado_prices WHERE region &lt;&gt; 'TotalUS'
+UNION ALL
+SELECT 'Region', ROUND(AVG(c), 2), COUNT(*) FROM by_region
+UNION ALL
+SELECT 'Region and type', ROUND(AVG(c), 2), COUNT(*) FROM by_region_and_type;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a3-corr.png" alt="Correlation at three levels of grouping">
+                        <p>Pooled, -0.34. Inside a single market, -0.72. The pooled figure mixes 53 markets of different sizes and price levels, and the mixing is what produces the weak number. <strong>At the level the buyer works at, price is twice the lever the published figure suggests.</strong></p>
+                        <p>Phase one is answered. The rest describes the market that lever is pulled in.</p>
+                        <h4>Trend against noise</h4>
+                        <p class="code-label">Four-week moving average, and the weeks that broke it</p>
+                        <pre><code class="language-sql">WITH weekly AS (
+    SELECT
+        sale_date,
+        ROUND(AVG(average_price), 2) AS week_price
+    FROM avocado_prices
+    WHERE region = 'TotalUS' AND avocado_type = 'conventional'
+    GROUP BY sale_date
+)
+SELECT
+    sale_date,
+    week_price,
+    ROUND(AVG(week_price) OVER (
+        ORDER BY sale_date ROWS BETWEEN 3 PRECEDING AND CURRENT ROW), 2) AS moving_avg_4w,
+    ROUND(week_price - AVG(week_price) OVER (
+        ORDER BY sale_date ROWS BETWEEN 3 PRECEDING AND CURRENT ROW), 2) AS gap
+FROM weekly
+ORDER BY ABS(week_price - AVG(week_price) OVER (
+    ORDER BY sale_date ROWS BETWEEN 3 PRECEDING AND CURRENT ROW)) DESC
+LIMIT 6;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a4-moving-average.png" alt="Four week moving average against the weekly price">
+                        <p>The widest gap in three years is 21 cents, so one expensive week is rarely a signal. <code>ROWS BETWEEN 3 PRECEDING AND CURRENT ROW</code> is what makes it a moving average and not a running one.</p>
+                        <h4>This year against last year</h4>
+                        <p class="code-label">Every September, against the September before</p>
+                        <pre><code class="language-sql">WITH weekly AS (
+    SELECT
+        sale_date,
+        ROUND(AVG(average_price), 2) AS week_price
+    FROM avocado_prices
+    WHERE region = 'TotalUS' AND avocado_type = 'conventional'
+    GROUP BY sale_date
+),
+against_last_year AS (
+    SELECT
+        sale_date,
+        week_price,
+        LAG(week_price, 52) OVER (ORDER BY sale_date) AS same_week_last_year
+    FROM weekly
+)
+SELECT
+    sale_date,
+    week_price,
+    same_week_last_year,
+    ROUND((week_price - same_week_last_year)
+        / NULLIF(same_week_last_year, 0) * 100, 1) AS pct_change
+FROM against_last_year
+WHERE same_week_last_year IS NOT NULL
+  AND EXTRACT(MONTH FROM sale_date) = 9
+ORDER BY sale_date;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a5-yoy.png" alt="September prices against the same week a year earlier">
+                        <p>September 2017 ran 33% to 51% above September 2016, a shock invisible week to week because the rise took months. Note where the <code>WHERE</code> sits: filter first and <code>LAG</code> looks back 52 September rows, which do not exist.</p>
+                        <h4>This market against the others</h4>
+                        <p class="code-label">The 2017 table, and the movement behind it</p>
+                        <pre><code class="language-sql">WITH metro_year AS (
+    SELECT
+        region,
+        sale_year,
+        SUM(total_volume) AS volume
+    FROM avocado_prices
+    WHERE region IN ('LosAngeles', 'NewYork', 'Houston', 'DallasFtWorth',
+                     'PhoenixTucson', 'Chicago', 'Denver', 'Seattle')
+      AND sale_year &lt; 2018
+    GROUP BY region, sale_year
+),
+ranked AS (
+    SELECT
+        region,
+        sale_year,
+        volume,
+        RANK() OVER (PARTITION BY sale_year ORDER BY volume DESC) AS rank_in_year
+    FROM metro_year
+),
+with_move AS (
+    SELECT
+        region,
+        sale_year,
+        volume,
+        rank_in_year,
+        LAG(rank_in_year) OVER (PARTITION BY region ORDER BY sale_year) - rank_in_year
+            AS places_gained,
+        ROUND((volume - LAG(volume) OVER (PARTITION BY region ORDER BY sale_year))
+            / NULLIF(LAG(volume) OVER (PARTITION BY region ORDER BY sale_year), 0) * 100, 1)
+            AS volume_change_pct
+    FROM ranked
+)
+SELECT region, rank_in_year, ROUND(volume) AS volume, places_gained, volume_change_pct
+FROM with_move
+WHERE sale_year = 2017
+ORDER BY rank_in_year;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a6-rank.png" alt="Metro ranking with rank movement">
+                        <p class="code-label">How concentrated is that?</p>
+                        <pre><code class="language-sql">WITH metro_volume AS (
+    SELECT
+        region,
+        SUM(total_volume) AS volume
+    FROM avocado_prices
+    WHERE region IN ('LosAngeles', 'NewYork', 'Houston', 'DallasFtWorth',
+                     'PhoenixTucson', 'Chicago', 'Denver', 'Seattle')
+    GROUP BY region
+)
+SELECT
+    region,
+    ROUND(volume) AS volume,
+    ROUND(volume / SUM(volume) OVER () * 100, 1) AS pct_of_these_metros,
+    ROUND(SUM(volume) OVER (ORDER BY volume DESC) / SUM(volume) OVER () * 100, 1) AS running_pct
+FROM metro_volume
+ORDER BY volume DESC;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a7-share.png" alt="Share of volume across eight metros">
+                        <p>Only Houston moved, taking two places on 17.7% growth while Los Angeles shrank 2.9%. Los Angeles alone is 29.2% of these eight metros, the top three 55.1%.</p>
+                        <h4>Where the price bites</h4>
+                        <p class="code-label">Volume by price band, conventional against organic</p>
+                        <pre><code class="language-sql">SELECT
+    avocado_type,
+    CASE
+        WHEN average_price &lt; 1.00 THEN 'Under $1.00'
+        WHEN average_price &lt; 1.50 THEN '$1.00 to $1.49'
+        WHEN average_price &lt; 2.00 THEN '$1.50 to $1.99'
+        ELSE '$2.00 and above'
+    END AS price_band,
+    COUNT(*) AS weeks,
+    ROUND(AVG(total_volume)) AS avg_weekly_volume
+FROM avocado_prices
+WHERE region &lt;&gt; 'TotalUS'
+GROUP BY avocado_type, price_band
+ORDER BY avocado_type, price_band;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a8-segments.png" alt="Average weekly volume by price band and type">
+                        <p>Conventional weeks under a dollar move 1.57 million units against 413,000 above two dollars, near four to one. Organic runs under two and a half to one. The lines do not react alike, the second reason the pooled figure was meaningless.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>5. Evaluation</h3>
+                            <p class="commands-used"><span>CORR</span><span>CTE (WITH)</span><span>MIN, MAX</span><span>GROUP BY</span></p>
+                        </div>
+                        <p><strong>A finding that exists only in the aggregate is waiting to be withdrawn.</strong> If the phase four claim is real, it holds in every year, not only across all three at once.</p>
+                        <p class="code-label">The same correlation, split by year</p>
+                        <pre><code class="language-sql">WITH by_region_year AS (
+    SELECT
+        sale_year,
+        region,
+        CORR(average_price, total_volume)::numeric AS c
+    FROM avocado_prices
+    WHERE region &lt;&gt; 'TotalUS'
+    GROUP BY sale_year, region
+)
+SELECT
+    sale_year,
+    COUNT(*) AS markets,
+    ROUND(AVG(c), 2) AS avg_corr,
+    ROUND(MIN(c), 2) AS strongest,
+    ROUND(MAX(c), 2) AS weakest
+FROM by_region_year
+GROUP BY sale_year
+ORDER BY sale_year;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a11-evaluate.png" alt="Within market correlation by year">
+                        <p>It holds. Every year averages -0.66 to -0.88 across all 53 markets. 2017 is softest, which fits the shock year, when supply set the price.</p>
+                        <p>So -0.34 is not wrong from noise or from one odd year. It is wrong from what it pooled, and finding that needed one <code>GROUP BY</code> more than the original.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>6. Deployment</h3>
+                            <p class="commands-used"><span>CREATE VIEW</span><span>CTE (WITH)</span><span>NULLIF</span><span>MIN, MAX</span><span>CORR</span></p>
+                        </div>
+                        <p><strong>An analysis nobody can rerun is a screenshot.</strong> The last phase makes it queryable without reading any of this.</p>
+                        <p class="code-label">One row per region, ready to query</p>
+                        <pre><code class="language-sql">CREATE OR REPLACE VIEW report_regions AS
+WITH base AS (
+    SELECT
+        region,
+        sale_date,
+        average_price,
+        total_volume,
+        plu4046 + plu4225 + plu4770 AS loose_units,
+        total_bags
+    FROM avocado_prices
+    WHERE region <> 'TotalUS'
+)
+SELECT
+    region,
+    COUNT(DISTINCT sale_date) AS weeks_reported,
+    ROUND(SUM(total_volume)) AS total_volume,
+    ROUND(AVG(average_price), 2) AS avg_price,
+    ROUND(MIN(average_price), 2) AS lowest_price,
+    ROUND(MAX(average_price), 2) AS highest_price,
+    ROUND(SUM(total_bags) / NULLIF(SUM(loose_units + total_bags), 0) * 100, 1) AS pct_bagged,
+    ROUND(CORR(average_price, total_volume)::numeric, 2) AS price_volume_corr
+FROM base
+GROUP BY region;</code></pre>
+                        <p class="code-label">What it returns</p>
+                        <pre><code class="language-sql">SELECT region, weeks_reported, total_volume, avg_price, pct_bagged, price_volume_corr
+FROM report_regions
+ORDER BY total_volume DESC
+LIMIT 8;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a9-view.png" alt="The report_regions view">
+                        <p>The phase four finding is now a column somebody can filter on rather than a claim in a document. <code>NULLIF</code> guards the bagged percentage against a region with no volume.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Findings</h3>
+                        <p>Six phases, fourteen queries, and a published number that does not survive one more <code>GROUP BY</code>.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Can these rows be added up?</span><span class="a">No. Aggregates overlap metros and overstate the country by 65%.</span></li>
+                            <li><span class="q">Does price move volume?</span><span class="a">Inside a market, strongly: -0.72. Pooled, -0.34 and misleading.</span></li>
+                            <li><span class="q">Does that hold up?</span><span class="a">Every year, -0.66 to -0.88, across all 53 markets.</span></li>
+                            <li><span class="q">Is the weekly series noisy?</span><span class="a">No. The widest gap from its own 4-week average is 21 cents.</span></li>
+                            <li><span class="q">Was 2017 unusual?</span><span class="a">Yes. September ran 33% to 51% above the year before.</span></li>
+                            <li><span class="q">Is the metro table moving?</span><span class="a">Barely. Houston took two places, everything else held.</span></li>
+                            <li><span class="q">Do both product lines react alike?</span><span class="a">No. Conventional is four to one on price, organic under two and a half.</span></li>
+                        </ul>
+                        <p>The buyer from phase one gets a different answer. Price is a real lever in a single market, worth twice the headline figure, and blunter for organic than for conventional.</p>
+                        <p>Neither correction needed a tool beyond PostgreSQL. Both came from asking what the number was compared against, and the process is what forces that question before the answer ships.</p>
                     </div>
 
                 </div>
@@ -132,7 +769,7 @@ GROUP BY sale_year ORDER BY sale_year;</code></pre>
                     <div class="cta-box">
                         <img src="images/GitHub_Logo.png" alt="GitHub Logo" loading="lazy" decoding="async">
                         <h3>SQL Script</h3>
-                        <p>View the queries and the full report.</p>
+                        <p>The schema, the loader, and every query on this page.</p>
                         <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/avocado-price-analysis" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
                     </div>
                 </div>
