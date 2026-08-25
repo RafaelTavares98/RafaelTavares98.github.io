@@ -1,631 +1,248 @@
 /*
 ===============================================================================
-SQL EDA project — Postgres version
+SQL: Fundamental Exploratory Data Analysis - Postgres version
 ===============================================================================
-- Source: Data With Baraa, "sql-data-analytics-project"
-- All 13 scripts of the original SQL Server project, translated to Postgres 17
-and combined into one file.
-- Run against the datawarehouseanalytics database.
-- Created by 00_init.sql and loaded by 01_load.sql.
+Thesis: a small set of SQL commands answers most of what a business asks.
+This script uses seventeen of them across the six steps of an exploratory
+analysis, and every result it produces is on the project page.
+
+    https://rafaeltavares98.github.io/sql-eda.html
+
+Data:   Data With Baraa, "sql-data-analytics-project", MIT licensed.
+        Written for SQL Server, rebuilt here for PostgreSQL 17.
+Run:    psql -d datawarehouseanalytics -f 00_init.sql -f 01_load.sql -f eda_queries.sql
+
+The full translation of the original 13 course scripts is kept in
+reference/13-original-scripts.sql.
 ===============================================================================
 */
 
 
--- =============================================================================
--- 01. Database exploration
--- =============================================================================
 
--- Retrieve all tables and views in the gold schema, excluding system catalogs
+-- ============================================================================
+-- 1. Read the structure
+-- ============================================================================
+-- Premise: every total downstream depends on what a single row represents.
+
+
+-- What is in the fact table
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_schema = 'gold' AND table_name = 'fact_sales'
+ORDER BY ordinal_position;
+
+-- What does one row represent?
+SELECT 'Rows in fact_sales' AS measure, COUNT(*) AS value FROM gold.fact_sales
+UNION ALL SELECT 'Distinct order numbers', COUNT(DISTINCT order_number) FROM gold.fact_sales
+UNION ALL SELECT 'Distinct customers', COUNT(DISTINCT customer_key) FROM gold.fact_sales
+UNION ALL SELECT 'Distinct products', COUNT(DISTINCT product_key) FROM gold.fact_sales;
+
+-- Answer: a row is an order line, not an order. 60,398 lines across 27,659
+-- orders, so any count of orders has to say DISTINCT.
+
+
+-- ============================================================================
+-- 2. Check the quality
+-- ============================================================================
+-- Premise: the fields are populated and the keys join. Worth testing.
+
+
+-- Seven checks, one result
+SELECT 'Missing order date' AS check_name, COUNT(*) AS failing_rows
+FROM gold.fact_sales WHERE order_date IS NULL
+UNION ALL SELECT 'Zero or negative sales', COUNT(*)
+FROM gold.fact_sales WHERE COALESCE(sales_amount, 0) <= 0
+UNION ALL SELECT 'Ship date before order date', COUNT(*)
+FROM gold.fact_sales WHERE shipping_date < order_date
+UNION ALL SELECT 'Product with no cost', COUNT(*)
+FROM gold.dim_products WHERE COALESCE(cost, 0) = 0
+UNION ALL SELECT 'Product with no category', COUNT(*)
+FROM gold.dim_products WHERE category IS NULL
+UNION ALL SELECT 'Sale with no matching product', COUNT(*)
+FROM gold.fact_sales f LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
+WHERE p.product_key IS NULL
+UNION ALL SELECT 'Sale with no matching customer', COUNT(*)
+FROM gold.fact_sales f LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+WHERE c.customer_key IS NULL;
+
+-- Does the catalogue match what sells?
 SELECT
-	table_type,
-    table_name
-FROM information_schema.tables
-WHERE table_schema NOT IN ('pg_catalog', 'information_schema')
-ORDER BY table_type, table_schema, table_name;
+    COALESCE(p.category, '(no category)') AS category,
+    COUNT(DISTINCT p.product_key) AS products_listed,
+    COUNT(DISTINCT f.product_key) AS products_sold
+FROM gold.dim_products p
+LEFT JOIN gold.fact_sales f ON f.product_key = p.product_key
+GROUP BY COALESCE(p.category, '(no category)')
+HAVING COUNT(DISTINCT p.product_key) > COUNT(DISTINCT f.product_key)
+ORDER BY products_listed DESC;
 
--- Retrieve all columns for a specific table (dim_customers)
-SELECT
-	t.table_type,
-	t.table_name,
-	c.data_type,
-	c.column_name
-FROM information_schema.tables t
-LEFT JOIN information_schema.columns c
-	ON c.table_catalog = t.table_catalog
-	AND c.table_name = t.table_name
-WHERE t.table_schema NOT IN ('pg_catalog', 'information_schema')
-ORDER BY  t.table_name, c.data_type, c.column_name;
-
--- =============================================================================
--- 02. Dimensions exploration
--- =============================================================================
-
--- Retrieve a list of unique countries from which customers originate
-SELECT DISTINCT
-    country
-FROM gold.dim_customers
-ORDER BY country;
-
--- Retrieve a list of unique categories, subcategories, and products
-SELECT DISTINCT
-    category,
-    subcategory,
-    product_name
-FROM gold.dim_products
-ORDER BY category, subcategory, product_name;
+-- Answer: half true. The keys hold. 19 order lines carry no date, 7 products
+-- no category, 2 no cost, and 134 products have never sold.
 
 
--- =============================================================================
--- 03. Date range exploration
--- =============================================================================
-
--- Determine the first and last order date and the total duration in months
-SELECT
-    MIN(order_date) AS first_order_date,
-    MAX(order_date) AS last_order_date,
-    (EXTRACT(YEAR FROM MAX(order_date)) - EXTRACT(YEAR FROM MIN(order_date))) * 12
-        + (EXTRACT(MONTH FROM MAX(order_date)) - EXTRACT(MONTH FROM MIN(order_date))) AS order_range_months
-FROM gold.fact_sales;
-
--- Find the youngest and oldest customer based on birthdate
-SELECT
-    MIN(birthdate) AS oldest_birthdate,
-    EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM MIN(birthdate)) AS oldest_age,
-    MAX(birthdate) AS youngest_birthdate,
-    EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM MAX(birthdate)) AS youngest_age
-FROM gold.dim_customers;
+-- ============================================================================
+-- 3. Each field individually
+-- ============================================================================
+-- Premise: how large is the business, and is any field spread wide enough
+-- to make its average useless?
 
 
--- =============================================================================
--- 04. Measures exploration (key metrics)
--- =============================================================================
-
--- Find the total sales
-SELECT SUM(sales_amount) AS total_sales FROM gold.fact_sales;
-
--- Find how many items are sold
-SELECT SUM(quantity) AS total_quantity FROM gold.fact_sales;
-
--- Find the average selling price
-SELECT AVG(price) AS avg_price FROM gold.fact_sales;
-
--- Find the total number of orders
-SELECT COUNT(order_number) AS total_orders FROM gold.fact_sales;
-SELECT COUNT(DISTINCT order_number) AS total_orders FROM gold.fact_sales;
-
--- Find the total number of products
-SELECT COUNT(product_name) AS total_products FROM gold.dim_products;
-
--- Find the total number of customers
-SELECT COUNT(customer_key) AS total_customers FROM gold.dim_customers;
-
--- Find the total number of customers that have placed an order
-SELECT COUNT(DISTINCT customer_key) AS total_customers FROM gold.fact_sales;
-
--- Generate a report that shows all key metrics of the business
+-- The baseline
 SELECT 'Total Sales' AS measure_name, SUM(sales_amount) AS measure_value FROM gold.fact_sales
-UNION ALL
-SELECT 'Total Quantity', SUM(quantity) FROM gold.fact_sales
-UNION ALL
-SELECT 'Average Price', AVG(price) FROM gold.fact_sales
-UNION ALL
-SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
-UNION ALL
-SELECT 'Total Products', COUNT(DISTINCT product_name) FROM gold.dim_products
-UNION ALL
-SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;
+UNION ALL SELECT 'Total Quantity', SUM(quantity) FROM gold.fact_sales
+UNION ALL SELECT 'Total Orders', COUNT(DISTINCT order_number) FROM gold.fact_sales
+UNION ALL SELECT 'Average Order Value', ROUND(SUM(sales_amount)::numeric / COUNT(DISTINCT order_number), 0) FROM gold.fact_sales
+UNION ALL SELECT 'Total Products', COUNT(product_key) FROM gold.dim_products
+UNION ALL SELECT 'Total Customers', COUNT(customer_key) FROM gold.dim_customers;
 
-
--- =============================================================================
--- 05. Magnitude analysis
--- =============================================================================
-
--- Find total customers by country
+-- How wide is the price range?
 SELECT
-    country,
-    COUNT(customer_key) AS total_customers
-FROM gold.dim_customers
-GROUP BY country
-ORDER BY total_customers DESC;
-
--- Find total customers by gender
-SELECT
-    gender,
-    COUNT(customer_key) AS total_customers
-FROM gold.dim_customers
-GROUP BY gender
-ORDER BY total_customers DESC;
-
--- Find total products by category
-SELECT
-    category,
-    COUNT(product_key) AS total_products
+    COALESCE(category, '(no category)') AS category,
+    COUNT(*) AS products,
+    MIN(cost) AS cheapest,
+    MAX(cost) AS most_expensive,
+    ROUND(AVG(cost), 2) AS average_cost
 FROM gold.dim_products
-GROUP BY category
-ORDER BY total_products DESC;
+GROUP BY COALESCE(category, '(no category)')
+ORDER BY average_cost DESC;
 
--- What is the average cost in each category?
-SELECT
-    category,
-    AVG(cost) AS avg_cost
-FROM gold.dim_products
-GROUP BY category
-ORDER BY avg_cost DESC;
+-- Answer: $1,061 an order. Cost runs from $1 to $2,171, so a catalogue-wide
+-- average is meaningless. Every average from here is taken by category.
 
--- What is the total revenue generated for each category?
+
+-- ============================================================================
+-- 4. How fields relate
+-- ============================================================================
+-- Premise: a category with more products should bring in more money.
+
+
+-- Catalogue size against revenue
 SELECT
-    p.category,
-    SUM(f.sales_amount) AS total_revenue
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_products p
-    ON p.product_key = f.product_key
-GROUP BY p.category
+    COALESCE(p.category, '(no category)') AS category,
+    COUNT(DISTINCT p.product_key) AS products,
+    COALESCE(SUM(f.sales_amount), 0) AS total_revenue
+FROM gold.dim_products p
+LEFT JOIN gold.fact_sales f ON f.product_key = p.product_key
+GROUP BY COALESCE(p.category, '(no category)')
 ORDER BY total_revenue DESC;
 
--- What is the total revenue generated by each customer?
-SELECT
-    c.customer_key,
-    c.first_name,
-    c.last_name,
-    SUM(f.sales_amount) AS total_revenue
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_customers c
-    ON c.customer_key = f.customer_key
-GROUP BY
-    c.customer_key,
-    c.first_name,
-    c.last_name
-ORDER BY total_revenue DESC;
-
--- What is the distribution of sold items across countries?
-SELECT
-    c.country,
-    SUM(f.quantity) AS total_sold_items
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_customers c
-    ON c.customer_key = f.customer_key
-GROUP BY c.country
-ORDER BY total_sold_items DESC;
-
-
--- =============================================================================
--- 06. Ranking analysis
--- =============================================================================
-
--- Which 5 products generate the highest revenue? (simple ranking)
-SELECT
-    p.product_name,
-    SUM(f.sales_amount) AS total_revenue
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_products p
-    ON p.product_key = f.product_key
-GROUP BY p.product_name
-ORDER BY total_revenue DESC
-LIMIT 5;
-
--- Complex but flexible ranking using window functions
-SELECT *
-FROM (
-    SELECT
-        p.product_name,
-        SUM(f.sales_amount) AS total_revenue,
-        RANK() OVER (ORDER BY SUM(f.sales_amount) DESC) AS rank_products
-    FROM gold.fact_sales f
-    LEFT JOIN gold.dim_products p
-        ON p.product_key = f.product_key
-    GROUP BY p.product_name
-) AS ranked_products
-WHERE rank_products <= 5;
-
--- What are the 5 worst-performing products in terms of sales?
-SELECT
-    p.product_name,
-    SUM(f.sales_amount) AS total_revenue
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_products p
-    ON p.product_key = f.product_key
-GROUP BY p.product_name
-ORDER BY total_revenue
-LIMIT 5;
-
--- Find the top 10 customers who have generated the highest revenue
-SELECT
-    c.customer_key,
-    c.first_name,
-    c.last_name,
-    SUM(f.sales_amount) AS total_revenue
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_customers c
-    ON c.customer_key = f.customer_key
-GROUP BY
-    c.customer_key,
-    c.first_name,
-    c.last_name
-ORDER BY total_revenue DESC
-LIMIT 10;
-
--- The 3 customers with the fewest orders placed
-SELECT
-    c.customer_key,
-    c.first_name,
-    c.last_name,
-    COUNT(DISTINCT order_number) AS total_orders
-FROM gold.fact_sales f
-LEFT JOIN gold.dim_customers c
-    ON c.customer_key = f.customer_key
-GROUP BY
-    c.customer_key,
-    c.first_name,
-    c.last_name
-ORDER BY total_orders
-LIMIT 3;
-
-
--- =============================================================================
--- 07. Change over time analysis
--- =============================================================================
-
--- Analyse sales performance over time (quick date functions)
-SELECT
-    EXTRACT(YEAR FROM order_date)::int AS order_year,
-    EXTRACT(MONTH FROM order_date)::int AS order_month,
-    SUM(sales_amount) AS total_sales,
-    COUNT(DISTINCT customer_key) AS total_customers,
-    SUM(quantity) AS total_quantity
-FROM gold.fact_sales
-WHERE order_date IS NOT NULL
-GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
-ORDER BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date);
-
--- DATE_TRUNC()
-SELECT
-    DATE_TRUNC('month', order_date) AS order_date,
-    SUM(sales_amount) AS total_sales,
-    COUNT(DISTINCT customer_key) AS total_customers,
-    SUM(quantity) AS total_quantity
-FROM gold.fact_sales
-WHERE order_date IS NOT NULL
-GROUP BY DATE_TRUNC('month', order_date)
-ORDER BY DATE_TRUNC('month', order_date);
-
--- TO_CHAR()
-SELECT
-    TO_CHAR(order_date, 'YYYY-Mon') AS order_date,
-    SUM(sales_amount) AS total_sales,
-    COUNT(DISTINCT customer_key) AS total_customers,
-    SUM(quantity) AS total_quantity
-FROM gold.fact_sales
-WHERE order_date IS NOT NULL
-GROUP BY TO_CHAR(order_date, 'YYYY-Mon')
-ORDER BY TO_CHAR(order_date, 'YYYY-Mon');
-
-
--- =============================================================================
--- 08. Cumulative analysis
--- =============================================================================
-
--- Calculate the total sales per year, and the running total of sales over time
-SELECT
-    order_date,
-    total_sales,
-    SUM(total_sales) OVER (ORDER BY order_date) AS running_total_sales,
-    AVG(avg_price) OVER (ORDER BY order_date) AS moving_average_price
-FROM (
-    SELECT
-        DATE_TRUNC('year', order_date) AS order_date,
-        SUM(sales_amount) AS total_sales,
-        AVG(price) AS avg_price
-    FROM gold.fact_sales
-    WHERE order_date IS NOT NULL
-    GROUP BY DATE_TRUNC('year', order_date)
-) t;
-
-
--- =============================================================================
--- 09. Performance analysis (year-over-year, month-over-month)
--- =============================================================================
-
--- Analyze the yearly performance of products by comparing their sales
--- to both the average sales performance of the product and the previous year's sales
-WITH yearly_product_sales AS (
-    SELECT
-        EXTRACT(YEAR FROM f.order_date)::int AS order_year,
-        p.product_name,
-        SUM(f.sales_amount) AS current_sales
-    FROM gold.fact_sales f
-    LEFT JOIN gold.dim_products p
-        ON f.product_key = p.product_key
-    WHERE f.order_date IS NOT NULL
-    GROUP BY
-        EXTRACT(YEAR FROM f.order_date),
-        p.product_name
-)
-SELECT
-    order_year,
-    product_name,
-    current_sales,
-    AVG(current_sales) OVER (PARTITION BY product_name) AS avg_sales,
-    current_sales - AVG(current_sales) OVER (PARTITION BY product_name) AS diff_avg,
-    CASE
-        WHEN current_sales - AVG(current_sales) OVER (PARTITION BY product_name) > 0 THEN 'Above Avg'
-        WHEN current_sales - AVG(current_sales) OVER (PARTITION BY product_name) < 0 THEN 'Below Avg'
-        ELSE 'Avg'
-    END AS avg_change,
-    -- Year-over-year analysis
-    LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS py_sales,
-    current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) AS diff_py,
-    CASE
-        WHEN current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) > 0 THEN 'Increase'
-        WHEN current_sales - LAG(current_sales) OVER (PARTITION BY product_name ORDER BY order_year) < 0 THEN 'Decrease'
-        ELSE 'No Change'
-    END AS py_change
-FROM yearly_product_sales
-ORDER BY product_name, order_year;
-
-
--- =============================================================================
--- 10. Data segmentation analysis
--- =============================================================================
-
--- Segment products into cost ranges and count how many products fall into each segment
-WITH product_segments AS (
-    SELECT
-        product_key,
-        product_name,
-        cost,
-        CASE
-            WHEN cost < 100 THEN 'Below 100'
-            WHEN cost BETWEEN 100 AND 500 THEN '100-500'
-            WHEN cost BETWEEN 500 AND 1000 THEN '500-1000'
-            ELSE 'Above 1000'
-        END AS cost_range
-    FROM gold.dim_products
-)
-SELECT
-    cost_range,
-    COUNT(product_key) AS total_products
-FROM product_segments
-GROUP BY cost_range
-ORDER BY total_products DESC;
-
--- Group customers into three segments based on their spending behavior:
---   VIP: at least 12 months of history and spending more than 5,000.
---   Regular: at least 12 months of history but spending 5,000 or less.
---   New: lifespan less than 12 months.
--- Find the total number of customers by each group.
-WITH customer_spending AS (
-    SELECT
-        c.customer_key,
-        SUM(f.sales_amount) AS total_spending,
-        MIN(order_date) AS first_order,
-        MAX(order_date) AS last_order,
-        (EXTRACT(YEAR FROM MAX(order_date)) - EXTRACT(YEAR FROM MIN(order_date))) * 12
-            + (EXTRACT(MONTH FROM MAX(order_date)) - EXTRACT(MONTH FROM MIN(order_date))) AS lifespan
-    FROM gold.fact_sales f
-    LEFT JOIN gold.dim_customers c
-        ON f.customer_key = c.customer_key
-    GROUP BY c.customer_key
-)
-SELECT
-    customer_segment,
-    COUNT(customer_key) AS total_customers
-FROM (
-    SELECT
-        customer_key,
-        CASE
-            WHEN lifespan >= 12 AND total_spending > 5000 THEN 'VIP'
-            WHEN lifespan >= 12 AND total_spending <= 5000 THEN 'Regular'
-            ELSE 'New'
-        END AS customer_segment
-    FROM customer_spending
-) AS segmented_customers
-GROUP BY customer_segment
-ORDER BY total_customers DESC;
-
-
--- =============================================================================
--- 11. Part-to-whole analysis
--- =============================================================================
-
--- Which categories contribute the most to overall sales?
+-- How much of the whole is that?
 WITH category_sales AS (
     SELECT
         p.category,
         SUM(f.sales_amount) AS total_sales
     FROM gold.fact_sales f
-    LEFT JOIN gold.dim_products p
-        ON p.product_key = f.product_key
+    LEFT JOIN gold.dim_products p ON p.product_key = f.product_key
     GROUP BY p.category
 )
 SELECT
     category,
     total_sales,
-    SUM(total_sales) OVER () AS overall_sales,
-    ROUND((total_sales::numeric / SUM(total_sales) OVER ()) * 100, 2) AS percentage_of_total
+    ROUND(total_sales::numeric / SUM(total_sales) OVER () * 100, 2) AS pct_of_total
 FROM category_sales
 ORDER BY total_sales DESC;
 
+-- Answer: false. 97 bike products carry 96.46% of the revenue, and 191
+-- products elsewhere split the rest. Catalogue size predicts nothing.
 
--- =============================================================================
--- 12. Customer report
--- =============================================================================
--- Consolidates key customer metrics and behaviors:
---   1. Names, ages, and transaction details.
---   2. Segments customers into categories (VIP, Regular, New) and age groups.
---   3. Aggregates: total orders, total sales, total quantity, total products, lifespan.
---   4. KPIs: recency, average order value, average monthly spend.
--- =============================================================================
 
-DROP VIEW IF EXISTS gold.report_customers;
+-- ============================================================================
+-- 5. Changes over time
+-- ============================================================================
+-- Premise: the business is growing, and steadily enough to plan against.
 
-CREATE VIEW gold.report_customers AS
 
-WITH base_query AS (
-    -- 1) Base query: retrieves core columns from the tables
+-- The yearly trend
+SELECT
+    DATE_TRUNC('year', order_date)::date AS order_year,
+    SUM(sales_amount) AS total_sales,
+    COUNT(DISTINCT customer_key) AS active_customers
+FROM gold.fact_sales
+WHERE order_date IS NOT NULL
+GROUP BY DATE_TRUNC('year', order_date)
+ORDER BY order_year;
+
+-- How much did each year move?
+WITH yearly AS (
     SELECT
-        f.order_number,
-        f.product_key,
-        f.order_date,
-        f.sales_amount,
-        f.quantity,
-        c.customer_key,
-        c.customer_number,
-        CONCAT(c.first_name, ' ', c.last_name) AS customer_name,
-        EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM c.birthdate) AS age
-    FROM gold.fact_sales f
-    LEFT JOIN gold.dim_customers c
-        ON c.customer_key = f.customer_key
+        EXTRACT(YEAR FROM order_date)::int AS order_year,
+        SUM(sales_amount) AS total_sales
+    FROM gold.fact_sales
     WHERE order_date IS NOT NULL
-),
+    GROUP BY EXTRACT(YEAR FROM order_date)
+)
+SELECT
+    order_year,
+    total_sales,
+    LAG(total_sales) OVER (ORDER BY order_year) AS previous_year,
+    ROUND(
+        (total_sales - LAG(total_sales) OVER (ORDER BY order_year))::numeric
+        / NULLIF(LAG(total_sales) OVER (ORDER BY order_year), 0) * 100, 1
+    ) AS pct_change
+FROM yearly
+ORDER BY order_year;
 
-customer_aggregation AS (
-    -- 2) Customer aggregations: summarizes key metrics at the customer level
+-- Answer: growing, but not steadily. Down 17.4% in 2012, up 179.8% in 2013,
+-- with 2010 and 2014 partial. One jump like that is an event, not a trend.
+
+
+-- ============================================================================
+-- 6. Split the population
+-- ============================================================================
+-- Premise: the revenue rests on a handful of large accounts.
+
+
+-- Who are the largest customers?
+SELECT
+    c.customer_key,
+    c.first_name,
+    c.last_name,
+    SUM(f.sales_amount) AS total_revenue
+FROM gold.fact_sales f
+LEFT JOIN gold.dim_customers c ON c.customer_key = f.customer_key
+GROUP BY c.customer_key, c.first_name, c.last_name
+ORDER BY total_revenue DESC
+LIMIT 10;
+
+-- What does the base look like?
+WITH customer_spending AS (
     SELECT
         customer_key,
-        customer_number,
-        customer_name,
-        age,
-        COUNT(DISTINCT order_number) AS total_orders,
-        SUM(sales_amount) AS total_sales,
-        SUM(quantity) AS total_quantity,
-        COUNT(DISTINCT product_key) AS total_products,
-        MAX(order_date) AS last_order_date,
+        SUM(sales_amount) AS total_spending,
         (EXTRACT(YEAR FROM MAX(order_date)) - EXTRACT(YEAR FROM MIN(order_date))) * 12
             + (EXTRACT(MONTH FROM MAX(order_date)) - EXTRACT(MONTH FROM MIN(order_date))) AS lifespan
-    FROM base_query
-    GROUP BY
-        customer_key,
-        customer_number,
-        customer_name,
-        age
+    FROM gold.fact_sales
+    WHERE order_date IS NOT NULL
+    GROUP BY customer_key
 )
 SELECT
-    customer_key,
-    customer_number,
-    customer_name,
-    age,
     CASE
-         WHEN age < 20 THEN 'Under 20'
-         WHEN age BETWEEN 20 AND 29 THEN '20-29'
-         WHEN age BETWEEN 30 AND 39 THEN '30-39'
-         WHEN age BETWEEN 40 AND 49 THEN '40-49'
-         ELSE '50 and above'
-    END AS age_group,
-    CASE
-        WHEN lifespan >= 12 AND total_sales > 5000 THEN 'VIP'
-        WHEN lifespan >= 12 AND total_sales <= 5000 THEN 'Regular'
+        WHEN lifespan >= 12 AND total_spending > 5000 THEN 'VIP'
+        WHEN lifespan >= 12 AND total_spending <= 5000 THEN 'Regular'
         ELSE 'New'
     END AS customer_segment,
-    last_order_date,
-    (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM last_order_date)) * 12
-        + (EXTRACT(MONTH FROM CURRENT_DATE) - EXTRACT(MONTH FROM last_order_date)) AS recency,
-    total_orders,
-    total_sales,
-    total_quantity,
-    total_products,
-    lifespan,
-    -- Average order value (AOV)
-    CASE WHEN total_sales = 0 THEN 0
-         ELSE total_sales / total_orders
-    END AS avg_order_value,
-    -- Average monthly spend
-    CASE WHEN lifespan = 0 THEN total_sales
-         ELSE total_sales / lifespan
-    END AS avg_monthly_spend
-FROM customer_aggregation;
+    COUNT(*) AS total_customers,
+    ROUND(AVG(total_spending), 2) AS avg_spend
+FROM customer_spending
+GROUP BY customer_segment
+ORDER BY total_customers DESC;
 
-SELECT * FROM gold.report_customers;
+-- Answer: false. The top ten each spend near $13,000 with little gap. But 79%
+-- of the base is under twelve months old, and this data cannot tell strong
+-- acquisition from weak retention.
 
 
--- =============================================================================
--- 13. Product report
--- =============================================================================
--- Consolidates key product metrics and behaviors:
---   1. Product name, category, subcategory, cost.
---   2. Segments products by revenue: High-Performer, Mid-Range, Low-Performer.
---   3. Aggregates: total orders, total sales, total quantity, total customers, lifespan.
---   4. KPIs: recency, average order revenue, average monthly revenue.
--- =============================================================================
-
-DROP VIEW IF EXISTS gold.report_products;
-
-CREATE VIEW gold.report_products AS
-
-WITH base_query AS (
-    -- 1) Base query: retrieves core columns from fact_sales and dim_products
-    SELECT
-        f.order_number,
-        f.order_date,
-        f.customer_key,
-        f.sales_amount,
-        f.quantity,
-        p.product_key,
-        p.product_name,
-        p.category,
-        p.subcategory,
-        p.cost
-    FROM gold.fact_sales f
-    LEFT JOIN gold.dim_products p
-        ON f.product_key = p.product_key
-    WHERE order_date IS NOT NULL  -- only consider valid sales dates
-),
-
-product_aggregations AS (
-    -- 2) Product aggregations: summarizes key metrics at the product level
-    SELECT
-        product_key,
-        product_name,
-        category,
-        subcategory,
-        cost,
-        (EXTRACT(YEAR FROM MAX(order_date)) - EXTRACT(YEAR FROM MIN(order_date))) * 12
-            + (EXTRACT(MONTH FROM MAX(order_date)) - EXTRACT(MONTH FROM MIN(order_date))) AS lifespan,
-        MAX(order_date) AS last_sale_date,
-        COUNT(DISTINCT order_number) AS total_orders,
-        COUNT(DISTINCT customer_key) AS total_customers,
-        SUM(sales_amount) AS total_sales,
-        SUM(quantity) AS total_quantity,
-        ROUND(AVG(sales_amount::numeric / NULLIF(quantity, 0)), 1) AS avg_selling_price
-    FROM base_query
-    GROUP BY
-        product_key,
-        product_name,
-        category,
-        subcategory,
-        cost
-)
-
--- 3) Final query: combines all product results into one output
-SELECT
-    product_key,
-    product_name,
-    category,
-    subcategory,
-    cost,
-    last_sale_date,
-    (EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM last_sale_date)) * 12
-        + (EXTRACT(MONTH FROM CURRENT_DATE) - EXTRACT(MONTH FROM last_sale_date)) AS recency_in_months,
-    CASE
-        WHEN total_sales > 50000 THEN 'High-Performer'
-        WHEN total_sales >= 10000 THEN 'Mid-Range'
-        ELSE 'Low-Performer'
-    END AS product_segment,
-    lifespan,
-    total_orders,
-    total_sales,
-    total_quantity,
-    total_customers,
-    avg_selling_price,
-    -- Average order revenue (AOR)
-    CASE
-        WHEN total_orders = 0 THEN 0
-        ELSE total_sales / total_orders
-    END AS avg_order_revenue,
-    -- Average monthly revenue
-    CASE
-        WHEN lifespan = 0 THEN total_sales
-        ELSE total_sales / lifespan
-    END AS avg_monthly_revenue
-FROM product_aggregations;
-
-SELECT * FROM gold.report_products;
+-- ============================================================================
+-- Findings
+-- ============================================================================
+-- What does one row mean?          An order line. 60,398 lines, 27,659 orders.
+-- Is the data clean?               Keys yes, fields no. 19 dateless rows.
+-- How big, and how spread?         $1,061 an order. Cost from $1 to $2,171.
+-- Does catalogue size drive        No. 97 bike products carry 96.46%.
+--   revenue?
+-- Is growth steady?                No. One 179.8% year between a fall and a stub.
+-- Who carries the revenue?         Nobody. 79% of the base is under a year old.
+--
+-- Four of those close a door. Two open one: 134 products that never sold, and
+-- a customer base too young to read. Both need the follow-up project.
+-- ============================================================================
