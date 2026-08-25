@@ -1299,6 +1299,15 @@ a:hover{
     margin-bottom: 14px;
 }
 
+/* The GitHub wordmark is black artwork, so each theme forces its own colour. */
+[data-bs-theme="dark"] .cta-box img {
+    filter: brightness(0) invert(1);
+}
+
+[data-bs-theme="light"] .cta-box img {
+    filter: brightness(0);
+}
+
 .cta-box h3{
     font-size: 1.1rem;
 }
