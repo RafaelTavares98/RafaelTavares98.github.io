@@ -149,16 +149,29 @@
             color: #a06ce0;
         }
 
-        .insight-card .command-grid {
-            column-count: 3;
-            column-gap: 24px;
+        .insight-card .command-groups {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px 24px;
             margin: 18px 0px 20px 0px;
+        }
+
+        .insight-card .command-groups h4 {
+            margin: 0px 0px 8px 0px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #a06ce0;
+        }
+
+        .insight-card .command-groups ul {
+            margin: 0;
             padding: 0;
             list-style: none;
         }
 
-        .insight-card .command-grid li {
-            break-inside: avoid;
+        .insight-card .command-groups li {
             padding: 5px 0px 5px 20px;
             position: relative;
             font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -166,16 +179,22 @@
             color: var(--text-color);
         }
 
-        .insight-card .command-grid li::before {
+        .insight-card .command-groups li::before {
             content: "\203A";
             position: absolute;
             left: 4px;
             color: #a06ce0;
         }
 
-        @media (max-width: 767.98px) {
-            .insight-card .command-grid {
-                column-count: 2;
+        @media (max-width: 991.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 479.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -233,32 +252,31 @@
 
                     <div class="insight-card">
                         <h3>Past the fundamentals</h3>
-                        <p>The <a href="sql-eda.html">first project</a> argued that seventeen commands answer most of what a business asks. They run out when a question needs one row compared against another, because an aggregate destroys the rows it summarises.</p>
-                        <p>A window function keeps the row and brings the comparison to it. That is the boundary between basic and advanced SQL.</p>
-                        <ul class="command-grid">
-                            <li>AVG() OVER</li>
-                            <li>ROWS BETWEEN</li>
-                            <li>Moving average</li>
-                            <li>LAG(col, n)</li>
-                            <li>RANK() OVER</li>
-                            <li>PARTITION BY</li>
-                            <li>SUM() OVER ()</li>
-                            <li>Running total</li>
-                            <li>CORR</li>
-                            <li>CTE (WITH)</li>
-                            <li>CASE WHEN</li>
-                            <li>NULLIF</li>
-                            <li>GROUP BY</li>
-                            <li>UNION ALL</li>
-                            <li>CREATE VIEW</li>
-                        </ul>
-                        <p>Fifteen items, each extending one of the seventeen rather than replacing it.</p>
+                        <p>The <a href="sql-eda.html">first project</a> was a simple exploratory analysis on seventeen commands. This one is an analysis. It takes a published number apart and asks whether a buyer can act on it.</p>
+                        <p>That needs window functions, which hold a row and compare it against another. The order comes from CRISP-DM, the method many real projects follow. The next cell sets it out.</p>
+                        <div class="command-groups">
+                            <div>
+                                <h4>Window functions</h4>
+                                <ul><li>AVG() OVER</li><li>SUM() OVER ()</li><li>LAG(col, n)</li><li>RANK() OVER</li></ul>
+                            </div>
+                            <div>
+                                <h4>Frame and partition</h4>
+                                <ul><li>PARTITION BY</li><li>ROWS BETWEEN</li><li>Moving average</li><li>Running total</li></ul>
+                            </div>
+                            <div>
+                                <h4>Aggregate and logic</h4>
+                                <ul><li>CORR</li><li>GROUP BY</li><li>CASE WHEN</li><li>NULLIF</li></ul>
+                            </div>
+                            <div>
+                                <h4>Structure</h4>
+                                <ul><li>CTE (WITH)</li><li>CREATE VIEW</li><li>UNION ALL</li></ul>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="insight-card">
-                        <h3>The case, and the method</h3>
-                        <p><strong>The goal is to take a published number apart and find out whether a buyer can act on it.</strong> Advanced SQL is how the number gets tested. CRISP-DM is what stops the testing from becoming a tour of techniques.</p>
-                        <p>The case: 18,249 weekly rows of Hass avocado sales, 2015 to early 2018, across 54 regions and two product types. Three full years of weeks is the natural shape for windows. The six phases:</p>
+                        <h3>CRISP-DM</h3>
+                        <p><strong>CRISP-DM, the Cross-Industry Standard Process for Data Mining, keeps an analysis from becoming a tour of techniques.</strong> It sets six phases, and each one answers a defined question before the next one starts.</p>
                         <div class="crisp-figure">
                             <svg viewBox="0 0 760 640" role="img" aria-labelledby="crispTitle">
                                 <title id="crispTitle">The six phases of CRISP-DM, arranged as a cycle</title>
@@ -347,17 +365,16 @@
                                 <path d="M 280 512 Q 180 470 150 368" fill="none" stroke="#8a6bb5"
                                       stroke-width="5" marker-end="url(#crispArrow)"></path>
                             </svg>
-                            <p class="crisp-caption">The six phases. Evaluation feeds back into the business question, which is the loop that catches a wrong answer before it ships.</p>
+                            <p class="crisp-caption">CRISP-DM is a cycle. Each loop returns to the phase before it: data refines the question, the model refines the preparation, evaluation returns the answer to the business. Every turn removes noise.</p>
                         </div>
                         <ul class="recap-list">
-                            <li><span class="q">Business understanding</span><span class="a">what decision is this for?</span></li>
-                            <li><span class="q">Data understanding</span><span class="a">what is in the table, and what is wrong with it?</span></li>
-                            <li><span class="q">Data preparation</span><span class="a">what gets dropped, and what does that cost?</span></li>
-                            <li><span class="q">Modelling</span><span class="a">the windows that answer the question.</span></li>
-                            <li><span class="q">Evaluation</span><span class="a">does the answer survive being split apart?</span></li>
-                            <li><span class="q">Deployment</span><span class="a">who queries this after I stop?</span></li>
+                            <li><span class="q">Business understanding</span><span class="a">The phase that turns a decision into a question the data can take. It fixes the rule for a valid answer, because a later rule is bent by the result.</span></li>
+                            <li><span class="q">Data understanding</span><span class="a">The phase that establishes what the data measures and how it is wrong. Exploratory analysis is its work, and its verdict is whether the question is answerable.</span></li>
+                            <li><span class="q">Data preparation</span><span class="a">The phase that builds the data the model needs: selection, correction, joining, derivation, shaping. It carries most of the effort, and every choice costs something.</span></li>
+                            <li><span class="q">Modelling</span><span class="a">The phase that builds what produces the answer. A model is any representation of the relation under test, and machine learning is one option. This one needs window queries.</span></li>
+                            <li><span class="q">Evaluation</span><span class="a">The phase that tests the answer against the rule from phase one, not the technique. Split by year and market, a result holds or falls apart.</span></li>
+                            <li><span class="q">Deployment</span><span class="a">The phase that leaves the answer in a form another person can run: a view, a script, a repository. An analysis nobody reruns lasts one reading.</span></li>
                         </ul>
-                        <p>Two published claims about this data set fail at phase five. Catching that before the answer ships is the entire point of running a process instead of writing queries.</p>
                     </div>
 
                     <div class="insight-card">
@@ -365,10 +382,14 @@
                             <h3>1. Business understanding</h3>
                             <p class="commands-used"><span>No query yet</span></p>
                         </div>
-                        <p><strong>A produce buyer holds one week of stock and sets one price.</strong> How much to buy and what to charge both need the same answer.</p>
-                        <p>Does price move volume, and by how much in the market I actually buy for?</p>
-                        <p>The published answer is a correlation of <strong>-0.34</strong>, weak enough that a buyer would drop price as a lever. The decision flips depending on whether that is right.</p>
-                        <p>One rule, set before any query runs: a result counts only if it holds one market at a time.</p>
+                        <p><strong>A produce buyer holds one week of stock and sets one price.</strong> Both decisions need one answer.</p>
+                        <p><strong>Does price move volume, and by how much in the market I actually buy for?</strong></p>
+                        <p>The published answer is <strong>-0.34</strong>, weak enough to drop price as a lever. The next two lines are written before the first query, so no result sets its own bar.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">SLI</span><span class="a">Price against volume, correlated inside one market and one year.</span></li>
+                            <li><span class="q">SLO</span><span class="a">-0.50 or stronger in 80% of markets, every year.</span></li>
+                        </ul>
+                        <p>Phase five returns the verdict, and the verdict decides the recommendation.</p>
                     </div>
 
                     <div class="insight-card">
@@ -423,11 +444,11 @@ FROM checks;</code></pre>
 FROM data_quality_checks
 ORDER BY rule_no;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a12-quality.png" alt="Data quality check results">
-                        <p>Four pass, three fail. A suite where everything passes is usually a suite that asks nothing.</p>
+                        <p>Four pass, three fail. A suite where everything passes asks nothing.</p>
                         <h4>What the three failures mean</h4>
-                        <p><code>row_id</code> is not an id. 18,249 rows hold 53 distinct values, because it is a week counter that restarts inside every region, type and year. Join on it and the data is destroyed quietly.</p>
-                        <p>181 rows report a <code>total_volume</code> that is not the sum of its parts, by up to 7.9% of the row. Use the reported total, never the components.</p>
-                        <p>One series is short. That is the one that matters, and phase three is where it bites.</p>
+                        <p><code>row_id</code> is not an id. 18,249 rows hold 53 distinct values, because the week counter restarts inside every region, type and year. A join on it destroys the data in silence.</p>
+                        <p>181 rows report a <code>total_volume</code> that is not the sum of its parts, by up to 7.9%. Use the reported total.</p>
+                        <p>One series is short. That is the failure that matters, and it bites in phase three.</p>
                         <p class="code-label">The shape underneath all of that</p>
                         <pre><code class="language-sql">SELECT
     COUNT(*) AS weekly_rows,
@@ -500,10 +521,10 @@ UNION ALL
 SELECT 'report_regions (consumption)', COUNT(*), COUNT(*)
 FROM report_regions;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a14-layers.png" alt="Row counts at each layer">
-                        <p>Views and not tables, because the transformation is cheap and never stale. That inverts when recomputing starts to hurt, or when somebody needs yesterday's version.</p>
+                        <p>Views, not tables: the transformation is cheap and never stale. That inverts when recomputing hurts, or when somebody needs yesterday's version.</p>
                         <p>Every statement is <code>CREATE OR REPLACE</code>, so the script runs from the top as often as needed.</p>
                         <h4>The check that justifies the layer</h4>
-                        <p><code>LAG(week_price, 52)</code> assumes an unbroken weekly grid. A skipped week makes the offset read the wrong date, silently. That is testable, so it gets tested.</p>
+                        <p><code>LAG(week_price, 52)</code> assumes an unbroken weekly grid. A missing week makes the offset read the wrong date, in silence. So it gets tested.</p>
                         <p class="code-label">Find any week that is not seven days after the last</p>
                         <pre><code class="language-sql">WITH steps AS (
     SELECT
@@ -519,8 +540,8 @@ FROM steps
 WHERE days_since_previous &lt;&gt; 7
 ORDER BY sale_date;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a13-gaps.png" alt="Gaps in the weekly grid">
-                        <p>Organic in WestTexNewMexico jumps 14 days once and 21 once, holding 166 weeks of 169. The windows below run on <code>TotalUS</code>, which is whole. A per-market version would need a generated calendar.</p>
-                        <p>That is the argument for a preparation phase: invisible in a row count, invisible in a null check, fatal to the technique the page is built on.</p>
+                        <p>Organic in WestTexNewMexico jumps 14 days once and 21 once, and holds 166 weeks of 169. The windows below run on <code>TotalUS</code>, which is whole.</p>
+                        <p>That is the argument for a preparation phase. A row count misses it, a null check misses it, and it is fatal to the technique this page uses.</p>
                     </div>
 
                     <div class="insight-card">
@@ -547,8 +568,8 @@ SELECT 'Region', ROUND(AVG(c), 2), COUNT(*) FROM by_region
 UNION ALL
 SELECT 'Region and type', ROUND(AVG(c), 2), COUNT(*) FROM by_region_and_type;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a3-corr.png" alt="Correlation at three levels of grouping">
-                        <p>Pooled, -0.34. Inside a single market, -0.72. The pooled figure mixes 53 markets of different sizes and price levels, and the mixing is what produces the weak number. <strong>At the level the buyer works at, price is twice the lever the published figure suggests.</strong></p>
-                        <p>Phase one is answered. The rest describes the market that lever is pulled in.</p>
+                        <p>Pooled, -0.34. Inside a single market, -0.72. The pooled figure mixes 53 markets of different size and price level, and the mixing makes the number weak. <strong>For the buyer, price is twice the lever the published figure shows.</strong></p>
+                        <p>Phase one is answered. The rest describes the market that lever works in.</p>
                         <h4>Trend against noise</h4>
                         <p class="code-label">Four-week moving average, and the weeks that broke it</p>
                         <pre><code class="language-sql">WITH weekly AS (
@@ -682,11 +703,11 @@ ORDER BY avocado_type, price_band;</code></pre>
                     <div class="insight-card">
                         <div class="card-head">
                             <h3>5. Evaluation</h3>
-                            <p class="commands-used"><span>CORR</span><span>CTE (WITH)</span><span>MIN, MAX</span><span>GROUP BY</span></p>
+                            <p class="commands-used"><span>CORR</span><span>CTE (WITH)</span><span>MIN, MAX</span><span>FILTER</span><span>CASE WHEN</span></p>
                         </div>
                         <p><strong>A finding that exists only in the aggregate is waiting to be withdrawn.</strong> If the phase four claim is real, it holds in every year, not only across all three at once.</p>
                         <p class="code-label">The same correlation, split by year</p>
-                        <pre><code class="language-sql">WITH by_region_year AS (
+<pre><code class="language-sql">WITH by_region_year AS (
     SELECT
         sale_year,
         region,
@@ -705,7 +726,30 @@ FROM by_region_year
 GROUP BY sale_year
 ORDER BY sale_year;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a11-evaluate.png" alt="Within market correlation by year">
-                        <p>It holds. Every year averages -0.66 to -0.88 across all 53 markets. 2017 is softest, which fits the shock year, when supply set the price.</p>
+                        <p>It holds. Every year averages -0.66 to -0.88 across all 53 markets, and 2017 is the softest.</p>
+                        <p class="code-label">The SLI by year, and the SLO verdict</p>
+                        <pre><code class="language-sql">WITH sli AS (
+    SELECT
+        sale_year,
+        region,
+        CORR(average_price, total_volume)::numeric AS price_volume_sli
+    FROM avocado_prices
+    WHERE region &lt;&gt; 'TotalUS'
+    GROUP BY sale_year, region
+)
+SELECT
+    sale_year,
+    COUNT(*) AS markets,
+    COUNT(*) FILTER (WHERE price_volume_sli &lt;= -0.50) AS markets_meeting,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE price_volume_sli &lt;= -0.50)
+        / COUNT(*), 1) AS pct_meeting,
+    CASE WHEN 100.0 * COUNT(*) FILTER (WHERE price_volume_sli &lt;= -0.50)
+        / COUNT(*) &gt;= 80 THEN 'pass' ELSE 'FAIL' END AS slo_verdict
+FROM sli
+GROUP BY sale_year
+ORDER BY sale_year;</code></pre>
+                        <img class="result-shot" src="assets/images/projects/avo-a15-slo.png" alt="The SLO verdict by year">
+                        <p>The SLO holds in all four years. 2017 is the narrow one at 86.8%, which fits the shock year, when supply set the price. The recommendation stands.</p>
                         <p>So -0.34 is not wrong from noise or from one odd year. It is wrong from what it pooled, and finding that needed one <code>GROUP BY</code> more than the original.</p>
                     </div>
 

@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL: Fundamental Exploratory Data Analysis - Rafael Tavares</title>
     <meta name="description" content="A handful of SQL commands answers most of the questions a business asks. Exploratory analysis of a sales data warehouse in PostgreSQL 17.">
@@ -60,6 +59,42 @@
             font-size: 10.5px;
             white-space: nowrap;
             color: var(--text-color);
+        }
+
+        .insight-card .recap-list {
+            margin: 16px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .recap-list li {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 9px 0px;
+            border-bottom: 1px solid rgba(144, 81, 227, .18);
+        }
+
+        .insight-card .recap-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .insight-card .recap-list .q {
+            flex: 0 0 42%;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+
+        .insight-card .recap-list .a {
+            flex: 1;
+            color: var(--muted-text);
+            font-size: 15px;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .recap-list .q {
+                flex: 0 0 100%;
+            }
         }
 
         .insight-card .step-list {
@@ -148,7 +183,7 @@
             <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
             <h1 data-aos="fade-up">SQL: Fundamental Exploratory Data Analysis</h1>
             <p class="muted-text">A handful of commands answers most of what a business asks. Each one here ends in a decision.</p>
-            <img src="assets/images/projects/sql-eda-banner-draft.png" class="banner" alt="SQL EDA Notebook" data-aos="fade-up" decoding="async">
+            <img src="assets/images/projects/sql-eda-banner-draft.png?v=2" class="banner" alt="SQL: Fundamental Exploratory Data Analysis banner" data-aos="fade-up" decoding="async">
         </div>
     </section>
 
@@ -405,9 +440,18 @@ ORDER BY total_customers DESC;</code></pre>
                     </div>
 
                     <div class="insight-card">
-                        <h3>Bottom line</h3>
-                        <p>Seventeen commands, six steps, and the exploration ends where it should: with better questions. Revenue sits in one category, 134 products have never sold, no customer is load-bearing, and four out of five customers are too new to judge. Each of those is a reason to run the next analysis.</p>
-                        <p>What the fundamentals cannot settle is whether 2013 was durable and whether the new customers stay. Both need cohort logic and heavier window work, and that is the follow-up project. It starts exactly where this one stops.</p>
+                        <h3>Findings</h3>
+                        <p>Six premises went in, six answers came out, and every query behind them came off the list of seventeen.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">What does one row mean?</span><span class="a">An order line. 60,398 lines, 27,659 orders.</span></li>
+                            <li><span class="q">Is the data clean?</span><span class="a">Keys yes, fields no. 19 dateless rows, 9 broken products.</span></li>
+                            <li><span class="q">How big, and how spread?</span><span class="a">$1,061 an order. Cost from $1 to $2,171.</span></li>
+                            <li><span class="q">Does catalogue size drive revenue?</span><span class="a">No. 97 bike products carry 96.46%.</span></li>
+                            <li><span class="q">Is growth steady?</span><span class="a">No. One 179.8% year between a fall and a stub.</span></li>
+                            <li><span class="q">Who carries the revenue?</span><span class="a">Nobody. And 79% of the base is under a year old.</span></li>
+                        </ul>
+                        <p>Four of those six close a door. The other two open one, and that is the honest output of an exploration: 134 products that never sold, and a customer base too young to read. Both are now specific enough to hand to somebody.</p>
+                        <p>Cohort retention and the cause behind 2013 need heavier window work, and that is the follow-up project. It starts exactly where this one stops.</p>
                     </div>
 
                 </div>
