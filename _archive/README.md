@@ -20,3 +20,10 @@ underscore into the built site.
 
 The images that these pages use are still in `/images/` and
 `/assets/images/projects/`. Do not delete them. The pages break without them.
+
+## What is here, and why
+
+| Page | Archived | Reason |
+| --- | --- | --- |
+| `credit-card-approval.html` | 2026-08-27 | Rafael took it off the site |
+| `rideshare.html`, `chicago.html`, `delivery_analysis.html`, `data_jobs.html`, `portbill.html` | 2026 | Replaced by the rebuilt projects |
