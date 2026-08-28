@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paid Advertising Uplift - Rafael Tavares</title>
+    <meta name="description" content="Who converts because of an ad. Uplift modelling on a randomised advertising trial, in Python.">
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=15">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- Analytics -->
+    <script data-goatcounter="https://rafaeltavares.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <style>
+        .insight-card .card-head {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-card .card-head h3 {
+            margin-bottom: 0;
+        }
+
+        .insight-card .commands-used {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            gap: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .card-head {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .insight-card .commands-used {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+        }
+
+        .insight-card .commands-used span {
+            padding: 2px 8px;
+            border-radius: 32px;
+            border: 1px solid rgba(144, 81, 227, .35);
+            background-color: rgba(255, 255, 255, .04);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 10.5px;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
+
+        .crisp-figure {
+            margin: 20px 0px 22px 0px;
+        }
+
+        .crisp-figure svg {
+            display: block;
+            width: 100%;
+            max-width: 560px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .crisp-figure .crisp-node rect {
+            fill: rgba(144, 81, 227, .16);
+            stroke: #a06ce0;
+            stroke-width: 2;
+        }
+
+        .crisp-figure .crisp-node text {
+            fill: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 21px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        .crisp-figure .crisp-centre {
+            fill: var(--muted-text);
+            font-family: var(--font-family);
+            font-size: 19px;
+            font-weight: 500;
+        }
+
+        .crisp-figure .crisp-caption {
+            margin: 6px 0px 0px 0px;
+            text-align: center;
+            font-size: 13px !important;
+        }
+
+        .insight-card .recap-list {
+            margin: 16px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .recap-list li {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 9px 0px;
+            border-bottom: 1px solid rgba(144, 81, 227, .18);
+        }
+
+        .insight-card .recap-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .insight-card .recap-list .q {
+            flex: 0 0 42%;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+
+        .insight-card .recap-list .a {
+            flex: 1;
+            color: var(--muted-text);
+            font-size: 15px;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .recap-list .q {
+                flex: 0 0 100%;
+            }
+        }
+
+        .insight-card .step-list {
+            margin: 14px 0px 18px 0px;
+            padding-left: 20px;
+        }
+
+        .insight-card .step-list li {
+            padding: 3px 0px;
+        }
+
+        .insight-card .step-list li::marker {
+            color: #a06ce0;
+        }
+
+        .insight-card .command-groups {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px 24px;
+            margin: 18px 0px 20px 0px;
+        }
+
+        .insight-card .command-groups h4 {
+            margin: 0px 0px 8px 0px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #a06ce0;
+        }
+
+        .insight-card .command-groups ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .command-groups li {
+            padding: 5px 0px 5px 20px;
+            position: relative;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13.5px;
+            color: var(--text-color);
+        }
+
+        .insight-card .command-groups li::before {
+            content: "\203A";
+            position: absolute;
+            left: 4px;
+            color: #a06ce0;
+        }
+
+        @media (max-width: 991.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 479.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+
+    <div id="preloader"></div>
+
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-center flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">Paid Advertising Uplift</h1>
+            <p class="muted-text">A response model finds who converts. An uplift model finds who converts because of the ad. The gap between them is the budget.</p>
+            <img src="assets/images/projects/ad-uplift-banner.png" class="banner" alt="Paid advertising uplift banner" data-aos="fade-up" decoding="async">
+        </div>
+    </section>
+
+            <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
+
+                    <div class="insight-card">
+                        <h3>Two questions that look like one</h3>
+                        <p>The <a href="avocado-price-analysis.html">second project</a> asked whether price moves volume. This one asks a harder question: not who converts, but who converts <strong>because of</strong> the ad.</p>
+                        <p>A response model answers the first. It ranks users by how likely they are to buy, and an advertiser who bids on that list pays for sales that were coming anyway.</p>
+                        <p>An uplift model answers the second. It ranks users by the difference the ad makes to them. The two lists are not the same people, and the gap between them is the budget.</p>
+                        <div class="command-groups">
+                            <div>
+                                <h4>Method</h4>
+                                <ul><li>CRISP-DM</li><li>SLI and SLO</li><li>A/B test</li><li>Cross-validation</li></ul>
+                            </div>
+                            <div>
+                                <h4>Models</h4>
+                                <ul><li>Logistic regression</li><li>LightGBM</li><li>Two-model uplift</li></ul>
+                            </div>
+                            <div>
+                                <h4>Metrics</h4>
+                                <ul><li>Qini coefficient</li><li>Uplift at k</li><li>Two-proportion Z test</li><li>Confidence interval</li></ul>
+                            </div>
+                            <div>
+                                <h4>Tools</h4>
+                                <ul><li>Python</li><li>pandas</li><li>scikit-learn</li><li>scikit-uplift</li></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>CRISP-DM</h3>
+                        <p><strong>CRISP-DM is the Cross-Industry Standard Process for Data Mining.</strong> It keeps an analysis from becoming a tour of techniques.</p>
+                        <p>It sets six phases, and each one answers a defined question before the next one starts. The second project used it on SQL. This one uses it on a model.</p>
+                        <div class="crisp-figure">
+                            <svg viewBox="0 0 760 640" role="img" aria-labelledby="crispTitle">
+                                <title id="crispTitle">The six phases of CRISP-DM, arranged as a cycle</title>
+                                <defs>
+                                    <marker id="crispArrow" viewBox="0 0 10 10" refX="8" refY="5"
+                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6bb5"></path>
+                                    </marker>
+                                    <marker id="crispArrowFaint" viewBox="0 0 10 10" refX="8" refY="5"
+                                            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                                        <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b5a86"></path>
+                                    </marker>
+                                </defs>
+
+                                <!-- the outer loop: the process repeats -->
+                                <circle cx="380" cy="310" r="288" fill="none" stroke="#4a3d63"
+                                        stroke-width="10" stroke-dasharray="1140 120"
+                                        transform="rotate(-84 380 310)"></circle>
+                                <path d="M 372 22 L 398 22" stroke="#4a3d63" stroke-width="10"
+                                      marker-end="url(#crispArrowFaint)"></path>
+
+                                <!-- centre -->
+                                <g transform="translate(380 300)">
+                                    <ellipse cx="0" cy="-34" rx="46" ry="14" fill="#2c2440" stroke="#6b5a86" stroke-width="2"></ellipse>
+                                    <path d="M -46 -34 L -46 30 A 46 14 0 0 0 46 30 L 46 -34"
+                                          fill="#221c33" stroke="#6b5a86" stroke-width="2"></path>
+                                    <ellipse cx="0" cy="-6" rx="46" ry="14" fill="none" stroke="#6b5a86" stroke-width="1.5" opacity=".7"></ellipse>
+                                    <ellipse cx="0" cy="16" rx="46" ry="14" fill="none" stroke="#6b5a86" stroke-width="1.5" opacity=".7"></ellipse>
+                                    <text x="0" y="76" text-anchor="middle" class="crisp-centre">Data</text>
+                                </g>
+
+                                <!-- phase boxes -->
+                                <g class="crisp-node">
+                                    <rect x="150" y="86" width="215" height="72" rx="12"></rect>
+                                    <text x="257" y="115">Business</text>
+                                    <text x="257" y="141">understanding</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="415" y="86" width="215" height="72" rx="12"></rect>
+                                    <text x="522" y="115">Data</text>
+                                    <text x="522" y="141">understanding</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="500" y="238" width="200" height="72" rx="12"></rect>
+                                    <text x="600" y="267">Data</text>
+                                    <text x="600" y="293">preparation</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="500" y="378" width="200" height="60" rx="12"></rect>
+                                    <text x="600" y="414">Modelling</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="285" y="498" width="200" height="60" rx="12"></rect>
+                                    <text x="385" y="534">Evaluation</text>
+                                </g>
+                                <g class="crisp-node">
+                                    <rect x="60" y="298" width="200" height="60" rx="12"></rect>
+                                    <text x="160" y="334">Deployment</text>
+                                </g>
+
+                                <!-- the two-way pass between the first two phases -->
+                                <path d="M 373 112 L 407 112" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+                                <path d="M 407 134 L 373 134" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+
+                                <!-- understanding to preparation -->
+                                <path d="M 560 166 Q 600 200 600 228" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- preparation and modelling loop back and forth -->
+                                <path d="M 585 320 L 585 368" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+                                <path d="M 615 368 L 615 320" stroke="#8a6bb5" stroke-width="5"
+                                      marker-end="url(#crispArrow)"></path>
+
+                                <!-- modelling to evaluation -->
+                                <path d="M 560 446 Q 520 512 495 526" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- evaluation back to business understanding -->
+                                <path d="M 330 496 Q 300 340 300 168" fill="none" stroke="#6b5a86"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+
+                                <!-- evaluation to deployment -->
+                                <path d="M 280 512 Q 180 470 150 368" fill="none" stroke="#8a6bb5"
+                                      stroke-width="5" marker-end="url(#crispArrow)"></path>
+                            </svg>
+                            <p class="crisp-caption">CRISP-DM is a cycle. Each loop returns to the phase before it: data refines the question, the model refines the preparation, evaluation returns the answer to the business. Every turn removes noise.</p>
+                        </div>
+                        <ul class="recap-list">
+                            <li><span class="q">Business understanding</span><span class="a">The phase that turns a decision into a question the data can take. It fixes the rule for a valid answer, because a later rule is bent by the result.</span></li>
+                            <li><span class="q">Data understanding</span><span class="a">The phase that establishes what the data measures and how it is wrong. Exploratory analysis is its work, and its verdict is whether the question is answerable.</span></li>
+                            <li><span class="q">Data preparation</span><span class="a">The phase that builds the data the model needs: selection, correction, joining, derivation, shaping. It carries most of the effort, and every choice costs something.</span></li>
+                            <li><span class="q">Modelling</span><span class="a">The phase that builds what produces the answer. A model is any representation of the relation under test. Here it is three of them, and the one that ranks best is carried forward.</span></li>
+                            <li><span class="q">Evaluation</span><span class="a">The phase that tests the answer against the rule from phase one, not the technique. Split across five folds, a result holds or falls apart.</span></li>
+                            <li><span class="q">Deployment</span><span class="a">The phase that leaves the answer in a form another person can run: a view, a script, a repository. An analysis nobody reruns lasts one reading.</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>1. Business understanding</h3>
+                            <p class="commands-used"><span>No code yet</span></p>
+                        </div>
+                        <p><strong>An advertiser holds one budget and bids on a population.</strong> Every user on the list costs money at auction. Every user off it sees nothing.</p>
+                        <p><strong>Which users convert because of the ad?</strong></p>
+                        <p>The treated group converts more. That fact mixes the ad working with the treated group being different. Uplift is what is left after the control group is subtracted.</p>
+                        <p>The next two lines are written before the first model runs, so no result sets its own bar.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">SLI</span><span class="a">The Qini coefficient, measured on users held out of training.</span></li>
+                            <li><span class="q">SLO</span><span class="a">Qini above zero, and the top decile above the population average, in every fold.</span></li>
+                        </ul>
+                        <p>Phase 5 returns the verdict, and the verdict decides the recommendation.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>2. Data understanding</h3>
+                            <p class="commands-used"><span>pandas</span><span>propensity AUC</span><span>SMD</span><span>quality view</span></p>
+                        </div>
+                        <p>Every data set arrives claiming to be clean. This one arrives claiming something stronger: that it is a randomised trial. Seven rules test both.</p>
+                        <p>The case is CRITEO-UPLIFTv2, 13,979,592 users from incrementality tests on real-time bidding. A random part of the population was held out of the auction. The notebook works on a deterministic 10% sample.</p>
+                        <p class="code-label">The rates each group produced</p>
+                        <pre><code class="language-python">rates = raw.groupby("treatment").agg(
+    users=("visit", "size"),
+    visit_rate=("visit", "mean"),
+    conversion_rate=("conversion", "mean"),
+    exposure_rate=("exposure", "mean")).round(5)</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-rates.png" alt="Rates by group">
+                        <p>The control group has an exposure rate of zero, by construction. A user held out of the auction cannot be shown an ad, so nothing can win it.</p>
+                        <p><code>exposure</code> is therefore not randomised. Winning an auction depends on the user and on the competition. Every model below trains on <code>treatment</code>.</p>
+                        <p class="code-label">Is the assignment balanced?</p>
+                        <pre><code class="language-python">smd["std_mean_diff"] = ((treated[FEATURES].mean() - control[FEATURES].mean())
+    / np.sqrt((treated[FEATURES].var() + control[FEATURES].var()) / 2))</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-balance.png" alt="Standardised mean differences">
+                        <p>Every standardised difference sits under 0.05, and the convention is that anything under 0.10 is balance.</p>
+                        <p class="code-label">The check that licenses every causal claim</p>
+                        <pre><code class="language-python">propensity = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
+scores = cross_val_predict(propensity, check[FEATURES], check.treatment,
+                           cv=StratifiedKFold(3, shuffle=True, random_state=SEED),
+                           method="predict_proba")[:, 1]
+auc = roc_auc_score(check.treatment, scores)</code></pre>
+                        <p>The AUC is <strong>0.5114</strong>. A model that cannot predict who was treated is the evidence that nothing but chance decided it. Diemert et al. run the same check on this data.</p>
+                        <img class="result-shot" src="assets/images/projects/up-quality.png" alt="The seven rules and their verdicts">
+                        <p>Six rules pass. The failure is 22,177 duplicated rows.</p>
+                        <p>The features are dense and anonymous, so a profile that repeats is the same twelve numbers arriving twice. 7,549 of those profiles sit in both groups.</p>
+                        <p><strong>Answer.</strong> The randomisation holds. The duplicates leave in phase 3, and <code>exposure</code> stays out of every model.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>3. Data preparation</h3>
+                            <p class="commands-used"><span>drop_duplicates</span><span>StratifiedKFold</span><span>layers</span></p>
+                        </div>
+                        <p>Premise: a fold that holds no positive row cannot measure anything.</p>
+                        <p>Three layers, as in the SQL projects. Landing keeps everything. Conformed removes the duplicates. Model ready pairs the group with the outcome.</p>
+                        <p class="code-label">The stratification label</p>
+                        <pre><code class="language-python">clean = raw.drop_duplicates().reset_index(drop=True)
+print(f"landing   {len(raw):,} rows")
+print(f"conformed {len(clean):,} rows  ({len(raw) - len(clean):,} duplicates removed, "
+      f"{100 * (len(raw) - len(clean)) / len(raw):.2f}%)")
+
+X = clean[FEATURES]
+y_visit = clean["visit"].to_numpy()
+y_conv = clean["conversion"].to_numpy()
+treat = clean["treatment"].to_numpy()
+
+# One label per fold, so a fold holds the same mix of group and outcome.
+fold_label = np.char.add(treat.astype(str), y_visit.astype(str))</code></pre>
+                        <p>1,375,782 rows survive. Uplift is a difference between two groups, so the binding number is the smallest cell rather than the row count.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Treated, visited</span><span class="a">57,565</span></li>
+                            <li><span class="q">Treated, did not visit</span><span class="a">1,108,968</span></li>
+                            <li><span class="q">Control, visited</span><span class="a">8,037</span></li>
+                            <li><span class="q">Control, did not visit</span><span class="a">201,212</span></li>
+                        </ul>
+                        <p>The control-visit cell holds 8,037 rows, about 1,600 a fold. That is enough to rank on.</p>
+                        <p>Conversion is a different matter. The sample carries 4,157 conversions and only 423 of them are in the control group, which is 85 a fold. A ranking cannot be measured against 85 rows.</p>
+                        <p><strong>Answer.</strong> The models rank on visits. Phase 6 then asks the question that decides the budget: does that ranking also deliver conversions?</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>4. Modelling</h3>
+                            <p class="commands-used"><span>scikit-uplift</span><span>LightGBM</span><span>nested CV</span><span>Qini</span></p>
+                        </div>
+                        <p>Premise: the sophisticated model wins.</p>
+                        <p>Three models, three families. The first is the baseline, and anything that cannot beat it is not worth shipping.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Logistic regression, treatment dummy</span><span class="a">One linear model, with treatment and its interactions as features. Lo, 2002.</span></li>
+                            <li><span class="q">LightGBM, treatment dummy</span><span class="a">The same shape, with a gradient boosted tree.</span></li>
+                            <li><span class="q">Two-model LightGBM</span><span class="a">One classifier per group. The difference between them is the uplift.</span></li>
+                        </ul>
+                        <p class="code-label">The search runs inside the training fold only</p>
+                        <pre><code class="language-python">def inner_search(Xi, yi, ti, seed):
+    """Pick tree parameters inside the training fold only."""
+    label = np.char.add(ti.astype(str), yi.astype(str))
+    idx = np.random.RandomState(seed).choice(len(Xi), min(300_000, len(Xi)), replace=False)
+    Xi, yi, ti, label = Xi.iloc[idx], yi[idx], ti[idx], label[idx]
+    best_score, best_params = -np.inf, None
+    for params in GRID:
+        scores = []
+        for a, b in StratifiedKFold(3, shuffle=True, random_state=seed).split(Xi, label):
+            model = SoloModel(lgbm(params), method="dummy").fit(Xi.iloc[a], yi[a], ti[a])
+            scores.append(qini_auc_score(yi[b], model.predict(Xi.iloc[b]), ti[b]))
+        score = float(np.mean(scores))
+        if score &gt; best_score:
+            best_score, best_params = score, params
+    return best_params, best_score</code></pre>
+                        <p>A search that reads the fold it reports on inflates the number it reports. This one never sees the outer test fold.</p>
+                        <p class="code-label">Five folds, three models, one loop</p>
+                        <pre><code class="language-python">for k, (train, test) in enumerate(outer.split(X, fold_label), 1):
+    params, inner_qini = inner_search(X.iloc[train], y_visit[train], treat[train], seed=100 + k)
+    chosen.append({"fold": k, **params, "inner_qini": round(inner_qini, 4)})
+    oof_fold[test] = k
+
+    models = dict(zip(NAMES, [
+        SoloModel(make_pipeline(StandardScaler(), LogisticRegression(max_iter=400)), method="dummy"),
+        SoloModel(lgbm(params), method="dummy"),
+        TwoModels(lgbm(params), lgbm(params), method="vanilla")]))
+    for name, model in models.items():
+        model.fit(X.iloc[train], y_visit[train], treat[train])
+        uplift = model.predict(X.iloc[test])
+        oof[name][test] = uplift</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-cv.png" alt="Cross-validated Qini by model">
+                        <p><strong>Answer.</strong> The premise fails.</p>
+                        <p>The two-model approach is the one the field reaches for, and it comes last.</p>
+                        <p>It fits one classifier per group and subtracts them. Each spends its capacity on predicting visits, and the small difference carries the error of both.</p>
+                        <p>The single LightGBM wins on the mean and on the worst fold. The gap over logistic regression is about one standard deviation, so the tree earns its place without running away with the result.</p>
+                        <p>The spread is what a single split cannot show. Fold 5 and fold 1 differ by more than the gap between the first and the second model.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>5. Evaluation</h3>
+                            <p class="commands-used"><span>Z test</span><span>power</span><span>Qini curve</span><span>SLO verdict</span></p>
+                        </div>
+                        <p>Two parts. The A/B test asks whether the ad worked. The Qini curve asks whether the model ranks users better than chance.</p>
+                        <p class="code-label">Two proportions, with the power the sample gives</p>
+                        <pre><code class="language-python">def two_proportion_test(y, t, label, alpha=0.05, power=0.80):
+    n1, n0 = int(t.sum()), int((1 - t).sum())
+    p1, p0 = y[t == 1].mean(), y[t == 0].mean()
+    diff = p1 - p0
+    pooled = (y[t == 1].sum() + y[t == 0].sum()) / (n1 + n0)
+    se_null = np.sqrt(pooled * (1 - pooled) * (1 / n1 + 1 / n0))
+    z = diff / se_null
+    p_value = 2 * (1 - stats.norm.cdf(abs(z)))
+    se = np.sqrt(p1 * (1 - p1) / n1 + p0 * (1 - p0) / n0)
+    z_a, z_b = stats.norm.ppf(1 - alpha / 2), stats.norm.ppf(power)
+    mde = (z_a + z_b) * np.sqrt(p0 * (1 - p0) * (1 / n1 + 1 / n0))</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-ab.png" alt="The A/B test result">
+                        <p><strong>The hypothesis.</strong> The ad has no effect, and the treated group matches the control group.</p>
+                        <p>Both metrics reject it. Visits rise 1.09 percentage points, and the interval runs from 1.00 to 1.19. Conversions rise 0.12 points, which is 58% in relative terms.</p>
+                        <p>Each effect is several times the minimum this sample can detect, so the test is not straining to find it.</p>
+                        <p>The p-value states how surprising this data would be if the ad did nothing. It does not state the probability that the ad works, and it says nothing about the size. The interval carries the size.</p>
+                        <p class="code-label">The Qini curve, drawn from its definition</p>
+                        <pre><code class="language-python">def qini_points(y, uplift, t):
+    """The Qini curve, drawn from the definition rather than called from a library."""
+    order = np.argsort(-uplift, kind="mergesort")
+    y, t = y[order], t[order]
+    treated_y, control_y = np.cumsum(y * t), np.cumsum(y * (1 - t))
+    n_treated, n_control = np.cumsum(t), np.cumsum(1 - t)
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ratio = np.where(n_control &gt; 0, n_treated / np.maximum(n_control, 1), 0)
+    curve = treated_y - control_y * ratio
+    x = np.arange(1, len(y) + 1) / len(y)
+    return np.insert(x, 0, 0), np.insert(curve, 0, 0)</code></pre>
+                        <p>The hand-drawn coefficient agrees with the one <code>scikit-uplift</code> returns, so the curve below is the metric rather than a picture beside it.</p>
+                        <img class="result-shot" src="assets/images/projects/up-qini.png" alt="Qini curve on out-of-fold scores">
+                        <p class="code-label">The SLO verdict, one row per fold</p>
+                        <pre><code class="language-python">for k in range(1, 6):
+    m = oof_fold == k
+    q = qini_auc_score(y_visit[m], oof_uplift[m], treat[m])
+    top = np.argsort(-oof_uplift[m])[: int(m.sum() * 0.1)]
+    yy, tt = y_visit[m][top], treat[m][top]
+    top_uplift = yy[tt == 1].mean() - yy[tt == 0].mean()
+    verdict.append({"fold": k, "qini": round(q, 4),
+                    "uplift_top10_pp": round(top_uplift * 100, 3),
+                    "uplift_overall_pp": round(overall * 100, 3),
+                    "slo_verdict": "pass" if (q &gt; 0 and top_uplift &gt; overall) else "FAIL"})</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-slo.png" alt="The SLO verdict by fold">
+                        <p><strong>Answer.</strong> The SLO holds in all five folds. The Qini stays between 0.076 and 0.089, and the top decile carries five times the average uplift.</p>
+                        <p>These scores come from phase 4. Every row is ranked by a model that never saw it, and nothing is refitted to produce the table.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>6. Deployment</h3>
+                            <p class="commands-used"><span>deciles</span><span>break-even</span><span>targeting rule</span></p>
+                        </div>
+                        <p>Premise: a score is not a decision. The advertiser needs a cut.</p>
+                        <p class="code-label">The ranking, read against the money</p>
+                        <pre><code class="language-python">scored["decile"] = pd.qcut(scored.uplift.rank(method="first", ascending=False),
+                           10, labels=range(1, 11)).astype(int)
+
+def uplift_pp(frame, col):
+    return (frame[col][frame.treatment == 1].mean() - frame[col][frame.treatment == 0].mean()) * 100</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-deciles.png" alt="Uplift by decile">
+                        <p>The ranking was trained on visits. The right-hand column is the test that matters: the same ranking read against conversions, which is what the advertiser pays for.</p>
+                        <p>Decile 1 carries 0.77 percentage points of conversion uplift. Deciles 3 to 9 sit at zero, and two of them are negative.</p>
+                        <p>Decile 10 is the exception, and it is worth stating rather than hiding. The users the model scores lowest show more uplift than the middle, on both columns.</p>
+                        <p>The score is therefore not monotone at the bottom. It separates the top well and orders the tail badly. The rule below never reaches that far, so the defect costs nothing here.</p>
+                        <p class="code-label">From a ranking to a bidding list</p>
+                        <pre><code class="language-python">for share in [5, 10, 20, 30, 40, 50, 60, 80, 100]:
+    top = ranked.iloc[: int(n * share / 100)]
+    up = uplift_pp(top, "conversion") / 100
+    incremental = up * len(top)
+    policy.append({"targeted_pct": share, "users": len(top),
+                   "conversion_uplift_pp": round(up * 100, 4),
+                   "incremental_conversions": round(incremental, 1),
+                   "share_of_total_pct": round(100 * incremental / total_incremental, 1),
+                   "times_better_than_random": round((incremental / len(top)) / (total_incremental / n), 2),
+                   "break_even_bid_pct_of_value": round(up * 100, 3)})</code></pre>
+                        <img class="result-shot" src="assets/images/projects/up-policy.png" alt="The targeting table">
+                        <p><strong>Answer.</strong> The uplift column is the decision. Bidding on a user pays while the bid costs less than that share of the value of one conversion.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Target the top 10%</span><span class="a">137,578 users carry 65.6% of every incremental conversion, at 6.6 times random. The bid pays under 0.77% of a conversion.</span></li>
+                            <li><span class="q">Target the top 5% when the bid is expensive</span><span class="a">46.1% of the incremental conversions, at 9.2 times random, and the bid pays up to 1.09%.</span></li>
+                            <li><span class="q">Stop after 40%</span><span class="a">The last 60% of the population adds 12% of the conversions and consumes 60% of the budget.</span></li>
+                        </ul>
+                        <p>The advertiser needs one number from finance, the value of a conversion, and the table returns the cut.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Findings</h3>
+                        <p>Seven premises went in. Two came back false, and the false one that matters is the model I expected to win.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Is this a randomised trial?</span><span class="a">Yes. Every standardised difference is under 0.05, and the propensity AUC is 0.5114.</span></li>
+                            <li><span class="q">Is the data clean?</span><span class="a">Six rules of seven. 22,177 duplicated rows leave.</span></li>
+                            <li><span class="q">Can a fold measure conversion?</span><span class="a">No. 423 control conversions, 85 a fold. The models rank visits.</span></li>
+                            <li><span class="q">Does the sophisticated model win?</span><span class="a">No. The two-model approach comes last, at 0.0717.</span></li>
+                            <li><span class="q">Did the ad work?</span><span class="a">Yes. Visits rise 1.09pp and conversions 0.12pp, far above the detectable minimum.</span></li>
+                            <li><span class="q">Does the ranking hold out?</span><span class="a">Yes. The SLO passes in all five folds.</span></li>
+                            <li><span class="q">Who is worth bidding on?</span><span class="a">The top 10%. It carries 65.6% of the incremental conversions.</span></li>
+                        </ul>
+                        <p>The naive reading of this campaign is that the ad lifts conversions by 58%, so bid on everybody. That reading is true and useless.</p>
+                        <p>Most of the lift sits in a tenth of the population. The other nine tenths spend the budget on sales that were coming anyway, and no response model would have separated them.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/GitHub_Logo.png" alt="GitHub Logo" loading="lazy" decoding="async">
+                        <h3>The Notebook</h3>
+                        <p>The six phases, the output that ran, and every block on this page.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/ad-uplift" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+</body>
+</html>
