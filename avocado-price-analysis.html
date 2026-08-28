@@ -488,7 +488,7 @@ FROM avocado_prices;</code></pre>
                             <li><span class="q">Conformed</span><span class="a"><code>avocado_clean</code>, a view. Safe to add up.</span></li>
                             <li><span class="q">Consumption</span><span class="a"><code>weekly_us</code> and <code>report_regions</code>, one per question.</span></li>
                         </ul>
-                        <p>That is the medallion shape with the labels left off on purpose. Bronze, silver and gold carry machinery for scale and incremental loads that a 5 MB CSV does not need. The shape is worth borrowing, the vocabulary would be decoration.</p>
+                        <p>That is the medallion shape with the labels left off. Bronze, silver and gold carry machinery for scale that a 5 MB CSV does not need. The shape is worth borrowing, the vocabulary would be decoration.</p>
                         <p class="code-label">The conformed layer</p>
                         <pre><code class="language-sql">CREATE OR REPLACE VIEW avocado_clean AS
 SELECT
@@ -697,7 +697,8 @@ WHERE region &lt;&gt; 'TotalUS'
 GROUP BY avocado_type, price_band
 ORDER BY avocado_type, price_band;</code></pre>
                         <img class="result-shot" src="assets/images/projects/avo-a8-segments.png" alt="Average weekly volume by price band and type">
-                        <p>Conventional weeks under a dollar move 1.57 million units against 413,000 above two dollars, near four to one. Organic runs under two and a half to one. The lines do not react alike, the second reason the pooled figure was meaningless.</p>
+                        <p>Conventional weeks under a dollar move 1.57 million units against 413,000 above two dollars, near four to one. Organic runs under two and a half to one.</p>
+                        <p>The lines do not react alike, the second reason the pooled figure was meaningless.</p>
                     </div>
 
                     <div class="insight-card">
@@ -794,7 +795,7 @@ LIMIT 8;</code></pre>
 
                     <div class="insight-card">
                         <h3>Findings</h3>
-                        <p>Six phases, fourteen queries, and a published number that does not survive one more <code>GROUP BY</code>.</p>
+                        <p>Six phases, seventeen queries, and a published number that does not survive one more <code>GROUP BY</code>.</p>
                         <ul class="recap-list">
                             <li><span class="q">Can these rows be added up?</span><span class="a">No. Aggregates overlap metros and overstate the country by 65%.</span></li>
                             <li><span class="q">Does price move volume?</span><span class="a">Inside a market, strongly: -0.72. Pooled, -0.34 and misleading.</span></li>

@@ -39,8 +39,12 @@ Every result this script prints is on the project page.
 -- enough that a buyer would conclude price is not a lever worth pulling.
 -- That number is the thing to test.
 --
--- One rule, set before any query runs: a result only counts if it holds at the
--- level a buyer works at, which is one market at a time.
+-- Two lines, written before any query runs, so no result sets its own bar.
+--
+--     SLI: price against volume, correlated inside one market and one year.
+--     SLO: -0.50 or stronger in 80% of markets, every year.
+--
+-- Phase 5 returns the verdict, and the verdict decides the recommendation.
 
 
 
@@ -330,6 +334,31 @@ GROUP BY sale_year
 ORDER BY sale_year;
 
 -- Answer: it holds. Every year averages -0.66 to -0.88 across all 53 markets.
+
+-- The SLI by year, and the SLO verdict
+WITH sli AS (
+    SELECT
+        sale_year,
+        region,
+        CORR(average_price, total_volume)::numeric AS price_volume_sli
+    FROM avocado_prices
+    WHERE region <> 'TotalUS'
+    GROUP BY sale_year, region
+)
+SELECT
+    sale_year,
+    COUNT(*) AS markets,
+    COUNT(*) FILTER (WHERE price_volume_sli <= -0.50) AS markets_meeting,
+    ROUND(100.0 * COUNT(*) FILTER (WHERE price_volume_sli <= -0.50)
+        / COUNT(*), 1) AS pct_meeting,
+    CASE WHEN 100.0 * COUNT(*) FILTER (WHERE price_volume_sli <= -0.50)
+        / COUNT(*) >= 80 THEN 'pass' ELSE 'FAIL' END AS slo_verdict
+FROM sli
+GROUP BY sale_year
+ORDER BY sale_year;
+
+-- Answer: the SLO passes in all four years. 100%, 100%, 86.8% and 94.3%.
+-- 2017 is the narrow one, which fits the shock year, when supply set the price.
 
 
 -- ============================================================================

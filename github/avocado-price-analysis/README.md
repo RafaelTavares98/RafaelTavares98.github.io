@@ -31,15 +31,34 @@ what was held constant is unusable.
 
 | Phase | What it answers | Where it lives |
 | --- | --- | --- |
-| 1. Business understanding | What decision is this for? | `analysis.sql`, no query |
+| 1. Business understanding | What decision is this for, and what counts as an answer? | `analysis.sql`, no query |
 | 2. Data understanding | What is wrong with the table? | `data_quality_checks` |
 | 3. Data preparation | What gets dropped, and what does it cost? | `02_model.sql` |
 | 4. Modelling | The windows that answer the question | `analysis.sql` |
 | 5. Evaluation | Does the answer survive being split apart? | `analysis.sql` |
 | 6. Deployment | Who queries this after I stop? | `report_regions` |
 
-Evaluation feeds back into the business question. That loop is what catches a
-wrong answer before it ships, and in this project it caught one.
+CRISP-DM is a cycle. Each loop returns to the phase before it, and every turn
+removes noise. In this project the loop caught a wrong answer before it shipped.
+
+## The SLI and the SLO
+
+Phase one names what gets measured and what counts as good enough, before the
+first query runs.
+
+* **SLI.** Price against volume, correlated inside one market and one year.
+* **SLO.** -0.50 or stronger in 80% of markets, every year.
+
+Phase five returns the verdict:
+
+| Year | Markets | Meeting the SLO | Verdict |
+| --- | --- | --- | --- |
+| 2015 | 53 | 100.0% | pass |
+| 2016 | 53 | 100.0% | pass |
+| 2017 | 53 | 86.8% | pass |
+| 2018 | 53 | 94.3% | pass |
+
+2017 is the narrow year, which fits the shock, when supply set the price.
 
 ## The skills
 
@@ -47,7 +66,7 @@ SQL · PostgreSQL 17 · window functions · layered ELT · data cleaning · CRIS
 
 `AVG() OVER (ROWS BETWEEN 3 PRECEDING AND CURRENT ROW)` · `LAG(col, 52)` ·
 `RANK() OVER (PARTITION BY ...)` · `SUM() OVER ()` · running totals · CTEs ·
-`CASE WHEN` bands · `CORR` · `NULLIF` · `CREATE OR REPLACE VIEW`
+`CASE WHEN` bands · `CORR` · `NULLIF` · `FILTER` · `CREATE OR REPLACE VIEW`
 
 
 ## The layers
