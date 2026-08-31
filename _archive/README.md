@@ -26,4 +26,5 @@ The images that these pages use are still in `/images/` and
 | Page | Archived | Reason |
 | --- | --- | --- |
 | `credit-card-approval.html` | 2026-08-27 | Rafael took it off the site |
+| `uber-data-pipeline.html` | 2026-08-31 | Replaced by the MLOps pipeline project |
 | `rideshare.html`, `chicago.html`, `delivery_analysis.html`, `data_jobs.html`, `portbill.html` | 2026 | Replaced by the rebuilt projects |
