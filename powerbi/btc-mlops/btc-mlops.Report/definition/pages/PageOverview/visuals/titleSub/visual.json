@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "titleSub",
+  "layouts": [
+    {
+      "id": 0,
+      "position": {
+        "x": 24,
+        "y": 66,
+        "z": 0,
+        "width": 700,
+        "height": 30,
+        "tabOrder": 0
+      }
+    }
+  ],
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Continuous training, a promotion gate, and drift monitoring. The subject is small on purpose.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#8A94AD",
+                      "fontWeight": "normal",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "visualContainerObjects": {
+    "background": [
+      {
+        "properties": {
+          "show": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,57 @@
+table Hourly
+	lineageTag: d70c5052-248c-4295-92c7-a70f241f66d6
+
+	column open_time
+		dataType: dateTime
+		sourceColumn: open_time
+		lineageTag: 2b12f336-c27d-4d60-8977-52871f80bd2c
+
+	column actual_range
+		dataType: double
+		sourceColumn: actual_range
+		lineageTag: 14d82512-d54c-468c-9b70-6186e962cd2e
+
+	column predicted_range
+		dataType: double
+		sourceColumn: predicted_range
+		lineageTag: 0d354931-1be2-461e-a912-29a0fb82b1b1
+
+	column baseline_range
+		dataType: double
+		sourceColumn: baseline_range
+		lineageTag: c515fc09-20e8-43c1-8163-ce7d693912f2
+
+	column model_error
+		dataType: double
+		sourceColumn: model_error
+		lineageTag: 0fac9f9e-d876-4eed-89cf-04f898db8731
+
+	column baseline_error
+		dataType: double
+		sourceColumn: baseline_error
+		lineageTag: 7db3d30b-1326-4c1e-bfcd-ef34fc720a5f
+
+	column hour_of_day
+		dataType: int64
+		sourceColumn: hour_of_day
+		lineageTag: ca6e6742-db7a-4cad-9894-35497b69f35b
+
+	column date
+		dataType: dateTime
+		sourceColumn: date
+		lineageTag: 04340822-56ce-4ca8-92e4-ef09224a4f5a
+
+	column model_wins
+		dataType: int64
+		sourceColumn: model_wins
+		lineageTag: fd1c70a0-6afa-4876-91e2-0399118f9b25
+
+	partition Hourly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\hourly.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"open_time", type datetime}, {"actual_range", type number}, {"predicted_range", type number}, {"baseline_range", type number}, {"model_error", type number}, {"baseline_error", type number}, {"hour_of_day", Int64.Type}, {"date", type datetime}, {"model_wins", Int64.Type}})
+				in
+				    Typed

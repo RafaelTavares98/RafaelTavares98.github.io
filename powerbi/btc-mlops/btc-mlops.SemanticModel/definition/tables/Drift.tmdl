@@ -1,0 +1,32 @@
+table Drift
+	lineageTag: ce450ee3-a8ab-4a45-8026-582e3a80d3f7
+
+	column feature
+		dataType: string
+		sourceColumn: feature
+		lineageTag: b918644e-e589-42ac-a2e0-9b170e11d115
+
+	column p_value
+		dataType: double
+		sourceColumn: p_value
+		lineageTag: f0bb81cb-3b9c-463d-a8e8-0cf3cb92cf98
+
+	column verdict
+		dataType: string
+		sourceColumn: verdict
+		lineageTag: 94327d81-06ab-4315-b63e-a59149f28a34
+
+	column importance
+		dataType: int64
+		sourceColumn: importance
+		lineageTag: dda8a880-22c5-4da2-81c1-9a162c6729b0
+
+	partition Drift = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\drift.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"feature", type text}, {"p_value", type number}, {"verdict", type text}, {"importance", Int64.Type}})
+				in
+				    Typed

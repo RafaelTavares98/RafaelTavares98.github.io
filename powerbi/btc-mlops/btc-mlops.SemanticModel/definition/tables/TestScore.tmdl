@@ -1,0 +1,22 @@
+table TestScore
+	lineageTag: 58b7cb02-8bc7-446f-8513-f1794dfe3f01
+
+	column section
+		dataType: string
+		sourceColumn: section
+		lineageTag: 7183cfcd-0404-4be4-a7fe-14b981f5bed2
+
+	column score
+		dataType: double
+		sourceColumn: score
+		lineageTag: 64d69b51-6b6d-4167-b602-f778259b1ffe
+
+	partition TestScore = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\test_score.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"section", type text}, {"score", type number}})
+				in
+				    Typed

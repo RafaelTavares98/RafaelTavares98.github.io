@@ -1,0 +1,68 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/1.4.0/schema.json",
+  "name": "titleMain",
+  "layouts": [
+    {
+      "id": 0,
+      "position": {
+        "x": 24,
+        "y": 20,
+        "z": 0,
+        "width": 620,
+        "height": 60,
+        "tabOrder": 0
+      }
+    }
+  ],
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "MLOps Pipeline",
+                    "textStyle": {
+                      "fontSize": "24pt",
+                      "color": "#E8ECF5",
+                      "fontWeight": "bold",
+                      "fontFamily": "Segoe UI"
+                    }
+                  },
+                  {
+                    "value": "   Bitcoin hourly volatility",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "color": "#8A94AD",
+                      "fontWeight": "normal",
+                      "fontFamily": "Segoe UI"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "visualContainerObjects": {
+    "background": [
+      {
+        "properties": {
+          "show": {
+            "expr": {
+              "Literal": {
+                "Value": "false"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+table KPI
+	lineageTag: 76724926-0197-4f9a-b669-653a9ba65cb8
+
+	column measure
+		dataType: string
+		sourceColumn: measure
+		lineageTag: d34ac308-6eb2-4d7f-abd5-05390f4b1a5a
+
+	column value
+		dataType: double
+		sourceColumn: value
+		lineageTag: fbcc2d26-2f7f-4a98-a50d-7389bdaaa3b7
+
+	column kind
+		dataType: string
+		sourceColumn: kind
+		lineageTag: 05528dcd-4429-41cf-b1cf-704eeec8ba16
+
+	partition KPI = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\kpi.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"measure", type text}, {"value", type number}, {"kind", type text}})
+				in
+				    Typed

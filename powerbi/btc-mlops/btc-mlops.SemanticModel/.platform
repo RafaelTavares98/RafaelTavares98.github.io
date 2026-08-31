@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "btc-mlops"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "60ff5172-b1da-4134-934c-8b36ea61fe29"
+  }
+}

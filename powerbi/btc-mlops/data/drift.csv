@@ -1,0 +1,12 @@
+feature,p_value,verdict,importance
+range_now,1.1893503543157425e-07,Drifted,1114
+range_mean_3,2.9997941681975455e-10,Drifted,1135
+range_mean_12,6.208915298066706e-19,Drifted,993
+range_mean_24,6.905390544320902e-28,Drifted,1075
+return_abs_mean_3,0.00024780650250526786,Drifted,1101
+return_abs_mean_12,1.796150290481388e-08,Drifted,1089
+return_abs_mean_24,5.4973425520038925e-09,Drifted,905
+return_1h,0.25760726053364696,Stable,1237
+volume_ratio_24,0.09546453231155308,Stable,1202
+trades_ratio_24,0.7704365372945415,Stable,1245
+hour_of_day,0.9999999999999996,Stable,904

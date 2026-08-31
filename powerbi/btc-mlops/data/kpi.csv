@@ -1,0 +1,9 @@
+measure,value,kind
+Skill vs baseline,0.19694432953220042,ratio
+Model MAE,0.0018227639156349785,range
+Baseline MAE,0.0022697852498484617,range
+Hours scored,1494.0,count
+Hours model wins,865.0,count
+Candles stored,6000.0,count
+Features,11.0,count
+ML Test Score,5.0,score

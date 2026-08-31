@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "btc-mlops"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2cbe4f0f-e8f2-4fb5-9ced-7d4b202ece3b"
+  }
+}

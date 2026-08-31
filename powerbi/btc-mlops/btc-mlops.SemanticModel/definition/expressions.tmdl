@@ -1,0 +1,6 @@
+expression DataFolder = "C:\\powerbi\\btc-mlops\\data" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 243fe3eb-b875-49ce-8537-81b692a753e9
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text

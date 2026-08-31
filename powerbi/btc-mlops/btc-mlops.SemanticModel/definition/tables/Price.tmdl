@@ -1,0 +1,32 @@
+table Price
+	lineageTag: c952447a-4917-4b1d-84f2-ecc472d2f49d
+
+	column open_time
+		dataType: dateTime
+		sourceColumn: open_time
+		lineageTag: d9bd913f-8960-4a83-86b6-6b6afceb177b
+
+	column close
+		dataType: double
+		sourceColumn: close
+		lineageTag: cb0bedfd-9ca8-44a0-803b-f7be85fa649e
+
+	column volume
+		dataType: double
+		sourceColumn: volume
+		lineageTag: 1e8594e6-effe-4161-b726-70497d5f5537
+
+	column trades
+		dataType: int64
+		sourceColumn: trades
+		lineageTag: 8fc13aad-0926-4dcb-959a-7c9325637a61
+
+	partition Price = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(DataFolder & "\price.csv"),[Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Typed = Table.TransformColumnTypes(Headers, {{"open_time", type datetime}, {"close", type number}, {"volume", type number}, {"trades", Int64.Type}})
+				in
+				    Typed
