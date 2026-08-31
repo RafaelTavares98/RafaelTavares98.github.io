@@ -1,0 +1,4 @@
+# The local instance. Runs stay on disk, so a restart keeps the history.
+run_launcher:
+  module: dagster.core.launcher
+  class: DefaultRunLauncher

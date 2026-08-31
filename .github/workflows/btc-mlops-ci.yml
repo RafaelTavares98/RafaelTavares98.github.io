@@ -1,0 +1,84 @@
+name: btc-mlops CI
+
+# The pipeline is what ships, not the model. A merge rebuilds and republishes
+# the pipeline image. The model is produced by the pipeline, on a schedule.
+
+on:
+  push:
+    branches: [main]
+    paths: ["github/btc-mlops/**"]
+  pull_request:
+    paths: ["github/btc-mlops/**"]
+
+defaults:
+  run:
+    working-directory: github/btc-mlops
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Unit tests, including the leakage test
+        run: python -m pytest -v
+      - name: The pipeline definition loads
+        run: |
+          PYTHONPATH=src python -c "
+          from btc.pipeline.assets import defs
+          names = sorted(a.key.to_user_string() for a in defs.assets)
+          assert names == ['features', 'hourly_forecast', 'monitoring_report',
+                           'production_model', 'raw_candles', 'trained_model'], names
+          print('six assets, wired')
+          "
+
+  smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Run the whole pipeline on 1500 hours
+        env:
+          BTC_BACKFILL_HOURS: "1500"
+          MLFLOW_TRACKING_URI: "sqlite:///mlflow.db"
+          BTC_WAREHOUSE: "warehouse.duckdb"
+        run: |
+          PYTHONPATH=src python -c "
+          import warnings; warnings.filterwarnings('ignore')
+          from dagster import materialize
+          from btc.pipeline import assets as A
+          result = materialize([A.raw_candles, A.features, A.trained_model,
+                                A.production_model, A.hourly_forecast,
+                                A.monitoring_report])
+          assert result.success, 'the pipeline failed'
+          print('pipeline green')
+          "
+
+  image:
+    needs: smoke
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the service image
+        run: docker build -t btc-mlops:${{ github.sha }} .
+      - name: The service answers on its health endpoint
+        run: |
+          docker run -d --name svc -p 8000:8000 btc-mlops:${{ github.sha }}
+          for i in $(seq 1 30); do
+            if curl -sf http://localhost:8000/health; then exit 0; fi
+            sleep 2
+          done
+          docker logs svc
+          exit 1

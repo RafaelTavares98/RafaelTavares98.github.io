@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Pipeline - Rafael Tavares</title>
+    <meta name="description" content="A continuous training pipeline with CI/CD, a promotion gate and drift monitoring, scored against the ML Test Score.">
+    <link rel="icon" href="assets/images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/aos.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="assets/css/style.css?v=15">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <!-- Analytics -->
+    <script data-goatcounter="https://rafaeltavares.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js"></script>
+    <style>
+        .insight-card .card-head {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .insight-card .card-head h3 {
+            margin-bottom: 0;
+        }
+
+        .insight-card .commands-used {
+            display: flex;
+            flex-wrap: nowrap;
+            flex-shrink: 0;
+            justify-content: flex-end;
+            gap: 5px;
+            margin: 0;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .card-head {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .insight-card .commands-used {
+                flex-wrap: wrap;
+                justify-content: flex-start;
+            }
+        }
+
+        .insight-card .commands-used span {
+            padding: 2px 8px;
+            border-radius: 32px;
+            border: 1px solid rgba(144, 81, 227, .35);
+            background-color: rgba(255, 255, 255, .04);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 10.5px;
+            white-space: nowrap;
+            color: var(--text-color);
+        }
+
+        .crisp-figure {
+            margin: 20px 0px 22px 0px;
+        }
+
+        .crisp-figure svg {
+            display: block;
+            width: 100%;
+            max-width: 560px;
+            height: auto;
+            margin: 0 auto;
+        }
+
+        .crisp-figure .crisp-node rect {
+            fill: rgba(144, 81, 227, .16);
+            stroke: #a06ce0;
+            stroke-width: 2;
+        }
+
+        .crisp-figure .crisp-node text {
+            fill: var(--text-color);
+            font-family: var(--font-family);
+            font-size: 21px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        .crisp-figure .crisp-centre {
+            fill: var(--muted-text);
+            font-family: var(--font-family);
+            font-size: 19px;
+            font-weight: 500;
+        }
+
+        .crisp-figure .crisp-caption {
+            margin: 6px 0px 0px 0px;
+            text-align: center;
+            font-size: 13px !important;
+        }
+
+        .insight-card .recap-list {
+            margin: 16px 0px 20px 0px;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .recap-list li {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+            padding: 9px 0px;
+            border-bottom: 1px solid rgba(144, 81, 227, .18);
+        }
+
+        .insight-card .recap-list li:last-child {
+            border-bottom: 0;
+        }
+
+        .insight-card .recap-list .q {
+            flex: 0 0 42%;
+            color: var(--text-color);
+            font-size: 15px;
+        }
+
+        .insight-card .recap-list .a {
+            flex: 1;
+            color: var(--muted-text);
+            font-size: 15px;
+        }
+
+        @media (max-width: 575.98px) {
+            .insight-card .recap-list .q {
+                flex: 0 0 100%;
+            }
+        }
+
+        .insight-card .step-list {
+            margin: 14px 0px 18px 0px;
+            padding-left: 20px;
+        }
+
+        .insight-card .step-list li {
+            padding: 3px 0px;
+        }
+
+        .insight-card .step-list li::marker {
+            color: #a06ce0;
+        }
+
+        .insight-card .command-groups {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px 24px;
+            margin: 18px 0px 20px 0px;
+        }
+
+        .insight-card .command-groups h4 {
+            margin: 0px 0px 8px 0px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: #a06ce0;
+        }
+
+        .insight-card .command-groups ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .insight-card .command-groups li {
+            padding: 5px 0px 5px 20px;
+            position: relative;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-size: 13.5px;
+            color: var(--text-color);
+        }
+
+        .insight-card .command-groups li::before {
+            content: "\203A";
+            position: absolute;
+            left: 4px;
+            color: #a06ce0;
+        }
+
+        @media (max-width: 991.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 479.98px) {
+            .insight-card .command-groups {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body data-bs-theme="dark">
+
+    <div id="preloader"></div>
+
+    <header id="header">
+        <nav id="navbar" class="navbar navbar-expand-md">
+            <div class="container">
+                <a href="index.html" class="navbar-brand logo">
+                    <span>&lt;</span>
+                    <span class="logo-name">Rafael Tavares</span>
+                    <span>/&gt;</span>
+                </a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarMenu">
+                    <div class="offcanvas-header">
+                        <a href="index.html" class="offcanvas-title navbar-brand logo" id="offcanvasNavbarMenu">
+                            <span>&lt;</span>
+                            <span class="logo-name">Rafael Tavares</span>
+                            <span>/&gt;</span>
+                        </a>
+                        <button type="button" class="navbar-toggler" data-bs-dismiss="offcanvas" aria-label="Close Navigation Menu"><i class="bi bi-x toggle-icon"></i></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav nav-underline justify-content-center flex-grow-1">
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#hero" class="nav-link">Home</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#skills" class="nav-link">Skills</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#projects" class="nav-link active">Projects</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#about" class="nav-link">About</a></li>
+                            <li class="nav-item" data-bs-dismiss="offcanvas"><a href="index.html#contact" class="nav-link">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn border-0" id="switchTheme"><i class="bi bi-brightness-high-fill"></i></button>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle Navigation Menu"><i class="bi bi-list toggle-icon"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-hero">
+        <div class="container">
+            <a href="index.html#projects" class="breadcrumb-link"><i class="bi bi-arrow-left"></i> Back to Projects</a>
+            <h1 data-aos="fade-up">MLOps Pipeline</h1>
+            <p class="muted-text">The subject is deliberately small. The engineering is the product.</p>
+            <img src="assets/images/projects/btc-mlops-banner.png" class="banner" alt="MLOps pipeline banner" data-aos="fade-up" decoding="async">
+        </div>
+    </section>
+
+            <section class="detail-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8" data-aos="fade-up">
+
+                    <div class="insight-card">
+                        <h3>A pipeline, not a model</h3>
+                        <p>The three projects before this one end in a notebook. A notebook proves an analysis. It does not prove that the work survives Monday, when the data changes and nobody is watching.</p>
+                        <p>This project answers the other half. The subject is the hourly volatility of Bitcoin, chosen because it is small and because nobody needs the answer. That leaves the engineering with nowhere to hide.</p>
+                        <p>Google defines three levels of MLOps maturity. Level 0 is manual. Level 1 automates the training. Level 2 deploys the pipeline itself through CI/CD. This project is level 2.</p>
+                        <div class="command-groups">
+                            <div>
+                                <h4>Orchestration</h4>
+                                <ul><li>Dagster</li><li>Assets</li><li>Lineage</li><li>Schedule</li></ul>
+                            </div>
+                            <div>
+                                <h4>Model lifecycle</h4>
+                                <ul><li>MLflow</li><li>Registry</li><li>Champion gate</li><li>Rollback</li></ul>
+                            </div>
+                            <div>
+                                <h4>Monitoring</h4>
+                                <ul><li>Data drift</li><li>Concept drift</li><li>Rolling skill</li><li>Auto retrain</li></ul>
+                            </div>
+                            <div>
+                                <h4>Delivery</h4>
+                                <ul><li>pytest</li><li>GitHub Actions</li><li>Docker</li><li>FastAPI</li></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>The measure</h3>
+                            <p class="commands-used"><span>ML Test Score</span><span>28 tests</span></p>
+                        </div>
+                        <p>An MLOps project that calls itself production ready and offers no evidence is a claim, not a result. There is a published rubric for this.</p>
+                        <p>Breck and others, at Google, define 28 tests in four sections: data, model, infrastructure and monitoring. A test scores half a point when a person runs it, and one point when a machine runs it repeatedly.</p>
+                        <p>The final score is the <strong>minimum</strong> of the four sections, not the average. A system is only as production ready as its weakest side.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Features and data</span><span class="a">5.0</span></li>
+                            <li><span class="q">Model development</span><span class="a">5.0</span></li>
+                            <li><span class="q">Infrastructure</span><span class="a">6.0</span></li>
+                            <li><span class="q">Monitoring</span><span class="a">5.5</span></li>
+                            <li><span class="q">The score</span><span class="a">5.0, the minimum of the four</span></li>
+                        </ul>
+                        <p>The paper reads anything above 3 as strong automated testing and monitoring. The three gaps that hold the score down are named in the repository, not hidden.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>1. The data</h3>
+                            <p class="commands-used"><span>Binance</span><span>DuckDB</span><span>idempotent</span></p>
+                        </div>
+                        <p>Hourly candles for BTCUSDT, from the public Binance endpoint. No key, no account, 6,000 hours from December 2025 to August 2026.</p>
+                        <p>The scheduled job asks for 200 hours when it only needs one. That overlap is the point: if a run fails at three in the morning, the run at four repairs the gap without anybody waking up.</p>
+                        <p>The overlap only works if writing twice changes nothing.</p>
+                        <p class="code-label">The write is idempotent, and a test proves it</p>
+                        <pre><code class="language-python">def test_running_the_same_load_twice_changes_nothing(db):
+    frame = candles(100)
+    append_candles(db, frame)
+    written = append_candles(db, frame)
+    assert written == 0
+    assert len(read_candles(db)) == 100</code></pre>
+                        <p><strong>Answer.</strong> The second pipeline run on real data reported <code>rows_written: 0</code> against 6,000 stored. The guarantee holds outside the test.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>2. The feature contract</h3>
+                            <p class="commands-used"><span>point in time</span><span>leakage test</span></p>
+                        </div>
+                        <p>This is the test that separates a pipeline from a script, and it is the reason the whole project exists.</p>
+                        <p>A feature that reads a row from the future inflates every metric that follows. Nothing warns you. The backtest looks excellent and the live model is worthless.</p>
+                        <p>So the test builds the features, scrambles every row after one hour, rebuilds, and demands that the hour did not move.</p>
+                        <p class="code-label">The leakage test, run on every commit</p>
+                        <pre><code class="language-python">def test_no_feature_reads_the_future():
+    """Change everything after one hour. The features of that hour must hold."""
+    frame = candles()
+    cut = 200
+    tampered = frame.copy()
+    rng = np.random.default_rng(99)
+    for column in ["open", "high", "low", "close", "volume"]:
+        tampered.loc[cut + 1:, column] *= rng.uniform(2, 5, len(tampered) - cut - 1)
+
+    before = build_features(frame)
+    after = build_features(tampered)
+    hour = frame.open_time.iloc[cut]
+
+    row_before = before[before.open_time == hour][FEATURE_COLUMNS].to_numpy()
+    row_after = after[after.open_time == hour][FEATURE_COLUMNS].to_numpy()
+    assert len(row_before) == 1
+    np.testing.assert_allclose(row_before, row_after, rtol=1e-12,
+                               err_msg="a feature read a row from the future")</code></pre>
+                        <p>Eleven features come out of it: the current range, three rolling ranges, three rolling absolute returns, the last return, volume and trades against their daily mean, and the hour of the day.</p>
+                        <p><strong>Answer.</strong> Only one column looks forward, and it is the label.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>3. The model, and the free alternative</h3>
+                            <p class="commands-used"><span>LightGBM</span><span>time split</span><span>skill</span></p>
+                        </div>
+                        <p>The target is the range of the coming hour, as <code>(high - low) / close</code>.</p>
+                        <p>The split follows time. A random split on a series trains on the future and tests on the past, and the number it reports is a fiction.</p>
+                        <p>The score is not the error. The score is the error against what a person gets for free, which is to repeat the hour that just closed.</p>
+                        <p class="code-label">Skill is the share of the free error the model removes</p>
+                        <pre><code class="language-python">def baseline_prediction(features: pd.DataFrame) -&gt; np.ndarray:
+    """The free forecast: the coming hour looks like the hour that just closed."""
+    return features["range_now"].to_numpy()</code></pre>
+                        <img class="result-shot" src="assets/images/projects/btc-summary.png" alt="The pipeline result">
+                        <p><strong>Answer.</strong> Skill of 0.197. The model removes a fifth of the error the free forecast makes. Zero would mean it earned nothing.</p>
+                        <img class="result-shot" src="assets/images/projects/btc-importance.png" alt="Feature importance">
+                        <p>Trade count and volume rank above the rolling ranges, which is worth noting. The market tells you how wide the next hour will be through how many people are trading, more than through how wide the last hour was.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>4. The gate</h3>
+                            <p class="commands-used"><span>MLflow</span><span>champion</span><span>rollback</span></p>
+                        </div>
+                        <p>A pipeline that retrains and ships whatever comes out is worse than one that never retrains. It replaces a working model with noise.</p>
+                        <p>Every run trains a challenger. The challenger replaces the champion only when it cuts the error by 2%. A tie keeps the champion, because a win of one digit is noise and not improvement.</p>
+                        <p class="code-label">The gate, and the first model</p>
+                        <pre><code class="language-python">def promote(champion_mae: float | None, challenger_mae: float) -&gt; bool:
+    """Decide whether the challenger replaces the champion.
+
+    Args:
+        champion_mae: the error of the model now in production, or None when
+            no model is serving yet.
+        challenger_mae: the error of the model that just trained.
+
+    Returns:
+        True when the challenger wins by at least `MIN_IMPROVEMENT`.
+    """
+    if champion_mae is None:
+        return True
+    return challenger_mae &lt; champion_mae * (1 - MIN_IMPROVEMENT)</code></pre>
+                        <p>Promotion moves an alias in the MLflow registry. Rolling back is moving the same alias to the version before it, and the old model is still there.</p>
+                        <p><strong>Answer.</strong> The second run produced an identical challenger and the gate reported <code>promoted: False</code>. It refused to churn the model for nothing.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>5. The two kinds of decay</h3>
+                            <p class="commands-used"><span>KS test</span><span>rolling skill</span><span>auto retrain</span></p>
+                        </div>
+                        <p>A model decays in two ways, and a pipeline has to tell them apart.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Data drift</span><span class="a">The features arrive from a different distribution. Measured with a Kolmogorov-Smirnov test, one column at a time.</span></li>
+                            <li><span class="q">Concept drift</span><span class="a">The features look the same, and the model is wrong anyway. Measured as rolling skill on hours whose truth has arrived.</span></li>
+                        </ul>
+                        <p>Retraining fires on a threshold. A calendar retrains a healthy model and hides a sick one.</p>
+                        <p class="code-label">The decision, with its reason</p>
+                        <pre><code class="language-python">def retrain_needed(share_drifted: float, skill: float, explain: bool = False):
+    """Decide whether the pipeline retrains now.
+
+    Args:
+        share_drifted: the share of feature columns that moved.
+        skill: the rolling skill on hours whose truth has arrived.
+        explain: return the reason beside the decision.
+
+    Returns:
+        The decision, and the reason when `explain` is true.
+    """
+    if share_drifted &gt; DRIFT_THRESHOLD:
+        return (True, "data drift") if explain else True
+    if skill &lt; SKILL_FLOOR:
+        return (True, "skill floor") if explain else True
+    return (False, "healthy") if explain else False</code></pre>
+                        <img class="result-shot" src="assets/images/projects/btc-drift.png" alt="Drift by feature">
+                        <p><strong>Answer.</strong> Seven of the eleven columns moved between the two windows, which is 63.6%. The pipeline asked for a retrain and named the reason.</p>
+                        <p>Every range and return column drifted. Volume, trades and the hour of the day did not. Bitcoin changed volatility regime inside the sample, and the monitor caught it without anybody looking.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <div class="card-head">
+                            <h3>6. What one average hides</h3>
+                            <p class="commands-used"><span>slice analysis</span></p>
+                        </div>
+                        <p>The ML Test Score asks whether quality holds on every important slice. The overall skill of 0.197 is one number over 1,494 hours, and one number can hide a lot.</p>
+                        <img class="result-shot" src="assets/images/projects/btc-slices.png" alt="Skill by hour of day">
+                        <p><strong>Answer.</strong> Skill ranges from 0.48 at midday to below zero at 17:00 and 21:00. In those two hours the model loses to the free forecast.</p>
+                        <p>A team that ships on the average ships a model that is worse than nothing for two hours of every day. That is exactly the failure the rubric is written to catch.</p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Findings</h3>
+                        <p>The subject was chosen to be worthless. Every finding below is about the machine that produced the answer.</p>
+                        <ul class="recap-list">
+                            <li><span class="q">Does the model beat a free forecast?</span><span class="a">Yes. Skill of 0.197 against repeating the last hour.</span></li>
+                            <li><span class="q">Does it beat it in every hour?</span><span class="a">No. Two hours of the day come back negative.</span></li>
+                            <li><span class="q">Does writing twice corrupt the warehouse?</span><span class="a">No. The second run wrote zero rows out of 6,000.</span></li>
+                            <li><span class="q">Can a feature read the future?</span><span class="a">No. A test scrambles the future and demands the past holds.</span></li>
+                            <li><span class="q">Does a tie replace the champion?</span><span class="a">No. The gate refused a challenger that only matched it.</span></li>
+                            <li><span class="q">Did anything drift?</span><span class="a">Yes. 63.6% of columns, and the pipeline asked for a retrain.</span></li>
+                            <li><span class="q">Is it production ready?</span><span class="a">ML Test Score of 5.0, held down by feature ablation and slicing.</span></li>
+                        </ul>
+                        <p>The lesson the three earlier projects could not carry: an analysis is finished when it is correct, and a system is finished when it stays correct without you.</p>
+                    </div>
+
+                </div>
+                <div class="col-lg-4" data-aos="fade-up">
+                    <div class="cta-box">
+                        <img src="images/GitHub_Logo.png" alt="GitHub Logo" loading="lazy" decoding="async">
+                        <h3>The Pipeline</h3>
+                        <p>Six assets, 56 tests, the CI workflow, and the ML Test Score line by line.</p>
+                        <a href="https://github.com/RafaelTavares98/RafaelTavares98.github.io/tree/main/github/btc-mlops" target="_blank" class="btn primary-bg-btn">View on GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer">
+        <div class="container">
+            <p class="text-center copyright-text">Built with <span>Bootstrap, HTML, CSS, and JavaScript</span> by <span>Rafael Tavares</span>.</p>
+        </div>
+    </footer>
+
+    <button class="btn" id="backToTopButton" onclick="scrollToTop()" style="display: none;">
+        <span aria-label="Back to top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-arrow-up-square" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5 9.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"/>
+            </svg>
+        </span>
+    </button>
+
+    <script src="assets/js/aos.js" defer></script>
+    <script src="assets/js/bootstrap.min.js" defer></script>
+    <script src="assets/js/script.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+</body>
+</html>

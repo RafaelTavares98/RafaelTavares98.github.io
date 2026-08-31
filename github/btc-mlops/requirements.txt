@@ -1,0 +1,16 @@
+# Python 3.12. Pinned to the versions the pipeline ran on.
+dagster==1.13.20
+dagster-webserver==1.13.20
+duckdb==1.5.5
+pandera==0.33.0
+mlflow==3.15.2
+evidently==0.7.21
+fastapi==0.141.1
+uvicorn==0.52.4
+httpx==0.28.1
+pandas==3.0.5
+numpy==2.5.2
+scipy==1.18.1
+scikit-learn==1.9.0
+lightgbm==4.7.0
+pytest==9.1.1
